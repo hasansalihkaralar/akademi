@@ -138,12 +138,14 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
   background: var(--surface);
   color: var(--on-surface);
   font-family: var(--font-sans), system-ui, sans-serif;
+  overflow-x: hidden;
 }
 
 ::selection {
@@ -158,19 +160,19 @@ body {
 }
 
 .shell {
-  @apply mx-auto w-full max-w-[1240px] px-gutter;
+  @apply mx-auto w-full max-w-[1240px] px-4 sm:px-gutter;
 }
 
 .btn-primary {
-  @apply inline-flex items-center justify-center gap-space-xs rounded-full bg-secondary-container px-space-lg py-3 text-label-lg font-semibold text-on-secondary shadow-[0_4px_12px_rgba(253,101,30,0.25)] transition-all hover:bg-secondary;
+  @apply inline-flex items-center justify-center gap-space-xs rounded-full bg-secondary-container px-space-md py-3 text-label-md font-semibold text-on-secondary shadow-[0_4px_12px_rgba(253,101,30,0.25)] transition-all hover:bg-secondary sm:px-space-lg sm:text-label-lg;
 }
 
 .btn-secondary {
-  @apply inline-flex items-center justify-center gap-space-xs rounded-full bg-surface-container px-space-lg py-3 text-label-lg font-semibold text-primary transition-colors hover:bg-surface-container-high;
+  @apply inline-flex items-center justify-center gap-space-xs rounded-full bg-surface-container px-space-md py-3 text-label-md font-semibold text-primary transition-colors hover:bg-surface-container-high sm:px-space-lg sm:text-label-lg;
 }
 
 .btn-navy {
-  @apply inline-flex items-center justify-center gap-space-xs rounded-full bg-primary px-space-lg py-3 text-label-lg font-bold text-on-primary transition-colors hover:bg-primary-container;
+  @apply inline-flex items-center justify-center gap-space-xs rounded-full bg-primary px-space-md py-3 text-label-md font-bold text-on-primary transition-colors hover:bg-primary-container sm:px-space-lg sm:text-label-lg;
 }
 
 .input-field {
@@ -179,4 +181,8 @@ body {
 
 .section-badge {
   @apply mb-space-xs inline-flex items-center rounded-full bg-surface-container-high px-space-md py-1 text-label-md font-bold uppercase tracking-wider text-primary;
+}
+
+.page-title {
+  @apply text-[1.75rem] leading-tight font-extrabold text-on-surface sm:text-display-hero-mobile md:text-headline-lg;
 }

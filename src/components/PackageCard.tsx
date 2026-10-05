@@ -10,7 +10,7 @@ export function PackageCard({ pack }: { pack: CoachingPackage }) {
       }`}
     >
       {pack.popular ? (
-        <span className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-secondary-container px-3 py-1 text-label-md font-bold text-on-secondary shadow-sm">
+        <span className="absolute -top-3 left-1/2 max-w-[90%] -translate-x-1/2 truncate rounded-full bg-secondary-container px-3 py-1 text-label-md font-bold text-on-secondary shadow-sm">
           En Çok Tercih Edilen
         </span>
       ) : null}

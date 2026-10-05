@@ -13,7 +13,7 @@ export default function AboutPage() {
             Ana Sayfa / <span className="text-primary">Biz Kimiz?</span>
           </nav>
           <span className="section-badge">Kurumsal</span>
-          <h1 className="mt-space-sm text-display-hero-mobile text-on-surface md:text-headline-lg">
+          <h1 className="mt-space-sm page-title">
             Biz kimiz?
           </h1>
           <p className="mt-space-md text-body-lg text-on-surface-variant">

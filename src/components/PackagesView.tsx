@@ -21,7 +21,7 @@ export function PackagesView() {
             Ana Sayfa / <span className="text-primary">Paketler & Fiyatlar</span>
           </nav>
           <span className="section-badge">Şeffaf Fiyatlandırma</span>
-          <h1 className="mt-space-sm text-display-hero-mobile text-on-surface md:text-headline-lg">
+          <h1 className="mt-space-sm page-title">
             YKS & LGS Koçluk Paketleri
           </h1>
           <p className="mt-space-md max-w-2xl text-body-lg text-on-surface-variant">
@@ -48,14 +48,14 @@ export function PackagesView() {
           ))}
         </div>
 
-        <div className="mb-space-xl inline-flex rounded-full bg-surface-container p-1">
+        <div className="mb-space-xl flex w-full flex-col gap-2 sm:inline-flex sm:w-auto sm:flex-row sm:rounded-full sm:bg-surface-container sm:p-1">
           <button
             type="button"
             onClick={() => setProgram("yks")}
-            className={`rounded-full px-space-lg py-2.5 text-label-lg font-semibold transition ${
+            className={`w-full rounded-full px-space-lg py-2.5 text-label-lg font-semibold transition sm:w-auto ${
               program === "yks"
                 ? "bg-primary text-on-primary shadow-sm"
-                : "text-on-surface-variant hover:text-on-surface"
+                : "bg-surface-container text-on-surface-variant hover:text-on-surface sm:bg-transparent"
             }`}
           >
             YKS (TYT–AYT)
@@ -63,10 +63,10 @@ export function PackagesView() {
           <button
             type="button"
             onClick={() => setProgram("lgs")}
-            className={`rounded-full px-space-lg py-2.5 text-label-lg font-semibold transition ${
+            className={`w-full rounded-full px-space-lg py-2.5 text-label-lg font-semibold transition sm:w-auto ${
               program === "lgs"
                 ? "bg-secondary-container text-on-secondary shadow-sm"
-                : "text-on-surface-variant hover:text-on-surface"
+                : "bg-surface-container text-on-surface-variant hover:text-on-surface sm:bg-transparent"
             }`}
           >
             LGS (7–8. Sınıf)

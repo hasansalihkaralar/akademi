@@ -6,7 +6,9 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
   return (
     <div className="flex min-h-full flex-col">
       <SiteHeader />
-      <main className="min-h-[calc(100vh-80px)] flex-1 pt-20">{children}</main>
+      <main className="min-h-[calc(100vh-64px)] flex-1 pt-16 md:min-h-[calc(100vh-80px)] md:pt-20">
+        {children}
+      </main>
       <SiteFooter />
       <WhatsAppFloat />
     </div>

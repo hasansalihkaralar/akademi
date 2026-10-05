@@ -16,7 +16,7 @@ export default function ContactPage() {
           Ana Sayfa / <span className="text-primary">İletişim</span>
         </nav>
         <span className="section-badge">Bize Ulaşın</span>
-        <h1 className="mt-space-sm text-display-hero-mobile text-on-surface md:text-headline-lg">
+        <h1 className="mt-space-sm page-title">
           İletişim
         </h1>
         <p className="mt-space-md max-w-2xl text-body-lg text-on-surface-variant">

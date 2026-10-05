@@ -13,7 +13,7 @@ export default function CoachesPage() {
             Ana Sayfa / <span className="text-primary">Koçlarımız</span>
           </nav>
           <span className="section-badge">Dereceli Mentör Kadrosu</span>
-          <h1 className="mt-space-sm text-display-hero-mobile text-on-surface md:text-headline-lg">
+          <h1 className="mt-space-sm page-title">
             Koçlarımız
           </h1>
           <p className="mt-space-md max-w-2xl text-body-lg text-on-surface-variant">

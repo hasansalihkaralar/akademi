@@ -12,7 +12,7 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-full flex-col">
       <SiteHeader />
-      <main className="flex-1 pt-20">
+      <main className="flex-1 pt-16 md:pt-20">
         <div className="border-0 bg-surface-container-low py-space-sm">
           <div className="shell flex items-center justify-between">
             <nav className="flex items-center gap-space-xs text-label-md text-on-surface-variant">

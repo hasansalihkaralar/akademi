@@ -36,7 +36,7 @@ export default async function OnGorusmePage({
         <div className="grid gap-space-xl lg:grid-cols-12">
           <div className="lg:col-span-5">
             <span className="section-badge">İlk adım</span>
-            <h1 className="mt-space-sm text-display-hero-mobile text-on-surface md:text-headline-lg">
+            <h1 className="mt-space-sm page-title">
               Önce ücretsiz analiz, sonra paket
             </h1>
             <p className="mt-space-md text-body-lg text-on-surface-variant">

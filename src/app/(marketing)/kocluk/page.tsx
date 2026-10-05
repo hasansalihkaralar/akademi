@@ -13,7 +13,7 @@ export default function CoachingPage() {
             Ana Sayfa / <span className="text-primary">YKS & LGS Koçluğu</span>
           </nav>
           <span className="section-badge">Koçluk Modeli</span>
-          <h1 className="mt-space-sm text-display-hero-mobile text-on-surface md:text-headline-lg">
+          <h1 className="mt-space-sm page-title">
             YKS ve LGS koçluğu kimler için, nasıl işler?
           </h1>
           <p className="mt-space-md max-w-3xl text-body-lg text-on-surface-variant">

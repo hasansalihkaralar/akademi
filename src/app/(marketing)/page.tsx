@@ -47,7 +47,7 @@ export default function HomePage() {
                   2025 - 2026 Sınav Sezonu Kayıtları Başladı
                 </span>
               </div>
-              <h1 className="mb-space-md text-display-hero-mobile tracking-tight text-on-surface md:text-display-hero">
+              <h1 className="mb-space-md text-[1.875rem] leading-tight font-extrabold tracking-tight text-on-surface sm:text-display-hero-mobile md:text-display-hero">
                 Gelişigüzel Değil,{" "}
                 <span className="text-primary underline decoration-secondary-container decoration-4 underline-offset-4">
                   Bilimsel ve Analitik
@@ -59,12 +59,12 @@ export default function HomePage() {
                 MEB ve PDR standartlarına tam uyumlu takip sistemi ile hayalindeki bölüme giden
                 en berrak rota.
               </p>
-              <div className="mb-space-2xl flex w-full flex-wrap items-center gap-space-md sm:w-auto">
-                <Link href="/on-gorusme" className="btn-primary px-space-xl py-4">
+              <div className="mb-space-2xl flex w-full flex-col gap-space-md sm:w-auto sm:flex-row sm:flex-wrap sm:items-center">
+                <Link href="/on-gorusme" className="btn-primary w-full px-space-xl py-4 sm:w-auto">
                   <Icon name="bolt" className="text-[20px]" />
                   <span>Koçluğa Başla (Ücretsiz Analiz)</span>
                 </Link>
-                <Link href="/paketler" className="btn-secondary px-space-lg py-4">
+                <Link href="/paketler" className="btn-secondary w-full px-space-lg py-4 sm:w-auto">
                   <Icon name="explore" className="text-[20px]" />
                   <span>Paketleri İncele</span>
                 </Link>
@@ -98,7 +98,7 @@ export default function HomePage() {
             </div>
 
             <div className="relative lg:col-span-5">
-              <div className="relative mx-auto max-w-md rounded-xl bg-surface-container-lowest p-space-lg shadow-xl">
+              <div className="relative mx-auto max-w-md rounded-xl bg-surface-container-lowest p-space-md shadow-xl sm:p-space-lg">
                 <div className="relative mb-space-md h-52 overflow-hidden rounded-lg bg-surface-container">
                   <Image
                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhQlhEBBvoePndLvw86lvI-vPRoySTAUumv3f-NafgVnO2pFZoTpRgjwm5itYtwyCAOoy1-wEyrVRslXMjQVMGTXm9HmIztg6EZaYX7gGnZwisUCcRSvUS-BUnt0hmxjGz94J7o_SsjNlJ_oh-jgrhtDoUW-f_qlMfg_ZLi8rOm7zhmnIx39yMhr7pE__9btXTeM-iayPfK_IuaEYdWzmd4KFyR86nZ-xzKerEjJq7Z_XEtih56Yz7sg"
@@ -144,8 +144,8 @@ export default function HomePage() {
                     </div>
                   </div>
                 </div>
-                <div className="absolute -bottom-5 -left-5 flex max-w-xs items-center gap-space-sm rounded-xl bg-primary p-space-md text-on-primary shadow-lg">
-                  <Icon name="military_tech" className="text-[28px] text-tertiary-fixed" />
+                <div className="mt-space-md flex items-center gap-space-sm rounded-xl bg-primary p-space-md text-on-primary shadow-lg sm:absolute sm:-bottom-5 sm:-left-5 sm:mt-0 sm:max-w-xs">
+                  <Icon name="military_tech" className="shrink-0 text-[28px] text-tertiary-fixed" />
                   <div>
                     <p className="text-label-lg font-bold leading-tight">YKS Türkiye 47.&apos;si</p>
                     <p className="text-body-sm leading-tight text-primary-fixed">

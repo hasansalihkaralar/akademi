@@ -34,17 +34,22 @@ export default async function CheckoutPage({
           </div>
         </div>
 
-        <div className="mb-space-xl flex flex-wrap items-center gap-space-sm text-label-md">
+        <div className="mb-space-xl grid grid-cols-4 gap-2 sm:flex sm:flex-wrap sm:items-center sm:gap-space-sm">
           {(
             [
-              { n: "1", label: "Paket Seçimi", active: true },
-              { n: "2", label: "Bilgiler", active: true },
-              { n: "3", label: "Ödeme", active: true },
-              { n: "4", label: "Onay", active: false },
+              { n: "1", label: "Paket", full: "Paket Seçimi", active: true },
+              { n: "2", label: "Bilgi", full: "Bilgiler", active: true },
+              { n: "3", label: "Ödeme", full: "Ödeme", active: true },
+              { n: "4", label: "Onay", full: "Onay", active: false },
             ] as const
           ).map((step, i) => (
-            <div key={step.label} className="flex items-center gap-space-sm">
-              {i > 0 ? <span className="text-outline-variant">—</span> : null}
+            <div
+              key={step.full}
+              className="flex flex-col items-center gap-1 text-center sm:flex-row sm:gap-space-sm sm:text-left"
+            >
+              {i > 0 ? (
+                <span className="hidden text-outline-variant sm:inline">—</span>
+              ) : null}
               <span
                 className={`flex h-7 w-7 items-center justify-center rounded-full text-label-md font-bold ${
                   step.active
@@ -55,11 +60,12 @@ export default async function CheckoutPage({
                 {step.n}
               </span>
               <span
-                className={
+                className={`text-[11px] sm:text-label-md ${
                   step.active ? "font-semibold text-on-surface" : "text-on-surface-variant"
-                }
+                }`}
               >
-                {step.label}
+                <span className="sm:hidden">{step.label}</span>
+                <span className="hidden sm:inline">{step.full}</span>
               </span>
             </div>
           ))}

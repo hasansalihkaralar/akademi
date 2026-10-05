@@ -13,7 +13,7 @@ export default function FaqPage() {
           Ana Sayfa / <span className="text-primary">S.S.S.</span>
         </nav>
         <span className="section-badge">Yardım Merkezi</span>
-        <h1 className="mt-space-sm text-display-hero-mobile text-on-surface md:text-headline-lg">
+        <h1 className="mt-space-sm page-title">
           Sıkça sorulan sorular
         </h1>
         <p className="mt-space-md max-w-2xl text-body-lg text-on-surface-variant">

@@ -91,7 +91,7 @@ export function LoginForm() {
 
   return (
     <div className="rounded-xl bg-surface-container-lowest p-space-lg shadow-xl sm:p-space-xl">
-      <div className="mb-space-lg flex items-center rounded-xl bg-surface-container-low p-1.5">
+      <div className="mb-space-lg grid grid-cols-3 gap-1 rounded-xl bg-surface-container-low p-1.5">
         {tabs.map((tab) => (
           <button
             key={tab.id}
@@ -100,15 +100,14 @@ export function LoginForm() {
               setRole(tab.id);
               setError("");
             }}
-            className={`flex flex-1 items-center justify-center gap-space-xs rounded-lg px-space-sm py-space-sm text-label-md font-semibold transition-all sm:text-label-lg ${
+            className={`flex flex-col items-center justify-center gap-1 rounded-lg px-1 py-2.5 text-center text-[11px] font-semibold transition-all sm:flex-row sm:gap-space-xs sm:px-space-sm sm:text-label-lg ${
               role === tab.id
                 ? "bg-surface-container-lowest font-bold text-primary shadow-sm"
                 : "text-on-surface-variant hover:text-on-surface"
             }`}
           >
             <Icon name={tab.icon} className="text-[18px] sm:text-[20px]" />
-            <span className="hidden sm:inline">{tab.label}</span>
-            <span className="sm:hidden">
+            <span className="leading-tight">
               {tab.id === "ogrenci" ? "Öğrenci" : tab.id === "danisman" ? "Danışman" : "Veli"}
             </span>
           </button>
