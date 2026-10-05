@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+
+<html lang="tr"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-tertiary-container":"#ef9900","secondary-fixed-dim":"#ffb599","error-container":"#ffdad6","tertiary-container":"#5c3800","on-tertiary-fixed":"#2a1700","on-secondary-fixed-variant":"#7f2b00","on-tertiary":"#ffffff","surface":"#faf8ff","on-tertiary-fixed-variant":"#653e00","on-background":"#131b2e","on-primary-fixed":"#00164e","surface-variant":"#dae2fd","on-error-container":"#93000a","inverse-primary":"#b6c4ff","secondary-container":"#fd651e","inverse-surface":"#283044","outline-variant":"#c5c5d3","on-secondary-fixed":"#370e00","on-primary-container":"#90a8ff","tertiary-fixed-dim":"#ffb95f","on-surface":"#131b2e","on-secondary":"#ffffff","surface-container":"#eaedff","surface-container-highest":"#dae2fd","secondary-fixed":"#ffdbce","surface-bright":"#faf8ff","on-secondary-container":"#571a00","on-surface-variant":"#444651","primary-fixed-dim":"#b6c4ff","surface-container-low":"#f2f3ff","primary-container":"#1e3a8a","error":"#ba1a1a","surface-container-high":"#e2e7ff","inverse-on-surface":"#eef0ff","surface-dim":"#d2d9f4","on-error":"#ffffff","outline":"#757682","tertiary":"#3e2400","surface-container-lowest":"#ffffff","on-primary-fixed-variant":"#264191","secondary":"#a73a00","tertiary-fixed":"#ffddb8","primary-fixed":"#dce1ff","on-primary":"#ffffff","primary":"#00236f","background":"#faf8ff","surface-tint":"#4059aa"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"space-xs":"0.25rem","space-lg":"1.5rem","space-sm":"0.5rem","gutter-mobile":"1rem","gutter":"1.5rem","space-xl":"2.5rem","space-md":"1rem",margin:"2rem","space-2xl":"4rem","margin-mobile":"1rem"},fontFamily:{"headline-sm":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"display-hero-mobile":["Plus Jakarta Sans"],"headline-lg-mobile":["Plus Jakarta Sans"],"display-hero":["Plus Jakarta Sans"],"body-sm":["Plus Jakarta Sans"],"label-lg":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"body-lg":["Plus Jakarta Sans"],"label-md":["Plus Jakarta Sans"],"title-lg":["Plus Jakarta Sans"],"stat-counter":["Plus Jakarta Sans"],"title-md":["Plus Jakarta Sans"]},fontSize:{"headline-sm":["20px",{lineHeight:"28px",letterSpacing:"-0.01em",fontWeight:"600"}],"headline-lg":["40px",{lineHeight:"48px",letterSpacing:"-0.02em",fontWeight:"700"}],"headline-md":["28px",{lineHeight:"36px",letterSpacing:"-0.015em",fontWeight:"700"}],"display-hero-mobile":["36px",{lineHeight:"44px",letterSpacing:"-0.02em",fontWeight:"800"}],"headline-lg-mobile":["28px",{lineHeight:"36px",letterSpacing:"-0.015em",fontWeight:"700"}],"display-hero":["56px",{lineHeight:"64px",letterSpacing:"-0.025em",fontWeight:"800"}],"body-sm":["13px",{lineHeight:"20px",fontWeight:"400"}],"label-lg":["14px",{lineHeight:"20px",letterSpacing:"0.01em",fontWeight:"600"}],"body-md":["15px",{lineHeight:"24px",fontWeight:"400"}],"body-lg":["18px",{lineHeight:"28px",fontWeight:"400"}],"label-md":["12px",{lineHeight:"16px",letterSpacing:"0.02em",fontWeight:"600"}],"title-lg":["18px",{lineHeight:"26px",letterSpacing:"-0.005em",fontWeight:"600"}],"stat-counter":["44px",{lineHeight:"48px",letterSpacing:"-0.02em",fontWeight:"800"}],"title-md":["16px",{lineHeight:"24px",fontWeight:"600"}]}}}};</script></head><body class="bg-surface font-body-md text-on-surface antialiased selection:bg-secondary-fixed selection:text-on-secondary-fixed"><header class="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-20 max-w-[1240px] mx-auto px-gutter flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-md shrink-0"><img alt="Hedef Koçluk Akademi Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEdv-L8eScq342Dy6mCUHRk5wvlHTqy1fLa8ROYNh4LS2wd21Nb7Fq8ABBpWU7E0V9NxrcjlcvTCU2qaqLj6ZUa5iLtpTKQL3rGAIXVvLO9F8-CZVjKba3Iob1nUjCYkt3cgVxUqKR2N2k2lwIP72LUbAC6bVMBTmXMC51uaTJubGQ8oMJc6DlpIigM3ZbQ3BwrZYjb9DW_MRdjxgMOpe2DoNaOOSyjSeDWtTHR6A4QmE_fTV7RDawIw"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-primary leading-none">Pusula Akademi</span><span class="font-label-md text-label-md text-secondary leading-tight mt-space-xs font-semibold tracking-wide">YKS &amp; LGS Derece Koçluğu</span></div></div><nav class="hidden xl:flex items-center gap-space-lg" data-active-classes="text-primary font-title-md font-bold"><a class="font-title-md text-title-md text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" data-path="ana-sayfa" href="#">Ana Sayfa</a><a class="font-title-md text-title-md text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" data-path="yks-lgs-koclugu" href="#">YKS &amp; LGS Koçluğu</a><a class="font-title-md text-title-md text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" data-path="paketler-ve-fiyatlar" href="#">Paketler &amp; Fiyatlar</a><a class="font-title-md text-title-md text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" data-path="koclarimiz" href="#">Koçlarımız</a><a class="font-title-md text-title-md text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" data-path="biz-kimiz" href="#">Biz Kimiz?</a><a class="font-title-md text-title-md text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" data-path="sss" href="#">S.S.S.</a><a class="font-title-md text-title-md text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" data-path="iletisim" href="#">İletişim</a></nav><div class="flex items-center gap-space-sm shrink-0"><a class="hidden lg:flex items-center gap-space-xs px-space-md py-space-sm rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface font-label-lg text-label-lg transition-colors" href="tel:08508400000"><span class="material-symbols-outlined text-[18px] text-primary">call</span><span>0850 840 00 00</span></a><a class="hidden md:flex items-center gap-space-xs px-space-md py-space-sm rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-label-lg text-label-lg transition-colors" href="https://wa.me/908508400000" rel="noopener" target="_blank"><span class="w-2 h-2 rounded-full bg-[#25D366]"></span><span>WhatsApp</span></a><a class="flex items-center px-space-lg py-space-sm rounded-full bg-secondary-container text-on-secondary font-label-lg text-label-lg font-semibold shadow-[0_4px_12px_rgba(253,101,30,0.25)] hover:bg-secondary transition-all" data-path="ucretsiz-on-gorusme" href="#"><span class="material-symbols-outlined text-[18px] mr-space-xs">calendar_today</span><span>Ücretsiz Ön Görüşme Yap</span></a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-20 bg-surface min-h-[calc(100vh-80px)]"><div class="flex flex-col w-full">
+<!-- 1. HERO SECTION -->
+<section class="relative w-full bg-gradient-to-b from-surface-container-low via-surface to-surface overflow-hidden pb-space-2xl">
+<div class="absolute -top-32 -left-32 w-96 h-96 bg-primary-fixed-dim/30 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute top-1/2 -right-32 w-96 h-96 bg-secondary-fixed/30 rounded-full blur-3xl pointer-events-none"></div>
+<div class="max-w-[1240px] mx-auto px-gutter relative z-10 pt-space-lg">
+<!-- Breadcrumb -->
+<nav aria-label="Erişim Yolu" class="flex items-center gap-space-xs text-on-surface-variant font-label-md text-label-md mb-space-md">
+<a class="hover:text-primary transition-colors flex items-center gap-1" data-path="ana-sayfa" href="#">
+<span class="material-symbols-outlined text-[16px]">home</span>
+<span>Ana Sayfa</span>
+</a>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-primary font-semibold">Biz Kimiz?</span>
+</nav>
+<!-- Header Content -->
+<div class="max-w-3xl">
+<div class="inline-flex items-center gap-2 px-space-md py-1.5 rounded-full bg-primary-fixed text-primary font-label-md text-label-md font-semibold tracking-wide uppercase shadow-sm mb-space-md">
+<span class="material-symbols-outlined text-[16px]">explore</span>
+<span>Biz Kimiz? • Akademik Kökler &amp; Gelecek Vizyonu</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-primary mb-space-md tracking-tight">
+          Sadece Sınava Değil, Bir Geleceğe ve Karakter Gelişimine Rehberlik Ediyoruz
+        </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed mb-space-xl">
+          Boğaziçi ve ODTÜ mezunu eğitimciler ile PDR uzmanları tarafından kurulan Pusula Akademi; ezberci kalıpları yıkarak veriye dayalı, pedagojik denetimli ve şeffaf derece koçluğu sunar.
+        </p>
+</div>
+<!-- Quick Trust Metrics Strip -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-space-md pt-space-md border-t-0">
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-stat-counter text-stat-counter text-primary leading-none">7+</span>
+<span class="material-symbols-outlined text-secondary text-[24px]">history_edu</span>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Yıllık Tecrübe</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1">Sınav sistemlerinin mimarisinde uzman</span>
+</div>
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-stat-counter text-stat-counter text-secondary leading-none">1.250+</span>
+<span class="material-symbols-outlined text-secondary-container text-[24px]">workspace_premium</span>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">İlk 1000 Derecesi</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1">YKS &amp; LGS Türkiye resmi sıralamaları</span>
+</div>
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-stat-counter text-stat-counter text-primary leading-none">%98.4</span>
+<span class="material-symbols-outlined text-tertiary-fixed-dim text-[24px]">sentiment_very_satisfied</span>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Veli Memnuniyeti</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1">Düzenli periyodik denetim ve şeffaflık</span>
+</div>
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-stat-counter text-stat-counter text-primary-container leading-none">120+</span>
+<span class="material-symbols-outlined text-primary text-[24px]">psychology</span>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Saat PDR Formasyonu</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1">Her mentöre zorunlu pedagojik eğitim</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. KURULUŞ HİKÂYEMİZ -->
+<section class="w-full py-space-2xl bg-surface-container-low">
+<div class="max-w-[1240px] mx-auto px-gutter">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-center">
+<!-- Story Text -->
+<div class="lg:col-span-7 flex flex-col">
+<div class="inline-flex items-center gap-2 text-secondary font-label-md text-label-md font-bold uppercase tracking-wider mb-space-xs">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span>Köklü Geçmiş &amp; Yenilikçi Vizyon</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-primary mb-space-md">
+            Bir Kütüphane Masasından Türkiye’nin Öncü Koçluk Akademisine
+          </h2>
+<div class="space-y-space-md font-body-md text-body-md text-on-surface-variant leading-relaxed">
+<p>
+              2018 yılında İstanbul Teknik Üniversitesi ve Boğaziçi Üniversitesi kütüphanelerinde, derece yapmış 4 akademisyen ve 2 uzman psikolojik danışman olarak bir araya geldik. Gözlemlediğimiz ortak sorun açıktı: <strong class="text-on-surface font-semibold">Öğrenciler ders çalışamadıkları için değil; ne zaman, ne kadar ve hangi stratejiyle çalışmaları gerektiğini bilmedikleri için potansiyellerinin altında kalıyordu.</strong>
+</p>
+<p>
+              Mevcut dershane ve rehberlik kalıpları öğrencileri tek tip şablonlara sokuyor, sınav stresini yönetmek yerine kaygıyı körüklüyordu. Bizler, sınav şampiyonlarının çalışma dinamiklerini çağdaş PDR kuramlarıyla harmanlayan, bilişsel ölçme-değerlendirme ilkelerine dayalı özgün bir <span class="text-primary font-semibold">"Akademik Navigasyon Sistemi"</span> inşa ettik.
+            </p>
+<p>
+              Bugün Pusula Akademi; 80’den fazla Türkiye dereceli mentörü, bünyesindeki klinik psikologları ve binlerce mutlu öğrencisiyle yalnızca Türkiye’nin en seçkin üniversitelerine değil, bireyin kendi hayatının lideri olmasına da rehberlik eden saygın bir eğitim kurumudur.
+            </p>
+</div>
+<div class="mt-space-lg flex items-center gap-space-lg p-space-md rounded-xl bg-surface-container-lowest shadow-sm">
+<div class="w-12 h-12 rounded-full bg-secondary-container/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-secondary-container text-[28px]">verified_user</span>
+</div>
+<div>
+<h4 class="font-title-md text-title-md text-on-surface">Pedagojik Denetimli Koçluk Güvencesi</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Her çalışma planı, öğrencimizin bilişsel yük dengesi gözetilerek onaylanır.</p>
+</div>
+</div>
+</div>
+<!-- Timeline & Milestone Card -->
+<div class="lg:col-span-5 flex flex-col gap-space-md">
+<div class="bg-surface-container-lowest p-space-xl rounded-xl shadow-md relative overflow-hidden">
+<div class="absolute -right-10 -bottom-10 opacity-5">
+<span class="material-symbols-outlined text-[200px] text-primary">timeline</span>
+</div>
+<h3 class="font-title-lg text-title-lg text-primary font-bold mb-space-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">flag</span>
+<span>Gelişim Kilometre Taşlarımız</span>
+</h3>
+<!-- Timeline Elements -->
+<div class="space-y-space-md relative pl-6 before:content-[''] before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-surface-container-highest">
+<!-- Item 1 -->
+<div class="relative">
+<div class="absolute -left-[27px] top-1.5 w-3.5 h-3.5 rounded-full bg-primary ring-4 ring-surface-container-lowest"></div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded bg-primary-fixed text-primary font-label-md text-label-md font-bold">2018</span>
+<span class="font-title-md text-title-md text-on-surface font-semibold">Temellerin Atılması</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+                  İlk 50 öğrenciyle pilot koçluk süreci ve 12 Türkiye İlk 1000 derecesi.
+                </p>
+</div>
+<!-- Item 2 -->
+<div class="relative">
+<div class="absolute -left-[27px] top-1.5 w-3.5 h-3.5 rounded-full bg-secondary ring-4 ring-surface-container-lowest"></div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded bg-secondary-fixed text-secondary font-label-md text-label-md font-bold">2020</span>
+<span class="font-title-md text-title-md text-on-surface font-semibold">PDR Süpervizyon Modeli</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+                  Klinik psikolog ve PDR kurulu entegrasyonu; sınav kaygısı klinik ölçüm testleri.
+                </p>
+</div>
+<!-- Item 3 -->
+<div class="relative">
+<div class="absolute -left-[27px] top-1.5 w-3.5 h-3.5 rounded-full bg-primary ring-4 ring-surface-container-lowest"></div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded bg-primary-fixed text-primary font-label-md text-label-md font-bold">2022</span>
+<span class="font-title-md text-title-md text-on-surface font-semibold">Pusula Analitik Portal</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+                  Soru analiz matrisi ve yapay zeka destekli net tahmin algoritmamız devreye alındı.
+                </p>
+</div>
+<!-- Item 4 -->
+<div class="relative">
+<div class="absolute -left-[27px] top-1.5 w-3.5 h-3.5 rounded-full bg-secondary-container ring-4 ring-surface-container-lowest"></div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed-variant font-label-md text-label-md font-bold">2024 - 2025</span>
+<span class="font-title-md text-title-md text-on-surface font-semibold">1.250+ Türkiye Derecesi</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+                  Türkiye çapında tıp, mühendislik, hukuk ve fen liselerine kitlesel yerleşim başarısı.
+                </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. KURUCU VE BAŞDANIŞMAN SPOTLIGHT -->
+<section class="w-full py-space-2xl bg-surface">
+<div class="max-w-[1240px] mx-auto px-gutter">
+<div class="bg-surface-container-lowest rounded-xl shadow-md overflow-hidden">
+<div class="grid grid-cols-1 lg:grid-cols-12">
+<!-- Founder Image & Credentials -->
+<div class="lg:col-span-5 bg-surface-container-low p-space-xl flex flex-col items-center text-center justify-between">
+<div class="w-full flex flex-col items-center">
+<div class="relative w-44 h-44 rounded-full overflow-hidden shadow-lg mb-space-md">
+<img alt="Dr. Ahmet Hakan Yıldırım" class="w-full h-full object-cover" data-alt="Distinguished Turkish male academic founder, late 40s, wearing an elegant navy blue blazer and eyeglasses, standing in a prestigious modern university library with natural warm lighting, radiating wisdom, pedagogical authority, and warm empathy." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTAwRvbUDChesXPPVkuEfMu2QxnmW_c8e-fOyxrsi4KmuXu51S4gQCLJlEqUbl2unXRWAGYUei8B9FJ70GfBLRxXGKD43IWm_kfyYNdGWOwzxqI4J45N7wtuID6-fuxFuvxhTqzrFm64QB2JG_hccoWKCQbEN3I4Y7fI50laQFd1V7GqRqE8Y8YiQtCuYFZ0Kk11-DmuGTK16hOjvhvCJSu6_u6GtgmlPDKxmjIXml-ImEM1ZiWrxHzQ"/>
+<div class="absolute bottom-1 right-3 bg-secondary-container text-on-secondary p-1 rounded-full shadow-md">
+<span class="material-symbols-outlined text-[18px] block">school</span>
+</div>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-1">Dr. Ahmet Hakan Yıldırım</h3>
+<p class="font-label-lg text-label-lg text-secondary font-semibold mb-space-sm">Kurucu Koordinatör &amp; Akademik Direktör</p>
+<div class="flex flex-wrap gap-1.5 justify-center mb-space-md">
+<span class="px-2.5 py-1 rounded-full bg-primary-fixed text-primary font-label-md text-label-md font-semibold">Boğaziçi Üniv. Eğt. Bilimleri</span>
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface font-label-md text-label-md font-medium">ODTÜ Bilgisayar Müh. ÇAP</span>
+<span class="px-2.5 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-md text-label-md font-medium">18 Yıl Sınav Stratejisi</span>
+</div>
+</div>
+<div class="w-full pt-space-md bg-surface-container-lowest/60 rounded-lg p-space-sm flex items-center justify-around">
+<div class="text-center">
+<span class="block font-title-lg text-title-lg text-primary font-bold">14+</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Akademik Yayın</span>
+</div>
+<div class="w-px h-8 bg-outline-variant/30"></div>
+<div class="text-center">
+<span class="block font-title-lg text-title-lg text-secondary font-bold">8.500+</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Birebir Analiz</span>
+</div>
+</div>
+</div>
+<!-- Founder Letter -->
+<div class="lg:col-span-7 p-space-xl lg:p-space-2xl flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-2 mb-space-sm">
+<span class="material-symbols-outlined text-secondary text-[28px]">format_quote</span>
+<span class="font-label-md text-label-md text-secondary font-bold uppercase tracking-wider">Kurucu Mesajı</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-space-md">
+                "Her Öğrenci Biricik Bir Potansiyeldir; Yanlış Olan Öğrenciler Değil, Dayatılan Şablonlardır."
+              </h2>
+<div class="space-y-space-md font-body-md text-body-md text-on-surface-variant leading-relaxed">
+<p>
+                  Değerli velilerimiz ve sevgili genç arkadaşlarım;
+                </p>
+<p>
+                  Sınav hazırlığı hayatın sadece 9-10 aylık bir dilimi gibi görünse de, bir gencin kendi özgüvenini, kriz anındaki dirayetini ve analitik düşünme refleksini ömür boyu şekillendiren kritik bir eşiktir. Biz Pusula Akademi’yi kurarken; öğrencilerimizin sınavı yalnızca bir 'soru çözme yarışması' olarak görmesini engellemeyi amaçladık.
+                </p>
+<p>
+                  Her gencin öğrenme hızı, dikkat eşiği ve hedefleri birbirinden tamamen farklıdır. Birine yarayan çalışma programı, diğerinde tükenmişlik yaratabilir. İşte bu yüzden sistemimizi ezbere listeler üzerine değil; bilişsel haritalandırma, sürekli pedagojik takip ve samimi bir yol arkadaşlığı üzerine kurduk. Geleceğinizi tesadüflere değil, bilime ve tecrübeye emanet edin.
+                </p>
+</div>
+</div>
+<div class="mt-space-lg pt-space-md flex items-center justify-between">
+<div>
+<span class="block font-title-md text-title-md text-primary font-bold">Dr. Ahmet Hakan Yıldırım</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Pusula Akademi İcra Kurulu Başkanı</span>
+</div>
+<div class="flex items-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-[20px]">verified</span>
+<span class="font-label-md text-label-md font-semibold">Tescilli Metodoloji</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 4. 4 TEMEL DİREĞİMİZ (EĞİTİM VE KOÇLUK YAKLAŞIMIMIZ) -->
+<section class="w-full py-space-2xl bg-surface-container-low">
+<div class="max-w-[1240px] mx-auto px-gutter">
+<div class="text-center max-w-2xl mx-auto mb-space-2xl">
+<span class="px-space-md py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-md text-label-md font-bold uppercase tracking-wider inline-block mb-space-xs">
+          Pedagojik Çerçeve
+        </span>
+<h2 class="font-headline-md text-headline-md text-primary mb-space-sm">
+          Pusula Akademi’nin 4 Temel Taşıyıcı Direği
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          Başarıyı şansa bırakmayan, tamamen ölçülebilir ve öğrenciyi bütüncül olarak koruyan sistemik yaklaşımımız.
+        </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-lg">
+<!-- Pillar 1 -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+<div>
+<div class="w-14 h-14 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-space-md">
+<span class="material-symbols-outlined text-[30px]">analytics</span>
+</div>
+<span class="font-label-md text-label-md text-secondary font-bold block mb-1">01 / DİREK</span>
+<h3 class="font-title-lg text-title-lg text-on-surface font-bold mb-space-sm">Veriye Dayalı Analitik Metot</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              Öğrencinin performansı sezgilerle değil; deneme sınavlarının konu, kazanım ve zorluk endeksli algoritmik tahlilleriyle yönetilir. Eksik netler nokta atışı tespit edilir.
+            </p>
+</div>
+<div class="mt-space-md pt-space-sm">
+<span class="font-label-md text-label-md text-primary font-semibold flex items-center gap-1">
+<span>Kazanım Matrisi</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</span>
+</div>
+</div>
+<!-- Pillar 2 -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+<div>
+<div class="w-14 h-14 rounded-xl bg-secondary-container/10 text-secondary-container flex items-center justify-center mb-space-md">
+<span class="material-symbols-outlined text-[30px]">psychology_alt</span>
+</div>
+<span class="font-label-md text-label-md text-secondary font-bold block mb-1">02 / DİREK</span>
+<h3 class="font-title-lg text-title-lg text-on-surface font-bold mb-space-sm">PDR &amp; Pedagojik Süpervizyon</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              Yalnızca derece yapmış olmak bir genci doğru yönlendirmeye yetmez. Bütün mentörlerimiz lisanslı PDR uzmanlarımızın haftalık süpervizyonu ve denetimi altındadır.
+            </p>
+</div>
+<div class="mt-space-md pt-space-sm">
+<span class="font-label-md text-label-md text-primary font-semibold flex items-center gap-1">
+<span>Sürekli Denetim</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</span>
+</div>
+</div>
+<!-- Pillar 3 -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+<div>
+<div class="w-14 h-14 rounded-xl bg-primary-fixed text-primary flex items-center justify-center mb-space-md">
+<span class="material-symbols-outlined text-[30px]">diversity_1</span>
+</div>
+<span class="font-label-md text-label-md text-secondary font-bold block mb-1">03 / DİREK</span>
+<h3 class="font-title-lg text-title-lg text-on-surface font-bold mb-space-sm">Öğrenci Merkezli Empati</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              Öğrenciyi bir 'yarış atı' veya istatistik değil; kendine has kaygıları, duyguları ve ilgi alanları olan bir genç olarak benimser, psikolojik dayanıklılığını (resilience) güçlendiririz.
+            </p>
+</div>
+<div class="mt-space-md pt-space-sm">
+<span class="font-label-md text-label-md text-primary font-semibold flex items-center gap-1">
+<span>Bireysel Özgüven</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</span>
+</div>
+</div>
+<!-- Pillar 4 -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+<div>
+<div class="w-14 h-14 rounded-xl bg-surface-container-highest text-primary flex items-center justify-center mb-space-md">
+<span class="material-symbols-outlined text-[30px]">handshake</span>
+</div>
+<span class="font-label-md text-label-md text-secondary font-bold block mb-1">04 / DİREK</span>
+<h3 class="font-title-lg text-title-lg text-on-surface font-bold mb-space-sm">Açık &amp; Şeffaf Veli Ortaklığı</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              Veliyi kapı dışında bırakan anlayışı reddediyoruz. Her 15 günde bir yazılı ve görüntülü gelişim raporları ile aileyi sürecin güvenli ve bilinçli bir paydaşı haline getiririz.
+            </p>
+</div>
+<div class="mt-space-md pt-space-sm">
+<span class="font-label-md text-label-md text-primary font-semibold flex items-center gap-1">
+<span>Şeffaf Raporlama</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 5. MİSYON, VİZYON & DEĞERLERİMİZ -->
+<section class="w-full py-space-2xl bg-surface">
+<div class="max-w-[1240px] mx-auto px-gutter">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-space-lg">
+<!-- Misyon -->
+<div class="bg-primary text-on-primary p-space-xl rounded-xl shadow-md flex flex-col justify-between relative overflow-hidden">
+<div class="absolute -right-8 -top-8 w-32 h-32 bg-primary-container/40 rounded-full blur-2xl"></div>
+<div>
+<div class="w-12 h-12 rounded-lg bg-surface-container-lowest/15 flex items-center justify-center mb-space-md">
+<span class="material-symbols-outlined text-primary-fixed text-[28px]">rocket_launch</span>
+</div>
+<span class="font-label-md text-label-md text-secondary-fixed-dim uppercase tracking-wider block mb-1">Temel Görevimiz</span>
+<h3 class="font-headline-sm text-headline-sm text-on-primary mb-space-md">Misyonumuz</h3>
+<p class="font-body-md text-body-md text-surface-container-highest/90 leading-relaxed">
+              Türkiye'nin her köşesindeki azimli YKS ve LGS adaylarına, coğrafi engelleri ortadan kaldırarak fırsat eşitliği çerçevesinde ülkenin en başarılı zihinlerinden mentorluk, akademik disiplin ve bilimsel rehberlik ulaştırmak.
+            </p>
+</div>
+<div class="mt-space-xl flex items-center gap-2 text-surface-container-highest font-label-md text-label-md">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+<span>Eğitimde Fırsat Eşitliği &amp; Standart</span>
+</div>
+</div>
+<!-- Vizyon -->
+<div class="bg-surface-container-lowest p-space-xl rounded-xl shadow-md flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 rounded-lg bg-secondary-fixed flex items-center justify-center mb-space-md">
+<span class="material-symbols-outlined text-secondary text-[28px]">visibility</span>
+</div>
+<span class="font-label-md text-label-md text-secondary font-bold uppercase tracking-wider block mb-1">Gelecek Ufkumuz</span>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-space-md">Vizyonumuz</h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+              Sınav hazırlığını yalnızca bir stres ve kaygı süreci olmaktan çıkarıp; ömür boyu sürecek çalışma disiplini, analitik problem çözme kabiliyeti ve kalıcı başarı alışkanlığı kazandıran dönüştürücü bir karakter gelişim yolculuğuna çevirmek.
+            </p>
+</div>
+<div class="mt-space-xl flex items-center gap-2 text-primary font-label-md text-label-md font-semibold">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span>Ömür Boyu Sürecek Yetkinlikler</span>
+</div>
+</div>
+<!-- Değerlerimiz -->
+<div class="bg-surface-container-low p-space-xl rounded-xl shadow-md flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center mb-space-md">
+<span class="material-symbols-outlined text-primary text-[28px]">balance</span>
+</div>
+<span class="font-label-md text-label-md text-primary font-bold uppercase tracking-wider block mb-1">Pusula Pusulası</span>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-space-md">Temel Değerlerimiz</h3>
+<ul class="space-y-space-sm font-body-md text-body-md text-on-surface-variant">
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px]">science</span>
+<span><strong class="text-on-surface">Bilimsellik:</strong> Hurafelere değil, veriye güven.</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px]">lock_open</span>
+<span><strong class="text-on-surface">Şeffaflık:</strong> Net veriler, gizlenmeyen sonuçlar.</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px]">loyalty</span>
+<span><strong class="text-on-surface">Koşulsuz Dürüstlük:</strong> Gerçekçi hedef tayini.</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px]">update</span>
+<span><strong class="text-on-surface">Sürekli Gelişim:</strong> Müfredat ve dinamik takibi.</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px]">face</span>
+<span><strong class="text-on-surface">Bireye Saygı:</strong> Her öğrencinin hızına hürmet.</span>
+</li>
+</ul>
+</div>
+<div class="mt-space-xl flex items-center gap-2 text-secondary font-label-md text-label-md font-semibold">
+<span class="material-symbols-outlined text-[18px]">grade</span>
+<span>Tavizsiz Etik İlkeler</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 6. AKADEMİK & PEDAGOJİK DANIŞMA KURULU -->
+<section class="w-full py-space-2xl bg-surface-container-low">
+<div class="max-w-[1240px] mx-auto px-gutter">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-space-2xl">
+<div class="max-w-2xl">
+<span class="text-secondary font-label-md text-label-md font-bold uppercase tracking-wider block mb-space-xs">Kurumsal Mimari</span>
+<h2 class="font-headline-md text-headline-md text-primary mb-space-xs">
+            Akademik &amp; Pedagojik Danışma Kurulu
+          </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            Pusula Akademi’nin arka planında; sınav sistemini matematiksel ve psikolojik olarak analiz eden 4 ayrı uzmanlık departmanı çalışır.
+          </p>
+</div>
+<div class="mt-space-md md:mt-0">
+<span class="inline-flex items-center gap-2 px-space-md py-2 rounded-lg bg-surface-container-lowest shadow-sm font-label-md text-label-md text-primary font-semibold">
+<span class="w-2.5 h-2.5 rounded-full bg-[#25D366]"></span>
+<span>42 Tam Zamanlı Eğitim Bilimci</span>
+</span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-lg">
+<!-- Board 1 -->
+<div class="bg-surface-container-lowest p-space-xl rounded-xl shadow-sm flex flex-col sm:flex-row gap-space-lg">
+<div class="w-16 h-16 rounded-xl bg-primary-fixed text-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[32px]">psychology</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2 mb-1">
+<h3 class="font-title-lg text-title-lg text-on-surface font-bold">PDR ve Klinik Psikoloji Birimi</h3>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-md text-label-md">6 Uzman</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed mb-space-md">
+              Sınav anksiyetesi, tükenmişlik sendromu, erteleme alışkanlığı ve dikkat dağınıklığı üzerine klinik ölçekli testler uygular. Mentörlere haftalık psikolojik protokol desteği sağlar.
+            </p>
+<div class="flex flex-wrap gap-2 text-primary font-label-md text-label-md font-medium">
+<span class="bg-surface-container-low px-2.5 py-1 rounded">Beck Kaygı Ölçeği</span>
+<span class="bg-surface-container-low px-2.5 py-1 rounded">Odaklanma Protokolleri</span>
+<span class="bg-surface-container-low px-2.5 py-1 rounded">Akran Motivasyonu</span>
+</div>
+</div>
+</div>
+<!-- Board 2 -->
+<div class="bg-surface-container-lowest p-space-xl rounded-xl shadow-sm flex flex-col sm:flex-row gap-space-lg">
+<div class="w-16 h-16 rounded-xl bg-secondary-fixed text-secondary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[32px]">rule</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2 mb-1">
+<h3 class="font-title-lg text-title-lg text-on-surface font-bold">Ölçme ve Değerlendirme Kurulu</h3>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-md text-label-md">8 İstatistikçi</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed mb-space-md">
+              ÖSYM ve MEB soru havuzlarındaki değişim trendlerini analiz eder. Yapılan her Türkiye geneli denemenin standart sapma ve ayırt edicilik katsayısını hesaplayarak öğrenci karnesini netleştirir.
+            </p>
+<div class="flex flex-wrap gap-2 text-secondary font-label-md text-label-md font-medium">
+<span class="bg-surface-container-low px-2.5 py-1 rounded">ÖSYM Soru Analizi</span>
+<span class="bg-surface-container-low px-2.5 py-1 rounded">Kazanım Haritalandırma</span>
+<span class="bg-surface-container-low px-2.5 py-1 rounded">Standart Sapma Modeli</span>
+</div>
+</div>
+</div>
+<!-- Board 3 -->
+<div class="bg-surface-container-lowest p-space-xl rounded-xl shadow-sm flex flex-col sm:flex-row gap-space-lg">
+<div class="w-16 h-16 rounded-xl bg-primary text-on-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[32px]">military_tech</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2 mb-1">
+<h3 class="font-title-lg text-title-lg text-on-surface font-bold">Derece Mentör Koordinatörlüğü</h3>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-md text-label-md">80+ Mentör</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed mb-space-md">
+              Boğaziçi, Koç, ODTÜ, Cerrahpaşa Tıp gibi elit kurumlarda okuyan ilk 1000 mentörlerinin mülakatlarını, 120 saatlik pedagojik oryantasyonlarını ve haftalık denetimlerini yürütür.
+            </p>
+<div class="flex flex-wrap gap-2 text-primary font-label-md text-label-md font-medium">
+<span class="bg-surface-container-low px-2.5 py-1 rounded">İlk 1000 Mentörler</span>
+<span class="bg-surface-container-low px-2.5 py-1 rounded">Haftalık Kalite Kontrol</span>
+<span class="bg-surface-container-low px-2.5 py-1 rounded">Çalışma Disiplini</span>
+</div>
+</div>
+</div>
+<!-- Board 4 -->
+<div class="bg-surface-container-lowest p-space-xl rounded-xl shadow-sm flex flex-col sm:flex-row gap-space-lg">
+<div class="w-16 h-16 rounded-xl bg-secondary-container text-on-secondary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[32px]">support_agent</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2 mb-1">
+<h3 class="font-title-lg text-title-lg text-on-surface font-bold">Veli ve Öğrenci İletişim Masası</h3>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-md text-label-md">Kesintisiz</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed mb-space-md">
+              Haftanın her günü teknik aksaklıklar, koç-öğrenci uyum takibi, kütüphane erişimi ve veli soru taleplerini anında çözen profesyonel eğitim operasyon ekibi.
+            </p>
+<div class="flex flex-wrap gap-2 text-secondary-container font-label-md text-label-md font-medium">
+<span class="bg-surface-container-low px-2.5 py-1 rounded">7/12 İletişim Hattı</span>
+<span class="bg-surface-container-low px-2.5 py-1 rounded">15 Günde Bir Rapor</span>
+<span class="bg-surface-container-low px-2.5 py-1 rounded">Koç Değişim Garantisi</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 7. ÇALIŞMA ATMOSFERİ & KAMPÜS GALERİSİ -->
+<section class="w-full py-space-2xl bg-surface">
+<div class="max-w-[1240px] mx-auto px-gutter">
+<div class="max-w-2xl mb-space-xl">
+<span class="text-secondary font-label-md text-label-md font-bold uppercase tracking-wider block mb-space-xs">Fiziksel &amp; Dijital Alanlarımız</span>
+<h2 class="font-headline-md text-headline-md text-primary mb-space-xs">
+          Öğrenme ve Koçluk Atmosferimiz
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          İstanbul Maslak Genel Merkezimiz, dijital stüdyolarımız ve mentör eğitim seminerlerimizden anlar.
+        </p>
+</div>
+<!-- Bento Photo Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-space-md">
+<!-- Main Large Photo -->
+<div class="md:col-span-8 rounded-xl overflow-hidden shadow-sm relative group h-80 md:h-[420px]">
+<img alt="Pusula Akademi Maslak Genel Merkez" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Modern spacious academic coaching headquarters in Maslak Istanbul, showing an open-space collaborative library, floor-to-ceiling glass windows with cityscape view, warm wooden study desks, students and young mentor counselors having an inspiring one-on-one consultation in high-tech comfortable environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsrkMp6xUJSGsdHKssoJrKctiIh06x76gQvWAO199rxVixxGjz_8Cgep_ElD_hoRxnC1uY7O57n3lyo0aE2bTRe-l9qPJZ58du544rkv4c4dRJ-9pq7Uqw1hjk7Trr1sCX3ynpUqyC1OJa_U3szEiuk63_ZoEK4ly1-PaKAOuzeTPSbtjnP8BDSXxOP0W_mslun8728cYNZkeK6IIY3v08yUZxQ_Wd66lh2Hn25P7aAWSnM1VgJBK8Ag"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/30 to-transparent flex flex-col justify-end p-space-lg text-on-primary">
+<span class="font-label-md text-label-md uppercase tracking-wider text-secondary-fixed mb-1">Maslak Genel Merkez / İstanbul</span>
+<h4 class="font-title-lg text-title-lg font-bold">Akademik Değerlendirme &amp; Birebir Mentorluk Salonu</h4>
+<p class="font-body-sm text-body-sm text-surface-container-highest/90">Haftalık mentör toplantıları ve yüz yüze deneme simülasyonlarının yapıldığı merkezimiz.</p>
+</div>
+</div>
+<!-- 2 Side Photos -->
+<div class="md:col-span-4 flex flex-col gap-space-md">
+<div class="rounded-xl overflow-hidden shadow-sm relative group h-48 md:h-[200px]">
+<img alt="Canlı Online Koçluk Stüdyosu" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Professional soundproof live consultation broadcasting studio, displaying twin ultra-wide monitors showing analytics dashboards, high-end condenser microphone, soft ring-light, and a female counselor cheerfully conducting an online student session." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0kCCr7n9fJ-Wcld3Zak5nbr3yaqCw4TO0pLS_UO4jl0twwYd-JdVKzzB9ttU5xycGwzGEgHvVpFVrojAMPICaNC7Eb4YE8FINAUN1aNIxEdtPxbwWbJzaRYpO87iPsGrBFYwdbGky73LoE7XF-5AhFkHVIO1XEw_QIGx6hZeBvffP8V6d_VCt5vze1wKFj6TA7a-_4DzcJAfNv4xaNxp3qiUmmFH2YXAukoP5PPsbiDa1vswHDo5zPQ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/85 to-transparent flex flex-col justify-end p-space-md text-on-primary">
+<span class="font-label-md text-label-md text-secondary-fixed">Dijital Koçluk Stüdyoları</span>
+<h5 class="font-title-md text-title-md font-semibold">Kesintisiz 4K Canlı Görüşme</h5>
+</div>
+</div>
+<div class="rounded-xl overflow-hidden shadow-sm relative group h-48 md:h-[204px]">
+<img alt="Pedagojik Süpervizyon Semineri" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="An engaging teacher and student seminar room where clinical psychologist trainer is lecturing on exam stress and cognitive behavioral therapy techniques to twenty attentive university degree mentors sitting with notebooks and tablets." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUl4el9xdIo1EyZa71B2vW3HylxAkhSGHyRD4MAhAPnof5H3O5M3UjopAYJHzpvDNH1kyRAsaSCiODGVd6WGoUTA7fxvVAuI2hjBvGnkcTQPFUrZtvk7kbKnWxOhERufBC-uflatUAbNRoqVhf7QzvCsnD7PkTCTk238WRZnr0SBUbxGPKGhdUrL98uBmKbkMc58VemwtL1U_pTj1YFqtRKrgW-vLD2Ap8FqbueCfmeOOLQjhOI_3Oug"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/85 to-transparent flex flex-col justify-end p-space-md text-on-primary">
+<span class="font-label-md text-label-md text-secondary-fixed">Sürekli Gelişim</span>
+<h5 class="font-title-md text-title-md font-semibold">Mentör PDR Süpervizyon Seansı</h5>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 8. RAKAMLARLA PUSULA AKADEMİ BAŞARILARI -->
+<section class="w-full py-space-2xl bg-surface-container-low">
+<div class="max-w-[1240px] mx-auto px-gutter">
+<div class="bg-primary rounded-xl p-space-xl lg:p-space-2xl text-on-primary shadow-xl relative overflow-hidden">
+<div class="absolute -right-20 -bottom-20 w-80 h-80 bg-secondary-container/20 rounded-full blur-3xl"></div>
+<div class="max-w-2xl mb-space-xl">
+<span class="text-secondary-fixed font-label-md text-label-md font-bold uppercase tracking-wider block mb-space-xs">Gurur Tablomuz</span>
+<h2 class="font-headline-md text-headline-md text-on-primary mb-space-xs">
+            Rakamlarla Pusula Akademi Kanıtı
+          </h2>
+<p class="font-body-md text-body-md text-surface-container-highest/90">
+            Son 7 yılda birlikte yürüdüğümüz öğrencilerin elde ettiği somut başarı verileri.
+          </p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-space-lg text-center md:text-left">
+<div class="p-space-md rounded-lg bg-surface-container-lowest/10 backdrop-blur-sm">
+<span class="font-stat-counter text-stat-counter text-secondary-fixed block mb-1">1.250+</span>
+<span class="font-title-md text-title-md text-on-primary font-bold block mb-1">İlk 1000 Sıralaması</span>
+<span class="font-body-sm text-body-sm text-surface-container-highest/80">YKS Sayısal, Eşit Ağırlık, Sözel ve Dil</span>
+</div>
+<div class="p-space-md rounded-lg bg-surface-container-lowest/10 backdrop-blur-sm">
+<span class="font-stat-counter text-stat-counter text-secondary-fixed block mb-1">%94.8</span>
+<span class="font-title-md text-title-md text-on-primary font-bold block mb-1">Hedef Bölüm Yerleşimi</span>
+<span class="font-body-sm text-body-sm text-surface-container-highest/80">İlk 3 tercihine yerleşen aday oranı</span>
+</div>
+<div class="p-space-md rounded-lg bg-surface-container-lowest/10 backdrop-blur-sm">
+<span class="font-stat-counter text-stat-counter text-secondary-fixed block mb-1">+28.4</span>
+<span class="font-title-md text-title-md text-on-primary font-bold block mb-1">Ortalama TYT Net Artışı</span>
+<span class="font-body-sm text-body-sm text-surface-container-highest/80">Program başından sınav gününe kadar</span>
+</div>
+<div class="p-space-md rounded-lg bg-surface-container-lowest/10 backdrop-blur-sm">
+<span class="font-stat-counter text-stat-counter text-secondary-fixed block mb-1">%0.12</span>
+<span class="font-title-md text-title-md text-on-primary font-bold block mb-1">LGS Dilim Başarısı</span>
+<span class="font-body-sm text-body-sm text-surface-container-highest/80">Galatasaray, Kabataş, İstanbul Erkek</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 9. GÜÇLÜ CTA BANNER -->
+<section class="w-full py-space-2xl bg-surface">
+<div class="max-w-[1240px] mx-auto px-gutter">
+<div class="bg-gradient-to-r from-surface-container to-surface-container-high rounded-xl p-space-xl lg:p-space-2xl shadow-sm text-center flex flex-col items-center">
+<span class="px-space-md py-1 rounded-full bg-secondary-container text-on-secondary font-label-md text-label-md font-bold uppercase tracking-wider inline-block mb-space-md">
+          Geleceğinize Pusula Tutun
+        </span>
+<h2 class="font-headline-md text-headline-md text-primary max-w-2xl mb-space-md">
+          Pusula Akademi Ailesiyle Tanışmaya ve Hedefinizi Birlikte Çizmeye Hazır mısınız?
+        </h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl mb-space-xl leading-relaxed">
+          İlk adım olarak öğrencimizin güncel durumunu, hedeflerini ve eksiklerini 15 dakikalık ücretsiz seviye tespit seansımızda birlikte değerlendirelim.
+        </p>
+<div class="flex flex-col sm:flex-row items-center gap-space-md w-full sm:w-auto">
+<a class="w-full sm:w-auto flex items-center justify-center gap-space-xs px-space-xl py-3 rounded-full bg-secondary-container hover:bg-secondary text-on-secondary font-label-lg text-label-lg font-bold shadow-md hover:scale-105 active:scale-95 transition-all" data-path="ucretsiz-on-gorusme" href="#">
+<span class="material-symbols-outlined text-[20px]">calendar_month</span>
+<span>Ücretsiz 15 Dk. Seviye &amp; Mentör Analizi Al</span>
+</a>
+<a class="w-full sm:w-auto flex items-center justify-center gap-space-xs px-space-xl py-3 rounded-full bg-surface-container-lowest hover:bg-surface-container text-primary font-label-lg text-label-lg font-bold shadow-sm transition-all" data-path="koclarimiz" href="#">
+<span class="material-symbols-outlined text-[20px]">group</span>
+<span>Koçlarımızı İncele</span>
+</a>
+</div>
+<!-- Trust Badges Strip -->
+<div class="mt-space-xl pt-space-lg flex flex-wrap items-center justify-center gap-space-lg font-label-md text-label-md text-on-surface-variant">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[18px]">verified</span>
+<span>MEB &amp; PDR Standartlarında</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-secondary text-[18px]">encrypted</span>
+<span>256-Bit SSL Şifreleme</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[#25D366] text-[18px]">thumb_up</span>
+<span>%100 Koşulsuz Memnuniyet Sözü</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div></main><div class="fixed bottom-6 right-6 z-50 flex items-center gap-3"><div class="hidden sm:flex items-center bg-surface-container-lowest text-on-surface font-label-md text-label-md px-space-md py-space-sm rounded-full shadow-[0_10px_25px_-5px_rgba(15,23,42,0.12)] border-0"><span class="w-2 h-2 rounded-full bg-[#25D366] mr-space-xs animate-ping"></span>Sorunuz mu var? WhatsApp'tan Yazın</div><a aria-label="WhatsApp Destek Hattı" class="w-14 h-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-[0_12px_24px_-4px_rgba(37,211,102,0.45)] hover:scale-105 active:scale-95 transition-transform duration-200" href="https://wa.me/908508400000" rel="noopener" target="_blank"><span class="material-symbols-outlined text-[30px]">chat</span></a></div><footer class="w-full bg-surface-container-low pt-space-2xl pb-space-lg shadow-[0_1px_8px_rgba(0,0,0,0.02)]"><div class="max-w-[1240px] mx-auto px-gutter"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-xl mb-space-2xl"><div class="flex flex-col"><div class="flex items-center gap-space-md mb-space-md"><img alt="Hedef Koçluk Akademi Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEdv-L8eScq342Dy6mCUHRk5wvlHTqy1fLa8ROYNh4LS2wd21Nb7Fq8ABBpWU7E0V9NxrcjlcvTCU2qaqLj6ZUa5iLtpTKQL3rGAIXVvLO9F8-CZVjKba3Iob1nUjCYkt3cgVxUqKR2N2k2lwIP72LUbAC6bVMBTmXMC51uaTJubGQ8oMJc6DlpIigM3ZbQ3BwrZYjb9DW_MRdjxgMOpe2DoNaOOSyjSeDWtTHR6A4QmE_fTV7RDawIw"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-primary leading-none">Pusula Akademi</span><span class="font-label-md text-label-md text-secondary leading-tight mt-space-xs font-semibold">YKS &amp; LGS Rehberliği</span></div></div><p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md leading-relaxed">Türkiye'nin en seçkin üniversite ve nitelikli liselerine hazırlanan öğrencilere; MEB ve PDR standartlarına tam uyumlu, kişiye özel analitik çalışma programları ve Türkiye dereceli mentorlar ile sonuç odaklı derece koçluğu sunuyoruz.</p><div class="flex items-center gap-space-xs font-label-md text-label-md text-primary font-semibold"><span class="material-symbols-outlined text-[18px]">verified</span><span>MEB ve PDR Standartlarında Rehberlik</span></div></div><div class="flex flex-col"><h3 class="font-title-lg text-title-lg text-on-surface mb-space-md font-bold">Hızlı Erişim</h3><ul class="flex flex-col gap-space-sm font-body-sm text-body-sm text-on-surface-variant"><li><a class="hover:text-primary transition-colors" data-path="ana-sayfa" href="#">Ana Sayfa</a></li><li><a class="hover:text-primary transition-colors" data-path="yks-koclugu" href="#">YKS Koçluğu</a></li><li><a class="hover:text-primary transition-colors" data-path="lgs-koclugu" href="#">LGS Koçluğu</a></li><li><a class="hover:text-primary transition-colors" data-path="paketler-ve-fiyatlar" href="#">Paketler &amp; Ücretler</a></li><li><a class="hover:text-primary transition-colors" data-path="koc-basvurusu" href="#">Koç Başvurusu</a></li><li><a class="hover:text-primary transition-colors" data-path="ogrenci-giris-paneli" href="#">Öğrenci Giriş Paneli</a></li></ul></div><div class="flex flex-col"><h3 class="font-title-lg text-title-lg text-on-surface mb-space-md font-bold">Güvence &amp; Yasal</h3><ul class="flex flex-col gap-space-sm font-body-sm text-body-sm text-on-surface-variant mb-space-md"><li><a class="hover:text-primary transition-colors" data-path="kvkk-aydinlatma-metni" href="#">KVKK Aydınlatma Metni</a></li><li><a class="hover:text-primary transition-colors" data-path="mesafeli-satis-sozlesmesi" href="#">Mesafeli Satış Sözleşmesi</a></li><li><a class="hover:text-primary transition-colors" data-path="cerez-politikasi" href="#">Çerez Politikası</a></li><li><a class="hover:text-primary transition-colors" data-path="iptal-ve-iade-sartlari" href="#">İptal ve İade Şartları</a></li></ul><div class="flex items-center gap-space-sm pt-space-xs"><span class="flex items-center gap-1 px-space-sm py-1 bg-surface-container rounded-lg font-label-md text-label-md text-on-surface-variant"><span class="material-symbols-outlined text-[16px] text-primary">lock</span>256-bit SSL</span><span class="flex items-center gap-1 px-space-sm py-1 bg-surface-container rounded-lg font-label-md text-label-md text-on-surface-variant"><span class="material-symbols-outlined text-[16px] text-secondary">shield</span>3D Secure</span></div></div><div class="flex flex-col"><h3 class="font-title-lg text-title-lg text-on-surface mb-space-md font-bold">İletişim &amp; Lokasyon</h3><div class="flex flex-col gap-space-sm font-body-sm text-body-sm text-on-surface-variant mb-space-md"><div class="flex items-start gap-space-xs"><span class="material-symbols-outlined text-[18px] text-primary shrink-0 mt-0.5">location_on</span><span>Maslak Mah. Büyükdere Cad. No:142 Sarıyer / İstanbul</span></div><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-[18px] text-primary shrink-0">mail</span><a class="hover:text-primary" href="mailto:iletisim@pusulaakademi.com">iletisim@pusulaakademi.com</a></div><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-[18px] text-primary shrink-0">call</span><a class="hover:text-primary" href="tel:08508400000">0850 840 00 00</a></div><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-[18px] text-primary shrink-0">schedule</span><span>Her gün 09:00 - 22:00</span></div></div><div class="flex items-center gap-space-sm text-on-surface-variant"><a aria-label="Instagram" class="w-9 h-9 rounded-full bg-surface-container hover:bg-surface-container-high flex items-center justify-center transition-colors" href="#"><span class="material-symbols-outlined text-[18px]">photo_camera</span></a><a aria-label="YouTube" class="w-9 h-9 rounded-full bg-surface-container hover:bg-surface-container-high flex items-center justify-center transition-colors" href="#"><span class="material-symbols-outlined text-[18px]">play_circle</span></a><a aria-label="LinkedIn" class="w-9 h-9 rounded-full bg-surface-container hover:bg-surface-container-high flex items-center justify-center transition-colors" href="#"><span class="material-symbols-outlined text-[18px]">work</span></a><a aria-label="Podcast" class="w-9 h-9 rounded-full bg-surface-container hover:bg-surface-container-high flex items-center justify-center transition-colors" href="#"><span class="material-symbols-outlined text-[18px]">podcasts</span></a></div></div></div><div class="pt-space-lg flex flex-col md:flex-row items-center justify-between gap-space-md text-center md:text-left"><p class="font-body-sm text-body-sm text-on-surface-variant">© 2025 Pusula Akademi. Tüm hakları saklıdır. Geleceğinize doğru rotayı çizin.</p><div class="flex items-center gap-space-md font-label-md text-label-md text-on-surface-variant"><a class="hover:text-on-surface" data-path="kvkk-aydinlatma-metni" href="#">Gizlilik</a><span>•</span><a class="hover:text-on-surface" data-path="cerez-politikasi" href="#">Güvenlik</a><span>•</span><a class="hover:text-on-surface" data-path="mesafeli-satis-sozlesmesi" href="#">Koşullar</a></div></div></div></footer></body></html>

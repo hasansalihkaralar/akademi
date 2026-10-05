@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+
+<html lang="tr"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-tertiary-container":"#ef9900","secondary-fixed-dim":"#ffb599","error-container":"#ffdad6","tertiary-container":"#5c3800","on-tertiary-fixed":"#2a1700","on-secondary-fixed-variant":"#7f2b00","on-tertiary":"#ffffff","surface":"#faf8ff","on-tertiary-fixed-variant":"#653e00","on-background":"#131b2e","on-primary-fixed":"#00164e","surface-variant":"#dae2fd","on-error-container":"#93000a","inverse-primary":"#b6c4ff","secondary-container":"#fd651e","inverse-surface":"#283044","outline-variant":"#c5c5d3","on-secondary-fixed":"#370e00","on-primary-container":"#90a8ff","tertiary-fixed-dim":"#ffb95f","on-surface":"#131b2e","on-secondary":"#ffffff","surface-container":"#eaedff","surface-container-highest":"#dae2fd","secondary-fixed":"#ffdbce","surface-bright":"#faf8ff","on-secondary-container":"#571a00","on-surface-variant":"#444651","primary-fixed-dim":"#b6c4ff","surface-container-low":"#f2f3ff","primary-container":"#1e3a8a","error":"#ba1a1a","surface-container-high":"#e2e7ff","inverse-on-surface":"#eef0ff","surface-dim":"#d2d9f4","on-error":"#ffffff","outline":"#757682","tertiary":"#3e2400","surface-container-lowest":"#ffffff","on-primary-fixed-variant":"#264191","secondary":"#a73a00","tertiary-fixed":"#ffddb8","primary-fixed":"#dce1ff","on-primary":"#ffffff","primary":"#00236f","background":"#faf8ff","surface-tint":"#4059aa"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"space-xs":"0.25rem","space-lg":"1.5rem","space-sm":"0.5rem","gutter-mobile":"1rem","gutter":"1.5rem","space-xl":"2.5rem","space-md":"1rem",margin:"2rem","space-2xl":"4rem","margin-mobile":"1rem"},fontFamily:{"headline-sm":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"display-hero-mobile":["Plus Jakarta Sans"],"headline-lg-mobile":["Plus Jakarta Sans"],"display-hero":["Plus Jakarta Sans"],"body-sm":["Plus Jakarta Sans"],"label-lg":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"body-lg":["Plus Jakarta Sans"],"label-md":["Plus Jakarta Sans"],"title-lg":["Plus Jakarta Sans"],"stat-counter":["Plus Jakarta Sans"],"title-md":["Plus Jakarta Sans"]},fontSize:{"headline-sm":["20px",{lineHeight:"28px",letterSpacing:"-0.01em",fontWeight:"600"}],"headline-lg":["40px",{lineHeight:"48px",letterSpacing:"-0.02em",fontWeight:"700"}],"headline-md":["28px",{lineHeight:"36px",letterSpacing:"-0.015em",fontWeight:"700"}],"display-hero-mobile":["36px",{lineHeight:"44px",letterSpacing:"-0.02em",fontWeight:"800"}],"headline-lg-mobile":["28px",{lineHeight:"36px",letterSpacing:"-0.015em",fontWeight:"700"}],"display-hero":["56px",{lineHeight:"64px",letterSpacing:"-0.025em",fontWeight:"800"}],"body-sm":["13px",{lineHeight:"20px",fontWeight:"400"}],"label-lg":["14px",{lineHeight:"20px",letterSpacing:"0.01em",fontWeight:"600"}],"body-md":["15px",{lineHeight:"24px",fontWeight:"400"}],"body-lg":["18px",{lineHeight:"28px",fontWeight:"400"}],"label-md":["12px",{lineHeight:"16px",letterSpacing:"0.02em",fontWeight:"600"}],"title-lg":["18px",{lineHeight:"26px",letterSpacing:"-0.005em",fontWeight:"600"}],"stat-counter":["44px",{lineHeight:"48px",letterSpacing:"-0.02em",fontWeight:"800"}],"title-md":["16px",{lineHeight:"24px",fontWeight:"600"}]}}}};</script></head><body class="bg-surface font-body-md text-on-surface antialiased selection:bg-secondary-fixed selection:text-on-secondary-fixed"><header class="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-20 max-w-[1240px] mx-auto px-gutter flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-md shrink-0"><img alt="Hedef Koçluk Akademi Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEdv-L8eScq342Dy6mCUHRk5wvlHTqy1fLa8ROYNh4LS2wd21Nb7Fq8ABBpWU7E0V9NxrcjlcvTCU2qaqLj6ZUa5iLtpTKQL3rGAIXVvLO9F8-CZVjKba3Iob1nUjCYkt3cgVxUqKR2N2k2lwIP72LUbAC6bVMBTmXMC51uaTJubGQ8oMJc6DlpIigM3ZbQ3BwrZYjb9DW_MRdjxgMOpe2DoNaOOSyjSeDWtTHR6A4QmE_fTV7RDawIw"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-primary leading-none">Pusula Akademi</span><span class="font-label-md text-label-md text-secondary leading-tight mt-space-xs font-semibold tracking-wide">YKS &amp; LGS Derece Koçluğu</span></div></div><nav class="hidden xl:flex items-center gap-space-lg" data-active-classes="text-primary font-title-md font-bold"><a class="font-title-md text-title-md text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" data-path="ana-sayfa" href="#">Ana Sayfa</a><a class="font-title-md text-title-md text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" data-path="yks-lgs-koclugu" href="#">YKS &amp; LGS Koçluğu</a><a class="font-title-md text-title-md text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" data-path="paketler-ve-fiyatlar" href="#">Paketler &amp; Fiyatlar</a><a class="font-title-md text-title-md text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" data-path="koclarimiz" href="#">Koçlarımız</a><a class="font-title-md text-title-md text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" data-path="biz-kimiz" href="#">Biz Kimiz?</a><a class="font-title-md text-title-md text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" data-path="sss" href="#">S.S.S.</a><a class="font-title-md text-title-md text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" data-path="iletisim" href="#">İletişim</a></nav><div class="flex items-center gap-space-sm shrink-0"><a class="hidden lg:flex items-center gap-space-xs px-space-md py-space-sm rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface font-label-lg text-label-lg transition-colors" href="tel:08508400000"><span class="material-symbols-outlined text-[18px] text-primary">call</span><span>0850 840 00 00</span></a><a class="hidden md:flex items-center gap-space-xs px-space-md py-space-sm rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-label-lg text-label-lg transition-colors" href="https://wa.me/908508400000" rel="noopener" target="_blank"><span class="w-2 h-2 rounded-full bg-[#25D366]"></span><span>WhatsApp</span></a><a class="flex items-center px-space-lg py-space-sm rounded-full bg-secondary-container text-on-secondary font-label-lg text-label-lg font-semibold shadow-[0_4px_12px_rgba(253,101,30,0.25)] hover:bg-secondary transition-all" data-path="ucretsiz-on-gorusme" href="#"><span class="material-symbols-outlined text-[18px] mr-space-xs">calendar_today</span><span>Ücretsiz Ön Görüşme Yap</span></a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-20 bg-surface min-h-[calc(100vh-80px)]"><div class="flex flex-col w-full">
+<!-- Top Stepper / Breadcrumbs Bar -->
+<section class="w-full bg-surface-container-lowest shadow-sm py-space-md">
+<div class="max-w-[1240px] mx-auto px-gutter">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<!-- Breadcrumb title & trust indicator -->
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">lock</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm text-primary">Güvenli Ödeme ve Kayıt</span>
+<span class="px-2.5 py-0.5 rounded-full bg-[#DCFCE7] text-[#15803D] font-label-md text-label-md font-bold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-[#15803D] animate-pulse"></span> 256-Bit SSL Korumalı
+              </span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Pusula Akademi Öğrenci Portalı Kayıt Protokolü</p>
+</div>
+</div>
+<!-- 4-Step Linear Wizard Progression -->
+<nav aria-label="Sipariş İlerleme Adımları" class="flex items-center gap-space-xs sm:gap-space-sm overflow-x-auto pb-1 sm:pb-0">
+<!-- Step 1: Done -->
+<div class="flex items-center gap-2 shrink-0">
+<div class="w-7 h-7 rounded-full bg-primary-fixed text-primary flex items-center justify-center font-label-md text-label-md font-bold">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</div>
+<span class="font-label-md text-label-md font-semibold text-primary">Paket Seçimi</span>
+</div>
+<span class="w-4 h-0.5 bg-outline-variant shrink-0"></span>
+<!-- Step 2: Active / Current -->
+<div class="flex items-center gap-2 shrink-0">
+<div class="w-7 h-7 rounded-full bg-primary text-on-primary flex items-center justify-center font-label-md text-label-md font-bold shadow-sm">
+              2
+            </div>
+<span class="font-label-md text-label-md font-bold text-on-surface">Öğrenci &amp; Veli</span>
+</div>
+<span class="w-4 h-0.5 bg-outline-variant shrink-0"></span>
+<!-- Step 3: Current Payment Active Focus -->
+<div class="flex items-center gap-2 shrink-0">
+<div class="w-7 h-7 rounded-full bg-secondary-container text-on-secondary flex items-center justify-center font-label-md text-label-md font-bold shadow-sm">
+              3
+            </div>
+<span class="font-label-md text-label-md font-bold text-secondary">Ödeme &amp; Onay</span>
+</div>
+<span class="w-4 h-0.5 bg-outline-variant shrink-0"></span>
+<!-- Step 4: Pending -->
+<div class="flex items-center gap-2 shrink-0 opacity-60">
+<div class="w-7 h-7 rounded-full bg-surface-container text-on-surface-variant flex items-center justify-center font-label-md text-label-md font-bold">
+              4
+            </div>
+<span class="font-label-md text-label-md font-medium text-on-surface-variant">Koç Ataması</span>
+</div>
+</nav>
+</div>
+</div>
+</section>
+<!-- Security Announcement Ribbon -->
+<section class="w-full bg-primary text-on-primary py-2.5">
+<div class="max-w-[1240px] mx-auto px-gutter flex flex-wrap items-center justify-between gap-space-sm font-label-md text-label-md">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-tertiary-fixed">verified_user</span>
+<span>Ödemeniz <strong>BDDK lisanslı banka altyapısı</strong> ve 3D Secure güvencesiyle doğrudan banka sunucularında tamamlanır.</span>
+</div>
+<div class="flex items-center gap-4 text-primary-fixed">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">lock</span> PCI-DSS Seviye 1 Uyumlu</span>
+<span class="hidden sm:inline">•</span>
+<span class="hidden sm:flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">sync_alt</span> 14 Gün Koşulsuz İade Güvencesi</span>
+</div>
+</div>
+</section>
+<!-- Main Checkout Grid Section -->
+<div class="w-full py-space-xl">
+<div class="max-w-[1240px] mx-auto px-gutter">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+<!-- ================= LEFT COLUMN: FORM SECTIONS (7 Cols) ================= -->
+<div class="lg:col-span-7 flex flex-col gap-space-lg">
+<!-- ADIM 1: ÖĞRENCİ VE VELİ İLETİŞİM BİLGİLERİ -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between pb-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">person_pin</span>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">1. Öğrenci ve Veli Bilgileri</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Öğrenci koçluk paneli ve veli SMS bilgilendirme sistemi için gereklidir</p>
+</div>
+</div>
+<span class="text-xs font-semibold px-2.5 py-1 rounded bg-surface-container text-primary uppercase tracking-wide">Zorunlu Alanlar</span>
+</div>
+<!-- Sınav & Hedef Alan Seçici Segmented Toggle -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2 font-semibold">Hedef Sınav &amp; Alan Tercihi</label>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-2" id="examTrackSelector">
+<button class="exam-pill-btn active py-2.5 px-3 rounded-lg text-center font-label-md text-label-md font-bold transition-all bg-primary text-on-primary shadow-sm" onclick="selectTrack(this, 'YKS Sayısal')" type="button">
+                  YKS Sayısal (MF)
+                </button>
+<button class="exam-pill-btn py-2.5 px-3 rounded-lg text-center font-label-md text-label-md font-semibold transition-all bg-surface-container text-on-surface hover:bg-surface-container-high" onclick="selectTrack(this, 'YKS Eşit Ağırlık')" type="button">
+                  YKS Eşit Ağırlık
+                </button>
+<button class="exam-pill-btn py-2.5 px-3 rounded-lg text-center font-label-md text-label-md font-semibold transition-all bg-surface-container text-on-surface hover:bg-surface-container-high" onclick="selectTrack(this, 'YKS Sözel / Dil')" type="button">
+                  YKS Sözel / Dil
+                </button>
+<button class="exam-pill-btn py-2.5 px-3 rounded-lg text-center font-label-md text-label-md font-semibold transition-all bg-surface-container text-on-surface hover:bg-surface-container-high" onclick="selectTrack(this, 'LGS 8. Sınıf')" type="button">
+                  LGS 8. Sınıf
+                </button>
+</div>
+</div>
+<!-- Öğrenci Temel Bilgileri Formu -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md pt-space-xs">
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1.5 font-semibold">
+                  Öğrencinin Adı Soyadı <span class="text-secondary">*</span>
+</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-3 text-[20px] text-outline">badge</span>
+<input class="w-full h-12 pl-10 pr-3 rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md focus:bg-surface-container-lowest shadow-sm placeholder:text-outline outline-none focus:shadow-[0_0_0_2px_#00236f]" placeholder="Örn. Kerem Yılmaz" type="text" value="Kerem Yılmaz"/>
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1.5 font-semibold">
+                  Mevcut Öğrenim Durumu <span class="text-secondary">*</span>
+</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-3 text-[20px] text-outline">school</span>
+<select class="w-full h-12 pl-10 pr-8 rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md shadow-sm outline-none focus:shadow-[0_0_0_2px_#00236f] appearance-none">
+<option selected="">12. Sınıf (YKS 2026 Adayı)</option>
+<option>Mezun (Derece Hedefleyen Aday)</option>
+<option>11. Sınıf (Erken Başlangıç YKS)</option>
+<option>8. Sınıf (LGS Hazırlık)</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-3 text-[20px] text-outline pointer-events-none">expand_more</span>
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1.5 font-semibold">
+                  Öğrenci Cep Telefonu <span class="text-secondary">*</span>
+</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-3 text-[20px] text-outline">phone_iphone</span>
+<input class="w-full h-12 pl-10 pr-3 rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md shadow-sm placeholder:text-outline outline-none focus:shadow-[0_0_0_2px_#00236f]" placeholder="0532 000 00 00" type="tel" value="0533 412 88 90"/>
+</div>
+<span class="text-[11px] text-on-surface-variant mt-1 block">Koç haftalık görüntülü seans bağlantısı bu hatta iletilir.</span>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1.5 font-semibold">
+                  Veli Adı Soyadı <span class="text-secondary">*</span>
+</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-3 text-[20px] text-outline">family_restroom</span>
+<input class="w-full h-12 pl-10 pr-3 rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md shadow-sm placeholder:text-outline outline-none focus:shadow-[0_0_0_2px_#00236f]" placeholder="Örn. Selim Yılmaz" type="text" value="Selim Yılmaz"/>
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1.5 font-semibold">
+                  Veli Telefon Numarası <span class="text-secondary">*</span>
+</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-3 text-[20px] text-outline">contact_phone</span>
+<input class="w-full h-12 pl-10 pr-3 rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md shadow-sm placeholder:text-outline outline-none focus:shadow-[0_0_0_2px_#00236f]" placeholder="0532 000 00 00" type="tel" value="0532 291 14 55"/>
+</div>
+<span class="text-[11px] text-on-surface-variant mt-1 block">15 günlük akademik gelişim ve net analiz raporları bu numaraya SMS gider.</span>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1.5 font-semibold">
+                  Veli E-Posta Adresi (e-Fatura İçin) <span class="text-secondary">*</span>
+</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-3 text-[20px] text-outline">mail</span>
+<input class="w-full h-12 pl-10 pr-3 rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md shadow-sm placeholder:text-outline outline-none focus:shadow-[0_0_0_2px_#00236f]" placeholder="veli@ornek.com" type="email" value="selim.yilmaz@kurumsal.com"/>
+</div>
+</div>
+<div class="sm:col-span-2">
+<label class="block font-label-md text-label-md text-on-surface mb-1.5 font-semibold">
+                  Öğrencinin Hedeflediği Bölüm / Fakülte <span class="text-on-surface-variant font-normal">(Opsiyonel - Mentör eşleşmesini hızlandırır)</span>
+</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-3 text-[20px] text-outline">flag</span>
+<input class="w-full h-12 pl-10 pr-3 rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md shadow-sm placeholder:text-outline outline-none focus:shadow-[0_0_0_2px_#00236f]" placeholder="Örn. Boğaziçi Üniversitesi Bilgisayar Mühendisliği / Cerrahpaşa Tıp Fakültesi" type="text" value="İTÜ Yapay Zeka &amp; Veri Mühendisliği (İlk 1.500)"/>
+</div>
+</div>
+</div>
+</div>
+<!-- ADIM 2: ÖDEME YÖNTEMİ & KART BİLGİLERİ -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between pb-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">credit_card</span>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">2. Ödeme Yöntemi ve Kart Bilgileri</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Tüm yerli ve yabancı kartlarla peşin fiyatına taksitli ödeme yapabilirsiniz</p>
+</div>
+</div>
+<div class="flex items-center gap-1.5 px-3 py-1 rounded bg-surface-container text-primary font-label-md text-label-md font-semibold">
+<span class="material-symbols-outlined text-[16px] text-secondary">verified</span> 3D Secure Zorunlu
+              </div>
+</div>
+<!-- Ödeme Türü Seçici (Kredi Kartı vs Havale/EFT) -->
+<div class="grid grid-cols-2 gap-space-sm p-1 bg-surface-container rounded-xl">
+<button class="flex items-center justify-center gap-2 py-3 px-4 rounded-lg bg-surface-container-lowest text-primary font-title-md text-title-md font-bold shadow-sm transition-all" id="payMethodCard" onclick="switchPaymentMethod('card')" type="button">
+<span class="material-symbols-outlined text-[20px]">credit_score</span>
+<span>Kredi / Banka Kartı</span>
+</button>
+<button class="flex items-center justify-center gap-2 py-3 px-4 rounded-lg text-on-surface-variant font-title-md text-title-md font-semibold hover:text-on-surface transition-all" id="payMethodTransfer" onclick="switchPaymentMethod('transfer')" type="button">
+<span class="material-symbols-outlined text-[20px]">account_balance</span>
+<span>Havale / EFT <span class="text-xs px-2 py-0.5 rounded-full bg-secondary-fixed text-secondary font-bold ml-1">-%5 İndirim</span></span>
+</button>
+</div>
+<!-- KREDİ KARTI FORMU -->
+<div class="flex flex-col gap-space-md pt-space-xs" id="creditCardPanel">
+<!-- Anlaşmalı Kart Logoları Görsel Şerit -->
+<div class="flex flex-wrap items-center justify-between gap-2 p-3 bg-surface-container-low rounded-lg">
+<span class="font-label-md text-label-md text-on-surface-variant font-semibold">Desteklenen Kart Altyapıları:</span>
+<div class="flex items-center flex-wrap gap-2">
+<span class="px-2.5 py-1 bg-surface-container-lowest rounded text-xs font-bold tracking-wider text-primary shadow-xs">TROY</span>
+<span class="px-2.5 py-1 bg-surface-container-lowest rounded text-xs font-extrabold tracking-wider text-[#1A1F71] shadow-xs">VISA</span>
+<span class="px-2.5 py-1 bg-surface-container-lowest rounded text-xs font-bold tracking-wider text-[#EB001B] shadow-xs">Mastercard</span>
+<span class="px-2.5 py-1 bg-surface-container-lowest rounded text-xs font-semibold text-on-surface shadow-xs">Axess</span>
+<span class="px-2.5 py-1 bg-surface-container-lowest rounded text-xs font-semibold text-on-surface shadow-xs">World</span>
+<span class="px-2.5 py-1 bg-surface-container-lowest rounded text-xs font-semibold text-on-surface shadow-xs">Bonus</span>
+<span class="px-2.5 py-1 bg-surface-container-lowest rounded text-xs font-semibold text-on-surface shadow-xs">Maximum</span>
+<span class="px-2.5 py-1 bg-surface-container-lowest rounded text-xs font-semibold text-on-surface shadow-xs">Paraf</span>
+</div>
+</div>
+<!-- Kart Üzerindeki İsim -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1.5 font-semibold">
+                  Kart Üzerindeki İsim Soyisim <span class="text-secondary">*</span>
+</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-3 text-[20px] text-outline">person</span>
+<input class="w-full h-12 pl-10 pr-3 uppercase rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md shadow-sm outline-none focus:shadow-[0_0_0_2px_#00236f]" id="cardHolderInput" placeholder="Örn. SELİM YILMAZ" type="text" value="SELİM YILMAZ"/>
+</div>
+</div>
+<!-- Kart Numarası -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1.5 font-semibold">
+                  Kart Numarası <span class="text-secondary">*</span>
+</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-3 text-[20px] text-outline">credit_card</span>
+<input class="w-full h-12 pl-10 pr-12 font-mono tracking-widest rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md shadow-sm outline-none focus:shadow-[0_0_0_2px_#00236f]" id="cardNumberInput" maxlength="19" placeholder="•••• •••• •••• 4821" type="text" value="5421 8901 3345 4821"/>
+<div class="absolute right-3 top-3">
+<span class="material-symbols-outlined text-[#EB001B] text-[22px]">contactless</span>
+</div>
+</div>
+</div>
+<!-- Son Kullanma Tarihi & CVC/CVV -->
+<div class="grid grid-cols-2 gap-space-md">
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1.5 font-semibold">
+                    Son Kullanma Tarihi <span class="text-secondary">*</span>
+</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-3 text-[20px] text-outline">calendar_month</span>
+<input class="w-full h-12 pl-10 pr-3 font-mono rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md shadow-sm outline-none focus:shadow-[0_0_0_2px_#00236f]" maxlength="5" placeholder="AA / YY" type="text" value="08 / 28"/>
+</div>
+</div>
+<div>
+<div class="flex items-center justify-between mb-1.5">
+<label class="font-label-md text-label-md text-on-surface font-semibold">
+                      CVC / CVV <span class="text-secondary">*</span>
+</label>
+<span class="font-label-md text-label-md text-primary cursor-pointer hover:underline flex items-center gap-0.5" title="Kartınızın arkasındaki son 3 haneli güvenlik kodu">
+<span class="material-symbols-outlined text-[14px]">help</span> Nedir?
+                    </span>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-3 text-[20px] text-outline">pin</span>
+<input class="w-full h-12 pl-10 pr-3 font-mono rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md shadow-sm outline-none focus:shadow-[0_0_0_2px_#00236f]" maxlength="4" placeholder="•••" type="password" value="842"/>
+</div>
+</div>
+</div>
+<!-- TAKSİT SEÇENEKLERİ TABLOSU -->
+<div class="pt-space-xs">
+<label class="block font-label-md text-label-md text-on-surface mb-2 font-semibold">
+                  Taksit Tercihi (Tüm Kartlara Peşin Fiyatına Taksit)
+                </label>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm" id="installmentOptions">
+<!-- Tek Çekim -->
+<label class="installment-card flex items-center justify-between p-3.5 rounded-lg bg-surface-container cursor-pointer transition-all hover:bg-surface-container-high">
+<div class="flex items-center gap-3">
+<input class="accent-primary w-4 h-4 cursor-pointer" name="installment" type="radio" value="1"/>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md font-bold text-on-surface">Tek Çekim</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Komisyonsuz Tek Sefer</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-title-md text-title-md font-bold text-primary">12.450 ₺</span>
+<span class="block font-label-md text-label-md text-on-surface-variant">Toplam 12.450 ₺</span>
+</div>
+</label>
+<!-- 3 Taksit -->
+<label class="installment-card flex items-center justify-between p-3.5 rounded-lg bg-surface-container cursor-pointer transition-all hover:bg-surface-container-high">
+<div class="flex items-center gap-3">
+<input class="accent-primary w-4 h-4 cursor-pointer" name="installment" type="radio" value="3"/>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md font-bold text-on-surface">3 Taksit</span>
+<span class="font-label-md text-label-md text-secondary font-semibold">Vade Farksız</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-title-md text-title-md font-bold text-primary">4.150 ₺</span>
+<span class="block font-label-md text-label-md text-on-surface-variant">x 3 Ay</span>
+</div>
+</label>
+<!-- 6 Taksit (Default En Popüler) -->
+<label class="installment-card active flex items-center justify-between p-3.5 rounded-lg bg-primary-fixed text-primary cursor-pointer transition-all shadow-sm">
+<div class="flex items-center gap-3">
+<input checked="" class="accent-primary w-4 h-4 cursor-pointer" name="installment" type="radio" value="6"/>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-title-md text-title-md font-bold text-primary">6 Taksit</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary text-[10px] font-bold">En Çok Tercih Edilen</span>
+</div>
+<span class="font-label-md text-label-md text-primary font-semibold">Peşin Fiyatına Taksit</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-title-md text-title-md font-extrabold text-primary">2.075 ₺</span>
+<span class="block font-label-md text-label-md text-primary font-semibold">x 6 Ay</span>
+</div>
+</label>
+<!-- 12 Taksit -->
+<label class="installment-card flex items-center justify-between p-3.5 rounded-lg bg-surface-container cursor-pointer transition-all hover:bg-surface-container-high">
+<div class="flex items-center gap-3">
+<input class="accent-primary w-4 h-4 cursor-pointer" name="installment" type="radio" value="12"/>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md font-bold text-on-surface">12 Taksit</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Geniş Vade İmkanı</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-title-md text-title-md font-bold text-on-surface">1.037,50 ₺</span>
+<span class="block font-label-md text-label-md text-on-surface-variant">x 12 Ay</span>
+</div>
+</label>
+</div>
+</div>
+<!-- Güvenlik Bilgi Kutucuğu -->
+<div class="flex items-start gap-3 p-3.5 rounded-xl bg-surface-container text-on-surface font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[22px] text-primary shrink-0 mt-0.5">shield_lock</span>
+<div class="flex flex-col">
+<span class="font-semibold text-primary">Veri Güvenliği Taahhüdü</span>
+<span class="text-on-surface-variant text-[13px] leading-snug">Kart bilgileriniz doğrudan bankanın 3D Secure doğrulama ağ geçidine (Gateway) şifrelenerek aktarılır. Pusula Akademi hiçbir kart numarasını veya CVV bilgisini sunucularında tutmaz.</span>
+</div>
+</div>
+</div>
+<!-- HAVALE / EFT BİLGİ PANELİ (Varsayılan Gizli) -->
+<div class="hidden flex-col gap-space-md pt-space-xs" id="bankTransferPanel">
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[24px]">account_balance</span>
+<span class="font-title-md text-title-md font-bold text-primary">QNB Finansbank / Enpara</span>
+</div>
+<span class="text-xs px-2.5 py-1 rounded bg-[#DCFCE7] text-[#15803D] font-bold">-%5 Ekstra İndirimli: 11.827,50 ₺</span>
+</div>
+<div class="font-mono text-sm bg-surface-container-lowest p-3 rounded-lg font-bold text-on-surface flex items-center justify-between">
+<span>TR76 0011 1000 0000 0089 9123 44</span>
+<button class="text-xs text-primary font-sans font-semibold flex items-center gap-1 hover:underline" onclick="copyIban(this)" type="button">
+<span class="material-symbols-outlined text-[16px]">content_copy</span> Kopyala
+                  </button>
+</div>
+<div class="text-xs text-on-surface-variant space-y-1">
+<p><strong>Alıcı Adı:</strong> Pusula Akademi Danışmanlık ve Eğitim Hizmetleri A.Ş.</p>
+<p><strong>Açıklama Kısmına:</strong> Öğrenci Adı Soyadı ve Telefon Numarasını yazınız.</p>
+<p class="text-secondary font-semibold">Havale / EFT yapıldıktan sonra dekontunuzu 0850 840 00 00 WhatsApp hattımıza ilettiğiniz anda üyeliğiniz 15 dakika içinde aktive edilir.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- ADIM 3: YASAL ONAYLAR VE POLİTİKALAR -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col gap-space-sm">
+<h3 class="font-title-lg text-title-lg text-on-surface font-bold">Yasal Onaylar ve Sözleşmeler</h3>
+<label class="flex items-start gap-3 cursor-pointer pt-2">
+<input checked="" class="accent-primary w-4.5 h-4.5 rounded mt-0.5 cursor-pointer" id="termsCheck1" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+<a class="text-primary font-semibold underline hover:text-primary-container" href="#">Mesafeli Satış Sözleşmesi</a>'ni ve 
+                <a class="text-primary font-semibold underline hover:text-primary-container" href="#">Ön Bilgilendirme Koşulları</a>'nı okudum, onaylıyorum.
+              </span>
+</label>
+<label class="flex items-start gap-3 cursor-pointer">
+<input checked="" class="accent-primary w-4.5 h-4.5 rounded mt-0.5 cursor-pointer" id="termsCheck2" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+<a class="text-primary font-semibold underline hover:text-primary-container" href="#">KVKK Aydınlatma Metni</a> kapsamında kişisel verilerimin derece koçluğu planlaması amacıyla işlenmesini kabul ediyorum.
+              </span>
+</label>
+<label class="flex items-start gap-3 cursor-pointer">
+<input class="accent-primary w-4.5 h-4.5 rounded mt-0.5 cursor-pointer" id="termsCheck3" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+                Öğrenciye özel Türkiye geneli online deneme takvimleri, rehberlik bültenleri ve veli semineri bildirimlerini SMS / E-posta ile almak istiyorum. (Opsiyonel)
+              </span>
+</label>
+</div>
+<!-- PRIMARY CHECKOUT CALL-TO-ACTION -->
+<div class="flex flex-col gap-space-sm">
+<button class="w-full py-4 px-6 rounded-xl bg-secondary-container text-on-secondary font-title-lg text-title-lg font-bold shadow-[0_8px_20px_rgba(253,101,30,0.3)] hover:bg-secondary hover:shadow-[0_12px_28px_rgba(253,101,30,0.4)] active:scale-[0.99] transition-all flex items-center justify-center gap-3" id="paySubmitBtn" onclick="triggerCheckout()" type="button">
+<span class="material-symbols-outlined text-[24px]">lock</span>
+<span id="btnAmountLabel">12.450 ₺ ile Güvenli Ödeme Yap (3D Secure)</span>
+<span class="material-symbols-outlined text-[22px]">arrow_forward</span>
+</button>
+<div class="flex items-center justify-center gap-2 text-center text-xs text-on-surface-variant font-label-md">
+<span class="material-symbols-outlined text-[16px] text-[#15803D]">verified</span>
+<span>Butona bastığınızda bankanızın SMS şifre doğrulama ekranına (BKM 3D Secure) yönlendirileceksiniz.</span>
+</div>
+</div>
+<!-- Direct Phone / Parent Callout -->
+<div class="flex items-center justify-between p-4 rounded-xl bg-surface-container-low text-on-surface">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">support_agent</span>
+</div>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md font-bold">Ödeme Yaparken Sorunuz mu Var?</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Öğrenci İşleri Danışmanımız hemen hatta bekliyor</span>
+</div>
+</div>
+<a class="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-surface-container-lowest text-primary font-label-lg text-label-lg font-bold shadow-xs hover:bg-surface-container transition-colors" href="tel:08508400000">
+<span class="material-symbols-outlined text-[18px]">call</span> 0850 840 00 00
+            </a>
+</div>
+</div>
+<!-- ================= RIGHT COLUMN: STICKY ORDER SUMMARY & TRUST CARD (5 Cols) ================= -->
+<div class="lg:col-span-5 flex flex-col gap-space-lg lg:sticky lg:top-24">
+<!-- SİPARİŞ ÖZETİ KARTI -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-md flex flex-col gap-space-md">
+<div class="flex items-center justify-between pb-space-xs">
+<span class="font-label-md text-label-md font-bold tracking-wider uppercase text-secondary">Sepet Özeti</span>
+<span class="px-2.5 py-1 rounded-full bg-secondary-fixed text-secondary font-label-md text-label-md font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">local_fire_department</span> %25 Erken Kayıt
+              </span>
+</div>
+<!-- Program Başlığı & Hedef Tag -->
+<div class="flex flex-col gap-1 pb-space-xs">
+<h3 class="font-title-lg text-title-lg font-bold text-on-surface">6 Aylık Derece Koçluğu Paketi</h3>
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-0.5 rounded-full bg-primary-fixed text-primary font-label-md text-label-md font-semibold" id="summaryTrackBadge">YKS Sayısal / EA</span>
+<span class="text-xs text-on-surface-variant font-medium">Birebir Derece Mentörlüğü</span>
+</div>
+</div>
+<!-- Mentorluk Program Kapsamı Checklist -->
+<div class="p-3.5 rounded-xl bg-surface-container-low flex flex-col gap-2.5 font-body-sm text-body-sm text-on-surface">
+<span class="font-label-md text-label-md text-primary font-bold tracking-wide">PAKETE DAHİL AYRICALIKLAR:</span>
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-[18px] text-[#15803D] shrink-0 mt-0.5">check_circle</span>
+<span><strong>Haftada 1 Seans:</strong> 45 dk Birebir Canlı Görüntülü Strateji Seansı</span>
+</div>
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-[18px] text-[#15803D] shrink-0 mt-0.5">check_circle</span>
+<span><strong>Haftada 2 Müdahale:</strong> Hafta ortası hızlı çalışma takibi &amp; ödev denetimi</span>
+</div>
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-[18px] text-[#15803D] shrink-0 mt-0.5">check_circle</span>
+<span><strong>7/24 Koç İletişimi:</strong> WhatsApp üzerinden çözülemeyen soru ve motivasyon desteği</span>
+</div>
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-[18px] text-[#15803D] shrink-0 mt-0.5">check_circle</span>
+<span><strong>Yapay Zeka Analiz Motoru:</strong> Deneme karnesi hata teşhisi ve kişiye özel soru bankası</span>
+</div>
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-[18px] text-[#15803D] shrink-0 mt-0.5">check_circle</span>
+<span><strong>Ayda 1 Uzman PDR Seansı:</strong> Sınav kaygısı, odaklanma ve sınav psikolojisi yönetimi</span>
+</div>
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-[18px] text-[#15803D] shrink-0 mt-0.5">check_circle</span>
+<span><strong>15 Günde Bir Veli Raporu:</strong> Yazılı akademik ilerleme karnesi ve veli görüşmesi</span>
+</div>
+</div>
+<!-- Kupon Kodu Uygulama Bölümü -->
+<div class="pt-space-xs">
+<label class="block font-label-md text-label-md text-on-surface mb-1 font-semibold">Promosyon / İndirim Kodu</label>
+<div class="flex gap-2">
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-[18px] text-outline">sell</span>
+<input class="w-full h-10 pl-9 pr-3 uppercase font-mono text-xs rounded-lg bg-surface-container-low text-on-surface outline-none focus:shadow-[0_0_0_2px_#00236f]" id="couponInput" placeholder="Kupon Kodunuz" type="text"/>
+</div>
+<button class="px-4 h-10 rounded-lg bg-surface-container hover:bg-surface-container-high text-primary font-label-md text-label-md font-bold transition-colors" onclick="applyCoupon()" type="button">
+                  Uygula
+                </button>
+</div>
+<div class="hidden text-xs text-[#15803D] font-semibold mt-1.5 flex items-center gap-1" id="couponFeedback">
+<span class="material-symbols-outlined text-[14px]">check</span> "DERECE2026" kodu ile ek 250 ₺ indirim uygulandı!
+              </div>
+</div>
+<!-- Fiyat Hesaplama Kırılımı -->
+<div class="flex flex-col gap-2 pt-space-xs">
+<div class="flex items-center justify-between font-body-sm text-body-sm text-on-surface-variant">
+<span>Program Liste Fiyatı</span>
+<span class="line-through">16.600 ₺</span>
+</div>
+<div class="flex items-center justify-between font-body-sm text-body-sm text-secondary font-semibold">
+<span>Dönemsel Erken Kayıt İndirimi (-%25)</span>
+<span>-4.150 ₺</span>
+</div>
+<div class="hidden flex items-center justify-between font-body-sm text-body-sm text-[#15803D] font-semibold" id="couponDiscountRow">
+<span>Özel Burs / Kupon İndirimi</span>
+<span>-250 ₺</span>
+</div>
+<div class="flex items-center justify-between font-body-sm text-body-sm text-on-surface-variant">
+<span>KDV (%20 Dahil)</span>
+<span>Dahil</span>
+</div>
+<div class="h-px bg-surface-container my-1"></div>
+<!-- Toplam Fiyat Vurgusu -->
+<div class="flex items-baseline justify-between pt-1">
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface font-extrabold">Genel Toplam</span>
+<span class="font-label-md text-label-md text-on-surface-variant" id="installmentDesc">6 Taksit x 2.075 ₺ / Ay</span>
+</div>
+<div class="text-right">
+<span class="font-stat-counter text-stat-counter text-primary leading-none" id="finalPriceDisplay">12.450 ₺</span>
+</div>
+</div>
+</div>
+<!-- Kurumsal Güvence Rozetleri -->
+<div class="flex flex-col gap-2.5 pt-space-sm">
+<div class="flex items-center gap-3 p-3 rounded-lg bg-surface-container-low text-on-surface">
+<span class="material-symbols-outlined text-[22px] text-secondary shrink-0">verified</span>
+<div class="flex flex-col text-xs">
+<span class="font-bold text-on-surface">14 Gün İçinde Koşulsuz Koç Değişimi</span>
+<span class="text-on-surface-variant">Öğrenci ve mentör kimyası uyuşmadığında tek tıkla yeni mentör ataması yapılır.</span>
+</div>
+</div>
+<div class="flex items-center gap-3 p-3 rounded-lg bg-surface-container-low text-on-surface">
+<span class="material-symbols-outlined text-[22px] text-primary shrink-0">workspace_premium</span>
+<div class="flex flex-col text-xs">
+<span class="font-bold text-on-surface">MEB &amp; PDR Standartlarında Süpervizyon</span>
+<span class="text-on-surface-variant">Her seans kurumumuzun kıdemli rehberlik koordinatörlerince denetlenir.</span>
+</div>
+</div>
+<div class="flex items-center gap-3 p-3 rounded-lg bg-surface-container-low text-on-surface">
+<span class="material-symbols-outlined text-[22px] text-[#15803D] shrink-0">verified_user</span>
+<div class="flex flex-col text-xs">
+<span class="font-bold text-on-surface">İyzico &amp; BDDK Güvenli Altyapı</span>
+<span class="text-on-surface-variant">Ödemeniz uluslararası PCI-DSS Level 1 sertifikalı şifreleme altındadır.</span>
+</div>
+</div>
+</div>
+<!-- Acil Kontenjan Uyarısı -->
+<div class="p-3 rounded-lg bg-surface-container flex items-center gap-2.5 text-xs text-primary font-semibold">
+<span class="w-2 h-2 rounded-full bg-secondary-container animate-ping"></span>
+<span>Seçilen derece mentör kontenjanında son <strong>3 öğrenci</strong> için erken kayıt geçerlidir.</span>
+</div>
+</div>
+<!-- Quick FAQ Accordion in Sidebar -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-sm">
+<h4 class="font-title-md text-title-md font-bold text-on-surface">Hızlı Sorular</h4>
+<details class="group py-2">
+<summary class="flex justify-between items-center cursor-pointer list-none font-label-lg text-label-lg font-semibold text-on-surface">
+<span>Koçum ile ilk seans ne zaman?</span>
+<span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2">
+                Ödemeniz tamamlandıktan sonraki ilk 24 saat içinde PDR Baş Koordinatörümüz veli ve öğrenciyi arayarak analiz testini uygular ve 48 saat içinde ilk seansınız gerçekleşir.
+              </p>
+</details>
+<details class="group py-2">
+<summary class="flex justify-between items-center cursor-pointer list-none font-label-lg text-label-lg font-semibold text-on-surface">
+<span>Kart ekstresinde ne görünecek?</span>
+<span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2">
+                Ekstrenizde yasal şirket unvanımız olan <strong>"Pusula Akademi Eğitim ve Danışmanlık A.Ş."</strong> görünecektir. e-Faturanız veli e-postanıza iletilir.
+              </p>
+</details>
+<details class="group py-2">
+<summary class="flex justify-between items-center cursor-pointer list-none font-label-lg text-label-lg font-semibold text-on-surface">
+<span>İptal ve iade süreci nasıl işler?</span>
+<span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2">
+                İlk 14 gün boyunca dilediğiniz zaman sorgusuz sualsiz koç değişimi talep edebilir ya da Mesafeli Satış Sözleşmesi kapsamında yasal iade hakkınızı kullanabilirsiniz.
+              </p>
+</details>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ================= POST-PAYMENT TRANSPARENT ONBOARDING PROCESS ================= -->
+<section class="w-full bg-surface-container-low py-space-2xl">
+<div class="max-w-[1240px] mx-auto px-gutter flex flex-col gap-space-xl">
+<div class="text-center max-w-2xl mx-auto flex flex-col gap-2">
+<span class="font-label-md text-label-md text-secondary font-bold uppercase tracking-wider">Şeffaf Yol Haritası</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Ödeme Sonrasında Süreç Nasıl İşleyecek?</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Ödemeniz onaylandığı andan itibaren derece hazırlık maratonunuz profesyonel adımlarla başlar.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg">
+<!-- Step 1 Card -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col gap-space-sm relative">
+<div class="w-12 h-12 rounded-xl bg-surface-container text-primary flex items-center justify-center font-stat-counter text-[22px] font-bold">
+            01
+          </div>
+<h3 class="font-title-lg text-title-lg font-bold text-on-surface">Anında SMS &amp; Portal Aktivasyonu</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            3D Secure onayının hemen ardından hem öğrenciye hem de veliye özel <strong>Pusula Akademi Öğrenci Portalı</strong> giriş şifreleri SMS ve e-posta ile anında iletilir.
+          </p>
+<div class="mt-auto pt-space-xs flex items-center gap-1.5 text-xs text-primary font-semibold">
+<span class="material-symbols-outlined text-[16px]">bolt</span> 60 saniyede otomatik aktivasyon
+          </div>
+</div>
+<!-- Step 2 Card -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col gap-space-sm relative">
+<div class="w-12 h-12 rounded-xl bg-primary-fixed text-primary flex items-center justify-center font-stat-counter text-[22px] font-bold">
+            02
+          </div>
+<h3 class="font-title-lg text-title-lg font-bold text-on-surface">24 Saatte PDR Ön Görüşmesi</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            Kıdemli PDR Baş Koordinatörümüz öğrenciyle telefon veya görüntülü görüşme sağlayarak mevcut deneme netlerini, çalışma alışkanlıklarını ve hedef üniversiteyi analiz eder.
+          </p>
+<div class="mt-auto pt-space-xs flex items-center gap-1.5 text-xs text-primary font-semibold">
+<span class="material-symbols-outlined text-[16px]">psychology</span> Kişiye özel akademik röntgen
+          </div>
+</div>
+<!-- Step 3 Card -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col gap-space-sm relative">
+<div class="w-12 h-12 rounded-xl bg-secondary-fixed text-secondary flex items-center justify-center font-stat-counter text-[22px] font-bold">
+            03
+          </div>
+<h3 class="font-title-lg text-title-lg font-bold text-on-surface">Derece Mentörü ile 1. Seans</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            Öğrencinin hedeflediği üniversitede (Örn: Boğaziçi, ODTÜ, Cerrahpaşa) derece yapmış mentör eşleşir. Haftalık ilk çalışma programı çizilir ve takip başlar.
+          </p>
+<div class="mt-auto pt-space-xs flex items-center gap-1.5 text-xs text-secondary font-bold">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span> 48 saat içinde ilk canlı seans
+          </div>
+</div>
+</div>
+</div>
+</section>
+<!-- ================= SECURITY & LEGAL FOOTPRINT BANNER ================= -->
+<section class="w-full bg-surface-container-lowest py-space-xl">
+<div class="max-w-[1240px] mx-auto px-gutter">
+<div class="flex flex-col md:flex-row items-center justify-between gap-space-lg p-space-lg rounded-2xl bg-surface-container-high">
+<div class="flex items-center gap-space-md">
+<div class="w-14 h-14 rounded-2xl bg-surface-container-lowest text-primary flex items-center justify-center shadow-sm shrink-0">
+<span class="material-symbols-outlined text-[32px]">shield_with_heart</span>
+</div>
+<div class="flex flex-col">
+<h4 class="font-title-lg text-title-lg font-bold text-on-surface">Pusula Akademi Koşulsuz Memnuniyet Güvencesi</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-xl">
+              Öğrencimizin geleceği bizim en büyük sorumluluğumuzdur. İlk 14 gün boyunca mentörünüzle uyum sağlayamadığınızı düşünürseniz koşulsuz yeni mentör ataması yapıyoruz.
+            </p>
+</div>
+</div>
+<div class="flex items-center gap-space-md shrink-0">
+<div class="flex flex-col text-right">
+<span class="font-label-md text-label-md text-on-surface-variant">Öğrenci Başarı Oranı</span>
+<span class="font-stat-counter text-[28px] text-primary font-extrabold leading-none">%94.8</span>
+<span class="text-[11px] text-on-surface-variant">İlk 20.000 Yerleşme</span>
+</div>
+<div class="h-10 w-px bg-outline-variant"></div>
+<div class="flex flex-col text-right">
+<span class="font-label-md text-label-md text-on-surface-variant">Veli Memnuniyeti</span>
+<span class="font-stat-counter text-[28px] text-secondary font-extrabold leading-none">4.9 / 5</span>
+<span class="text-[11px] text-on-surface-variant">1.450+ Aktif Değerlendirme</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Checkout Interactivity Logic -->
+<script>
+    // Tab switching: Card vs Bank Transfer
+    function switchPaymentMethod(method) {
+      const cardBtn = document.getElementById('payMethodCard');
+      const transferBtn = document.getElementById('payMethodTransfer');
+      const cardPanel = document.getElementById('creditCardPanel');
+      const transferPanel = document.getElementById('bankTransferPanel');
+      const submitBtn = document.getElementById('paySubmitBtn');
+      const btnAmountLabel = document.getElementById('btnAmountLabel');
+
+      if (method === 'card') {
+        cardBtn.className = "flex items-center justify-center gap-2 py-3 px-4 rounded-lg bg-surface-container-lowest text-primary font-title-md text-title-md font-bold shadow-sm transition-all";
+        transferBtn.className = "flex items-center justify-center gap-2 py-3 px-4 rounded-lg text-on-surface-variant font-title-md text-title-md font-semibold hover:text-on-surface transition-all";
+        cardPanel.classList.remove('hidden');
+        cardPanel.classList.add('flex');
+        transferPanel.classList.add('hidden');
+        transferPanel.classList.remove('flex');
+        btnAmountLabel.innerText = "12.450 ₺ ile Güvenli Ödeme Yap (3D Secure)";
+      } else {
+        transferBtn.className = "flex items-center justify-center gap-2 py-3 px-4 rounded-lg bg-surface-container-lowest text-primary font-title-md text-title-md font-bold shadow-sm transition-all";
+        cardBtn.className = "flex items-center justify-center gap-2 py-3 px-4 rounded-lg text-on-surface-variant font-title-md text-title-md font-semibold hover:text-on-surface transition-all";
+        transferPanel.classList.remove('hidden');
+        transferPanel.classList.add('flex');
+        cardPanel.classList.add('hidden');
+        cardPanel.classList.remove('flex');
+        btnAmountLabel.innerText = "11.827,50 ₺ Havale / EFT Bildirimi Yap";
+      }
+    }
+
+    // Exam track selector
+    function selectTrack(btn, trackName) {
+      document.querySelectorAll('.exam-pill-btn').forEach(b => {
+        b.className = "exam-pill-btn py-2.5 px-3 rounded-lg text-center font-label-md text-label-md font-semibold transition-all bg-surface-container text-on-surface hover:bg-surface-container-high";
+      });
+      btn.className = "exam-pill-btn active py-2.5 px-3 rounded-lg text-center font-label-md text-label-md font-bold transition-all bg-primary text-on-primary shadow-sm";
+      const summaryBadge = document.getElementById('summaryTrackBadge');
+      if (summaryBadge) {
+        summaryBadge.innerText = trackName;
+      }
+    }
+
+    // Copy IBAN micro-interaction
+    function copyIban(btn) {
+      navigator.clipboard.writeText("TR760011100000000089912344").then(() => {
+        btn.innerHTML = `<span class="material-symbols-outlined text-[16px]">check</span> Kopyalandı!`;
+        setTimeout(() => {
+          btn.innerHTML = `<span class="material-symbols-outlined text-[16px]">content_copy</span> Kopyala`;
+        }, 2000);
+      });
+    }
+
+    // Apply coupon
+    function applyCoupon() {
+      const input = document.getElementById('couponInput');
+      const feedback = document.getElementById('couponFeedback');
+      const discountRow = document.getElementById('couponDiscountRow');
+      const priceDisplay = document.getElementById('finalPriceDisplay');
+      const btnAmountLabel = document.getElementById('btnAmountLabel');
+      const installmentDesc = document.getElementById('installmentDesc');
+
+      if (input.value.trim().length > 0) {
+        feedback.classList.remove('hidden');
+        discountRow.classList.remove('hidden');
+        priceDisplay.innerText = "12.200 ₺";
+        btnAmountLabel.innerText = "12.200 ₺ ile Güvenli Ödeme Yap (3D Secure)";
+        installmentDesc.innerText = "6 Taksit x 2.033,33 ₺ / Ay";
+      }
+    }
+
+    // Installment card selection highlight
+    document.addEventListener('DOMContentLoaded', () => {
+      const cards = document.querySelectorAll('.installment-card');
+      cards.forEach(card => {
+        const radio = card.querySelector('input[type="radio"]');
+        card.addEventListener('click', () => {
+          cards.forEach(c => {
+            c.className = "installment-card flex items-center justify-between p-3.5 rounded-lg bg-surface-container cursor-pointer transition-all hover:bg-surface-container-high";
+            const p = c.querySelector('.text-primary');
+            if (p && !c.classList.contains('active')) {
+              // keep standard text
+            }
+          });
+          card.className = "installment-card active flex items-center justify-between p-3.5 rounded-lg bg-primary-fixed text-primary cursor-pointer transition-all shadow-sm";
+          if (radio) {
+            radio.checked = true;
+            const installmentCount = radio.value;
+            const installmentDesc = document.getElementById('installmentDesc');
+            if (installmentCount === "1") {
+              installmentDesc.innerText = "Tek Çekim Komisyonsuz";
+            } else if (installmentCount === "3") {
+              installmentDesc.innerText = "3 Taksit x 4.150 ₺ / Ay";
+            } else if (installmentCount === "6") {
+              installmentDesc.innerText = "6 Taksit x 2.075 ₺ / Ay";
+            } else if (installmentCount === "12") {
+              installmentDesc.innerText = "12 Taksit x 1.037,50 ₺ / Ay";
+            }
+          }
+        });
+      });
+    });
+
+    // Checkout trigger simulation
+    function triggerCheckout() {
+      const check1 = document.getElementById('termsCheck1');
+      const check2 = document.getElementById('termsCheck2');
+      if (!check1.checked || !check2.checked) {
+        alert("Lütfen Mesafeli Satış Sözleşmesi ve KVKK Onayını kabul ediniz.");
+        return;
+      }
+      const btn = document.getElementById('paySubmitBtn');
+      btn.innerHTML = `<span class="material-symbols-outlined text-[24px] animate-spin">progress_activity</span> <span>Banka 3D Secure SMS Ekranına Bağlanıyor...</span>`;
+      btn.disabled = true;
+      setTimeout(() => {
+        alert("Pusula Akademi Güvenlik Protokolü: Bankanızın 3D Secure SMS doğrulama sayfası simüle ediliyor. SMS şifreniz cep telefonunuza iletildi.");
+        btn.innerHTML = `<span class="material-symbols-outlined text-[24px]">verified</span> <span>Ödeme Doğrulanıyor...</span>`;
+      }, 1500);
+    }
+  </script>
+</div></main><div class="fixed bottom-6 right-6 z-50 flex items-center gap-3"><div class="hidden sm:flex items-center bg-surface-container-lowest text-on-surface font-label-md text-label-md px-space-md py-space-sm rounded-full shadow-[0_10px_25px_-5px_rgba(15,23,42,0.12)] border-0"><span class="w-2 h-2 rounded-full bg-[#25D366] mr-space-xs animate-ping"></span>Sorunuz mu var? WhatsApp'tan Yazın</div><a aria-label="WhatsApp Destek Hattı" class="w-14 h-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-[0_12px_24px_-4px_rgba(37,211,102,0.45)] hover:scale-105 active:scale-95 transition-transform duration-200" href="https://wa.me/908508400000" rel="noopener" target="_blank"><span class="material-symbols-outlined text-[30px]">chat</span></a></div><footer class="w-full bg-surface-container-low pt-space-2xl pb-space-lg shadow-[0_1px_8px_rgba(0,0,0,0.02)]"><div class="max-w-[1240px] mx-auto px-gutter"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-xl mb-space-2xl"><div class="flex flex-col"><div class="flex items-center gap-space-md mb-space-md"><img alt="Hedef Koçluk Akademi Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEdv-L8eScq342Dy6mCUHRk5wvlHTqy1fLa8ROYNh4LS2wd21Nb7Fq8ABBpWU7E0V9NxrcjlcvTCU2qaqLj6ZUa5iLtpTKQL3rGAIXVvLO9F8-CZVjKba3Iob1nUjCYkt3cgVxUqKR2N2k2lwIP72LUbAC6bVMBTmXMC51uaTJubGQ8oMJc6DlpIigM3ZbQ3BwrZYjb9DW_MRdjxgMOpe2DoNaOOSyjSeDWtTHR6A4QmE_fTV7RDawIw"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-primary leading-none">Pusula Akademi</span><span class="font-label-md text-label-md text-secondary leading-tight mt-space-xs font-semibold">YKS &amp; LGS Rehberliği</span></div></div><p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md leading-relaxed">Türkiye'nin en seçkin üniversite ve nitelikli liselerine hazırlanan öğrencilere; MEB ve PDR standartlarına tam uyumlu, kişiye özel analitik çalışma programları ve Türkiye dereceli mentorlar ile sonuç odaklı derece koçluğu sunuyoruz.</p><div class="flex items-center gap-space-xs font-label-md text-label-md text-primary font-semibold"><span class="material-symbols-outlined text-[18px]">verified</span><span>MEB ve PDR Standartlarında Rehberlik</span></div></div><div class="flex flex-col"><h3 class="font-title-lg text-title-lg text-on-surface mb-space-md font-bold">Hızlı Erişim</h3><ul class="flex flex-col gap-space-sm font-body-sm text-body-sm text-on-surface-variant"><li><a class="hover:text-primary transition-colors" data-path="ana-sayfa" href="#">Ana Sayfa</a></li><li><a class="hover:text-primary transition-colors" data-path="yks-koclugu" href="#">YKS Koçluğu</a></li><li><a class="hover:text-primary transition-colors" data-path="lgs-koclugu" href="#">LGS Koçluğu</a></li><li><a class="hover:text-primary transition-colors" data-path="paketler-ve-fiyatlar" href="#">Paketler &amp; Ücretler</a></li><li><a class="hover:text-primary transition-colors" data-path="koc-basvurusu" href="#">Koç Başvurusu</a></li><li><a class="hover:text-primary transition-colors" data-path="ogrenci-giris-paneli" href="#">Öğrenci Giriş Paneli</a></li></ul></div><div class="flex flex-col"><h3 class="font-title-lg text-title-lg text-on-surface mb-space-md font-bold">Güvence &amp; Yasal</h3><ul class="flex flex-col gap-space-sm font-body-sm text-body-sm text-on-surface-variant mb-space-md"><li><a class="hover:text-primary transition-colors" data-path="kvkk-aydinlatma-metni" href="#">KVKK Aydınlatma Metni</a></li><li><a class="hover:text-primary transition-colors" data-path="mesafeli-satis-sozlesmesi" href="#">Mesafeli Satış Sözleşmesi</a></li><li><a class="hover:text-primary transition-colors" data-path="cerez-politikasi" href="#">Çerez Politikası</a></li><li><a class="hover:text-primary transition-colors" data-path="iptal-ve-iade-sartlari" href="#">İptal ve İade Şartları</a></li></ul><div class="flex items-center gap-space-sm pt-space-xs"><span class="flex items-center gap-1 px-space-sm py-1 bg-surface-container rounded-lg font-label-md text-label-md text-on-surface-variant"><span class="material-symbols-outlined text-[16px] text-primary">lock</span>256-bit SSL</span><span class="flex items-center gap-1 px-space-sm py-1 bg-surface-container rounded-lg font-label-md text-label-md text-on-surface-variant"><span class="material-symbols-outlined text-[16px] text-secondary">shield</span>3D Secure</span></div></div><div class="flex flex-col"><h3 class="font-title-lg text-title-lg text-on-surface mb-space-md font-bold">İletişim &amp; Lokasyon</h3><div class="flex flex-col gap-space-sm font-body-sm text-body-sm text-on-surface-variant mb-space-md"><div class="flex items-start gap-space-xs"><span class="material-symbols-outlined text-[18px] text-primary shrink-0 mt-0.5">location_on</span><span>Maslak Mah. Büyükdere Cad. No:142 Sarıyer / İstanbul</span></div><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-[18px] text-primary shrink-0">mail</span><a class="hover:text-primary" href="mailto:iletisim@pusulaakademi.com">iletisim@pusulaakademi.com</a></div><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-[18px] text-primary shrink-0">call</span><a class="hover:text-primary" href="tel:08508400000">0850 840 00 00</a></div><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-[18px] text-primary shrink-0">schedule</span><span>Her gün 09:00 - 22:00</span></div></div><div class="flex items-center gap-space-sm text-on-surface-variant"><a aria-label="Instagram" class="w-9 h-9 rounded-full bg-surface-container hover:bg-surface-container-high flex items-center justify-center transition-colors" href="#"><span class="material-symbols-outlined text-[18px]">photo_camera</span></a><a aria-label="YouTube" class="w-9 h-9 rounded-full bg-surface-container hover:bg-surface-container-high flex items-center justify-center transition-colors" href="#"><span class="material-symbols-outlined text-[18px]">play_circle</span></a><a aria-label="LinkedIn" class="w-9 h-9 rounded-full bg-surface-container hover:bg-surface-container-high flex items-center justify-center transition-colors" href="#"><span class="material-symbols-outlined text-[18px]">work</span></a><a aria-label="Podcast" class="w-9 h-9 rounded-full bg-surface-container hover:bg-surface-container-high flex items-center justify-center transition-colors" href="#"><span class="material-symbols-outlined text-[18px]">podcasts</span></a></div></div></div><div class="pt-space-lg flex flex-col md:flex-row items-center justify-between gap-space-md text-center md:text-left"><p class="font-body-sm text-body-sm text-on-surface-variant">© 2025 Pusula Akademi. Tüm hakları saklıdır. Geleceğinize doğru rotayı çizin.</p><div class="flex items-center gap-space-md font-label-md text-label-md text-on-surface-variant"><a class="hover:text-on-surface" data-path="kvkk-aydinlatma-metni" href="#">Gizlilik</a><span>•</span><a class="hover:text-on-surface" data-path="cerez-politikasi" href="#">Güvenlik</a><span>•</span><a class="hover:text-on-surface" data-path="mesafeli-satis-sozlesmesi" href="#">Koşullar</a></div></div></div></footer></body></html>

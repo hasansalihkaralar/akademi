@@ -1,26 +1,182 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --primary: #00236f;
+  --primary-container: #1e3a8a;
+  --on-primary: #ffffff;
+  --on-primary-fixed: #00164e;
+  --primary-fixed: #dce1ff;
+  --primary-fixed-dim: #b6c4ff;
+  --on-primary-container: #90a8ff;
+  --secondary: #a73a00;
+  --secondary-container: #fd651e;
+  --on-secondary: #ffffff;
+  --on-secondary-container: #571a00;
+  --secondary-fixed: #ffdbce;
+  --on-secondary-fixed: #370e00;
+  --surface: #faf8ff;
+  --surface-bright: #faf8ff;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #f2f3ff;
+  --surface-container: #eaedff;
+  --surface-container-high: #e2e7ff;
+  --surface-container-highest: #dae2fd;
+  --surface-variant: #dae2fd;
+  --on-surface: #131b2e;
+  --on-surface-variant: #444651;
+  --outline: #757682;
+  --outline-variant: #c5c5d3;
+  --tertiary: #3e2400;
+  --tertiary-fixed: #ffddb8;
+  --on-tertiary-fixed: #2a1700;
+  --error: #ba1a1a;
+  --background: #faf8ff;
+  --on-background: #131b2e;
+  --inverse-surface: #283044;
+  --inverse-on-surface: #eef0ff;
 }
 
 @theme inline {
+  --color-primary: var(--primary);
+  --color-primary-container: var(--primary-container);
+  --color-on-primary: var(--on-primary);
+  --color-on-primary-fixed: var(--on-primary-fixed);
+  --color-primary-fixed: var(--primary-fixed);
+  --color-primary-fixed-dim: var(--primary-fixed-dim);
+  --color-on-primary-container: var(--on-primary-container);
+  --color-secondary: var(--secondary);
+  --color-secondary-container: var(--secondary-container);
+  --color-on-secondary: var(--on-secondary);
+  --color-on-secondary-container: var(--on-secondary-container);
+  --color-secondary-fixed: var(--secondary-fixed);
+  --color-on-secondary-fixed: var(--on-secondary-fixed);
+  --color-surface: var(--surface);
+  --color-surface-bright: var(--surface-bright);
+  --color-surface-container-lowest: var(--surface-container-lowest);
+  --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container: var(--surface-container);
+  --color-surface-container-high: var(--surface-container-high);
+  --color-surface-container-highest: var(--surface-container-highest);
+  --color-surface-variant: var(--surface-variant);
+  --color-on-surface: var(--on-surface);
+  --color-on-surface-variant: var(--on-surface-variant);
+  --color-outline: var(--outline);
+  --color-outline-variant: var(--outline-variant);
+  --color-tertiary: var(--tertiary);
+  --color-tertiary-fixed: var(--tertiary-fixed);
+  --color-on-tertiary-fixed: var(--on-tertiary-fixed);
+  --color-error: var(--error);
   --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-on-background: var(--on-background);
+  --color-inverse-surface: var(--inverse-surface);
+  --color-inverse-on-surface: var(--inverse-on-surface);
+
+  --font-sans: var(--font-sans);
+
+  --spacing-space-xs: 0.25rem;
+  --spacing-space-sm: 0.5rem;
+  --spacing-space-md: 1rem;
+  --spacing-space-lg: 1.5rem;
+  --spacing-space-xl: 2.5rem;
+  --spacing-space-2xl: 4rem;
+  --spacing-gutter: 1.5rem;
+  --spacing-gutter-mobile: 1rem;
+
+  --text-display-hero: 3.5rem;
+  --text-display-hero--line-height: 4rem;
+  --text-display-hero--letter-spacing: -0.025em;
+  --text-display-hero--font-weight: 800;
+  --text-display-hero-mobile: 2.25rem;
+  --text-display-hero-mobile--line-height: 2.75rem;
+  --text-display-hero-mobile--letter-spacing: -0.02em;
+  --text-display-hero-mobile--font-weight: 800;
+  --text-headline-lg: 2.5rem;
+  --text-headline-lg--line-height: 3rem;
+  --text-headline-lg--letter-spacing: -0.02em;
+  --text-headline-lg--font-weight: 700;
+  --text-headline-md: 1.75rem;
+  --text-headline-md--line-height: 2.25rem;
+  --text-headline-md--letter-spacing: -0.015em;
+  --text-headline-md--font-weight: 700;
+  --text-headline-sm: 1.25rem;
+  --text-headline-sm--line-height: 1.75rem;
+  --text-headline-sm--letter-spacing: -0.01em;
+  --text-headline-sm--font-weight: 600;
+  --text-title-lg: 1.125rem;
+  --text-title-lg--line-height: 1.625rem;
+  --text-title-lg--letter-spacing: -0.005em;
+  --text-title-lg--font-weight: 600;
+  --text-title-md: 1rem;
+  --text-title-md--line-height: 1.5rem;
+  --text-title-md--font-weight: 600;
+  --text-body-lg: 1.125rem;
+  --text-body-lg--line-height: 1.75rem;
+  --text-body-lg--font-weight: 400;
+  --text-body-md: 0.9375rem;
+  --text-body-md--line-height: 1.5rem;
+  --text-body-md--font-weight: 400;
+  --text-body-sm: 0.8125rem;
+  --text-body-sm--line-height: 1.25rem;
+  --text-body-sm--font-weight: 400;
+  --text-label-lg: 0.875rem;
+  --text-label-lg--line-height: 1.25rem;
+  --text-label-lg--letter-spacing: 0.01em;
+  --text-label-lg--font-weight: 600;
+  --text-label-md: 0.75rem;
+  --text-label-md--line-height: 1rem;
+  --text-label-md--letter-spacing: 0.02em;
+  --text-label-md--font-weight: 600;
+  --text-stat-counter: 2.75rem;
+  --text-stat-counter--line-height: 3rem;
+  --text-stat-counter--letter-spacing: -0.02em;
+  --text-stat-counter--font-weight: 800;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--surface);
+  color: var(--on-surface);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+::selection {
+  background: var(--secondary-fixed);
+  color: var(--on-secondary-fixed);
+}
+
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  line-height: 1;
+  user-select: none;
+}
+
+.shell {
+  @apply mx-auto w-full max-w-[1240px] px-gutter;
+}
+
+.btn-primary {
+  @apply inline-flex items-center justify-center gap-space-xs rounded-full bg-secondary-container px-space-lg py-3 text-label-lg font-semibold text-on-secondary shadow-[0_4px_12px_rgba(253,101,30,0.25)] transition-all hover:bg-secondary;
+}
+
+.btn-secondary {
+  @apply inline-flex items-center justify-center gap-space-xs rounded-full bg-surface-container px-space-lg py-3 text-label-lg font-semibold text-primary transition-colors hover:bg-surface-container-high;
+}
+
+.btn-navy {
+  @apply inline-flex items-center justify-center gap-space-xs rounded-full bg-primary px-space-lg py-3 text-label-lg font-bold text-on-primary transition-colors hover:bg-primary-container;
+}
+
+.input-field {
+  @apply h-12 w-full rounded-lg border border-outline-variant/40 bg-surface-container-lowest px-4 text-on-surface shadow-sm outline-none transition focus:ring-2 focus:ring-primary;
+}
+
+.section-badge {
+  @apply mb-space-xs inline-flex items-center rounded-full bg-surface-container-high px-space-md py-1 text-label-md font-bold uppercase tracking-wider text-primary;
 }
