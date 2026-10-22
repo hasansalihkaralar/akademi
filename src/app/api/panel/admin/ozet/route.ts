@@ -11,7 +11,7 @@ export async function GET() {
     prisma.studentProfile.count({ where: { advisorId: null } }),
     prisma.user.count({ where: { role: "danisman" } }),
     prisma.consultationRequest.count({ where: { status: "yeni" } }),
-    prisma.contactMessage.count(),
+    prisma.contactMessage.count({ where: { read: false } }),
   ]);
 
   return NextResponse.json({ students, unassigned, advisors, requests, messages });

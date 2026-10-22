@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Icon } from "@/components/Icon";
+import { groupWeekTasks, WeekNav } from "@/components/panel/WeekNav";
+import { PROGRAM_DAYS, weekStartIso } from "@/lib/meeting-date";
 
 type Detail = {
   id: string;
@@ -16,22 +18,26 @@ type Detail = {
   lastNet: number;
   completion: number;
   parent: { name: string; phone: string | null; email: string } | null;
-  tasks: { id: string; day: string; subject: string; title: string; duration: string; done: boolean }[];
+  tasks: { id: string; weekStart: string; day: string; subject: string; title: string; duration: string; videoUrl: string | null; done: boolean; sortOrder: number }[];
+  dayNotes: { id: string; weekStart: string; day: string; body: string }[];
   trials: { id: string; name: string; dateLabel: string; tyt: number; ayt: number; delta: string }[];
   meetings: { id: string; title: string; dateLabel: string; time: string; type: string; status: string; note: string | null; meetUrl: string | null }[];
   notes: { id: string; body: string; author: string; createdAt: string }[];
 };
 
 export default function AdvisorStudentDetailPage() {
-  const days = ["Pzt", "Sal", "Çar", "Per", "Cum", "Cmt", "Paz"] as const;
   const params = useParams<{ id: string }>();
   const [student, setStudent] = useState<Detail | null>(null);
   const [error, setError] = useState("");
-  const [day, setDay] = useState<(typeof days)[number]>("Pzt");
+  const [week, setWeek] = useState(() => weekStartIso());
+  const [day, setDay] = useState<(typeof PROGRAM_DAYS)[number]>("Pzt");
   const [subject, setSubject] = useState("");
   const [title, setTitle] = useState("");
   const [duration, setDuration] = useState("60 dk");
+  const [videoUrl, setVideoUrl] = useState("");
   const [saving, setSaving] = useState(false);
+  const [noteDrafts, setNoteDrafts] = useState<Record<string, string>>({});
+  const [savingNote, setSavingNote] = useState("");
   const [meetingTitle, setMeetingTitle] = useState("Haftalık birebir seans");
   const [meetingDate, setMeetingDate] = useState("");
   const [meetingTime, setMeetingTime] = useState("19:00");
@@ -46,7 +52,7 @@ export default function AdvisorStudentDetailPage() {
     const response = await fetch(`/api/panel/danisman/ogrenciler/${student.id}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ day, subject, title, duration }),
+      body: JSON.stringify({ weekStart: week, day, subject, title, duration, videoUrl }),
     });
     const data = (await response.json().catch(() => null)) as Detail["tasks"][number] | { error?: string } | null;
     setSaving(false);
@@ -57,11 +63,55 @@ export default function AdvisorStudentDetailPage() {
     setStudent((prev) => {
       if (!prev) return prev;
       const tasks = [...prev.tasks, data];
-      const done = tasks.filter((task) => task.done).length;
-      return { ...prev, tasks, completion: Math.round((done / tasks.length) * 100) };
+      const current = weekStartIso();
+      const thisWeek = tasks.filter((task) => task.weekStart === current || task.weekStart === "");
+      const done = thisWeek.filter((task) => task.done).length;
+      return { ...prev, tasks, completion: thisWeek.length ? Math.round((done / thisWeek.length) * 100) : 0 };
     });
     setTitle("");
     setSubject("");
+    setVideoUrl("");
+  }
+
+  function noteKey(dayName: string) {
+    return `${week}:${dayName}`;
+  }
+
+  function noteValue(dayName: string) {
+    const key = noteKey(dayName);
+    if (key in noteDrafts) return noteDrafts[key];
+    return student?.dayNotes?.find((note) => note.weekStart === week && note.day === dayName)?.body ?? "";
+  }
+
+  async function saveNote(dayName: string) {
+    if (!student) return;
+    const body = noteValue(dayName).trim();
+    setSavingNote(dayName);
+    setError("");
+    const response = await fetch(`/api/panel/danisman/ogrenciler/${student.id}/gun-notu`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ weekStart: week, day: dayName, body }),
+    });
+    const data = (await response.json().catch(() => null)) as { id?: string; weekStart: string; day: string; body: string; error?: string } | null;
+    setSavingNote("");
+    if (!response.ok || !data || !("day" in data)) {
+      setError(data && "error" in data && data.error ? data.error : "Not kaydedilemedi.");
+      return;
+    }
+    setStudent((prev) => {
+      if (!prev) return prev;
+      const dayNotes = (prev.dayNotes ?? []).filter((note) => !(note.weekStart === data.weekStart && note.day === data.day));
+      if (data.body) {
+        dayNotes.push({ id: data.id ?? `${data.weekStart}-${data.day}`, weekStart: data.weekStart, day: data.day, body: data.body });
+      }
+      return { ...prev, dayNotes };
+    });
+    setNoteDrafts((prev) => {
+      const next = { ...prev };
+      delete next[noteKey(dayName)];
+      return next;
+    });
   }
 
   function putMeeting(meeting: Detail["meetings"][number]) {
@@ -158,13 +208,19 @@ export default function AdvisorStudentDetailPage() {
               </div>
               <div className="text-right">
                 <p className="text-stat-counter text-primary">%{student.completion}</p>
-                <p className="text-label-md text-on-surface-variant">görev tamamlama · son net {student.lastNet}</p>
+                <p className="text-label-md text-on-surface-variant">bu haftanın görevleri · son net {student.lastNet}</p>
               </div>
             </div>
           </div>
 
           <section className="rounded-xl bg-surface-container-lowest p-space-lg shadow-sm">
-            <h3 className="mb-space-md text-title-lg font-bold text-on-surface">Görevler</h3>
+            <div className="mb-space-md flex flex-wrap items-end justify-between gap-space-md">
+              <div>
+                <h3 className="text-title-lg font-bold text-on-surface">Haftalık program</h3>
+                <p className="mt-1 text-body-sm text-on-surface-variant">Görev, açık olan haftaya yazılır.</p>
+              </div>
+              <WeekNav week={week} onChange={setWeek} />
+            </div>
             <form
               className="mb-space-md grid gap-space-sm sm:grid-cols-2 lg:grid-cols-[7rem_1fr_1.4fr_7rem_auto]"
               onSubmit={(event) => {
@@ -174,8 +230,8 @@ export default function AdvisorStudentDetailPage() {
             >
               <label className="text-label-md font-semibold text-on-surface">
                 Gün
-                <select className="input-field mt-1" value={day} onChange={(event) => setDay(event.target.value as (typeof days)[number])}>
-                  {days.map((item) => (
+                <select className="input-field mt-1" value={day} onChange={(event) => setDay(event.target.value as (typeof PROGRAM_DAYS)[number])}>
+                  {PROGRAM_DAYS.map((item) => (
                     <option key={item} value={item}>{item}</option>
                   ))}
                 </select>
@@ -192,24 +248,62 @@ export default function AdvisorStudentDetailPage() {
                 Süre
                 <input className="input-field mt-1" value={duration} onChange={(event) => setDuration(event.target.value)} placeholder="60 dk" />
               </label>
+              <label className="text-label-md font-semibold text-on-surface sm:col-span-2 lg:col-span-4">
+                Video linki
+                <input className="input-field mt-1" value={videoUrl} onChange={(event) => setVideoUrl(event.target.value)} placeholder="https://... isteğe bağlı" />
+              </label>
               <button type="submit" className="btn-primary self-end" disabled={saving}>
                 <Icon name="add" className="text-[18px]" />
                 {saving ? "Kaydediliyor…" : "Görevi yaz"}
               </button>
             </form>
-            <div className="space-y-space-sm">
-              {student.tasks.length === 0 ? <p className="text-body-sm text-on-surface-variant">Görev yok.</p> : null}
-              {student.tasks.map((task) => (
-                <div key={task.id} className="flex items-center gap-space-md rounded-lg bg-surface-container-low px-space-md py-space-sm">
-                  <span className={`grid h-8 w-8 place-items-center rounded-full text-label-md font-bold ${task.done ? "bg-primary text-on-primary" : "bg-surface-container-highest text-primary"}`}>
-                    {task.done ? "✓" : task.day}
-                  </span>
-                  <div>
-                    <p className="font-semibold text-on-surface">{task.title}</p>
-                    <p className="text-body-sm text-on-surface-variant">{task.subject} · {task.duration}</p>
+            <div className="space-y-space-md">
+              {PROGRAM_DAYS.map((dayName) => {
+                const items = groupWeekTasks(student.tasks, week).find((group) => group.day === dayName)?.items ?? [];
+                return (
+                  <div key={dayName} className="space-y-space-sm rounded-lg bg-surface-container-low p-space-md">
+                    <h4 className="text-label-md font-bold text-primary">{dayName}</h4>
+                    {items.length === 0 ? <p className="text-body-sm text-on-surface-variant">Bu güne görev yazılmamış.</p> : null}
+                    {items.map((task) => (
+                      <div key={task.id} className="flex items-center gap-space-md rounded-lg bg-surface-container-lowest px-space-md py-space-sm">
+                        <span className={`grid h-8 w-8 place-items-center rounded-full text-label-md font-bold ${task.done ? "bg-primary text-on-primary" : "bg-surface-container-highest text-primary"}`}>
+                          {task.done ? "✓" : task.day}
+                        </span>
+                        <div className="min-w-0 flex-1">
+                          <p className="font-semibold text-on-surface">{task.title}</p>
+                          <p className="text-body-sm text-on-surface-variant">{task.subject} · {task.duration}</p>
+                          {task.videoUrl ? (
+                            <a href={task.videoUrl} target="_blank" rel="noreferrer" className="mt-1 inline-flex items-center gap-1 text-label-md font-semibold text-primary">
+                              <Icon name="play_circle" className="text-[16px]" />
+                              Videoyu aç
+                            </a>
+                          ) : null}
+                        </div>
+                      </div>
+                    ))}
+                    <form
+                      className="flex flex-col gap-space-sm sm:flex-row sm:items-end"
+                      onSubmit={(event) => {
+                        event.preventDefault();
+                        void saveNote(dayName);
+                      }}
+                    >
+                      <label className="block min-w-0 flex-1 text-label-md font-semibold text-on-surface">
+                        Öğrenciye not
+                        <textarea
+                          className="input-field mt-1 min-h-16"
+                          value={noteValue(dayName)}
+                          onChange={(event) => setNoteDrafts((prev) => ({ ...prev, [noteKey(dayName)]: event.target.value }))}
+                          placeholder="İsteğe bağlı"
+                        />
+                      </label>
+                      <button type="submit" className="btn-secondary" disabled={savingNote === dayName}>
+                        {savingNote === dayName ? "Kaydediliyor…" : "Notu kaydet"}
+                      </button>
+                    </form>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </section>
 

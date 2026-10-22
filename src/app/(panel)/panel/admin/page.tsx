@@ -46,7 +46,7 @@ export default function AdminHomePage() {
         ["Danışmanı olmayan", String(summary.unassigned), "person_off", "/panel/admin/ogrenciler"],
         ["Danışman", String(summary.advisors), "psychology", "/panel/admin/danismanlar"],
         ["Yeni talep", String(summary.requests), "inbox", "/panel/admin/talepler"],
-        ["İletişim mesajı", String(summary.messages), "mail", "/panel/admin/mesajlar"],
+        ["Okunmamış mesaj", String(summary.messages), "mail", "/panel/admin/mesajlar"],
       ]
     : [];
 
@@ -87,6 +87,24 @@ export default function AdminHomePage() {
           </Link>
         ))}
       </div>
+      <section className="rounded-xl bg-surface-container-lowest p-space-lg shadow-sm">
+        <h3 className="text-title-lg font-bold text-on-surface">Site içeriği</h3>
+        <p className="mt-1 text-body-sm text-on-surface-variant">
+          Logo, menü, ana sayfa sliderı ve görseller soldaki Site içeriği menüsünden yönetilir.
+        </p>
+        <div className="mt-space-md flex flex-wrap gap-2">
+          {[
+            ["/panel/admin/icerik/logo", "Logo"],
+            ["/panel/admin/icerik/menu", "Menü"],
+            ["/panel/admin/icerik/slider", "Slider"],
+            ["/panel/admin/icerik/gorseller", "Görseller"],
+          ].map(([href, label]) => (
+            <Link key={href} href={href} className="rounded-full bg-primary-fixed px-4 py-2 text-label-md font-semibold text-primary">
+              {label}
+            </Link>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }

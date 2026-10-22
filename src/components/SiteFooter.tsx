@@ -1,16 +1,17 @@
 import Link from "next/link";
 import { brand } from "@/lib/content";
+import { defaultBrand, type SiteBrand } from "@/lib/site-defaults";
 import { Icon } from "./Icon";
 import { Logo } from "./Logo";
 
-export function SiteFooter() {
+export function SiteFooter({ siteBrand = defaultBrand }: { siteBrand?: SiteBrand }) {
   return (
     <footer className="w-full bg-surface-container-low pb-space-lg pt-space-2xl shadow-[0_1px_8px_rgba(0,0,0,0.02)]">
       <div className="shell">
         <div className="mb-space-2xl grid grid-cols-1 gap-space-xl md:grid-cols-2 lg:grid-cols-4">
           <div className="flex flex-col">
             <div className="mb-space-md">
-              <Logo />
+              <Logo brand={siteBrand} />
             </div>
             <p className="mb-space-md text-body-sm leading-relaxed text-on-surface-variant">
               Türkiye&apos;nin en seçkin üniversite ve nitelikli liselerine hazırlanan

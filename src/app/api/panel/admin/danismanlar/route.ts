@@ -17,7 +17,16 @@ export async function GET() {
       email: true,
       phone: true,
       title: true,
-      _count: { select: { advised: true } },
+      advised: {
+        orderBy: { user: { name: "asc" } },
+        select: {
+          id: true,
+          grade: true,
+          program: true,
+          lastNet: true,
+          user: { select: { name: true, email: true, phone: true } },
+        },
+      },
     },
   });
 
@@ -28,7 +37,16 @@ export async function GET() {
       email: advisor.email,
       phone: advisor.phone,
       title: advisor.title,
-      studentCount: advisor._count.advised,
+      studentCount: advisor.advised.length,
+      students: advisor.advised.map((student) => ({
+        id: student.id,
+        name: student.user.name,
+        email: student.user.email,
+        phone: student.user.phone,
+        grade: student.grade,
+        program: student.program,
+        lastNet: student.lastNet,
+      })),
     })),
   });
 }
@@ -61,5 +79,5 @@ export async function POST(request: Request) {
     select: { id: true, name: true, email: true, phone: true, title: true },
   });
 
-  return NextResponse.json({ ...advisor, studentCount: 0 }, { status: 201 });
+  return NextResponse.json({ ...advisor, studentCount: 0, students: [] }, { status: 201 });
 }

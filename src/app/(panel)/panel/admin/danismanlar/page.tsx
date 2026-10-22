@@ -2,6 +2,16 @@
 
 import { useEffect, useState } from "react";
 
+type AdvisorStudent = {
+  id: string;
+  name: string;
+  email: string;
+  phone: string | null;
+  grade: string;
+  program: string;
+  lastNet: number;
+};
+
 type Advisor = {
   id: string;
   name: string;
@@ -9,6 +19,7 @@ type Advisor = {
   phone: string | null;
   title: string | null;
   studentCount: number;
+  students: AdvisorStudent[];
 };
 
 export default function AdminAdvisorsPage() {
@@ -18,6 +29,7 @@ export default function AdminAdvisorsPage() {
   const [password, setPassword] = useState("");
   const [title, setTitle] = useState("");
   const [error, setError] = useState("");
+  const [openId, setOpenId] = useState<string | null>(null);
 
   useEffect(() => {
     fetch("/api/panel/admin/danismanlar")
@@ -57,7 +69,7 @@ export default function AdminAdvisorsPage() {
       <div>
         <h2 className="text-headline-sm text-on-surface">Danışmanlar</h2>
         <p className="mt-1 text-body-sm text-on-surface-variant">
-          Yeni danışman hesabı aç. Öğrenci ataması Öğrenciler ekranından yapılır.
+          Yeni danışman hesabı aç. Eklenen kişi Koçlarımız sayfasında ve ana sayfadaki mentör kadrosunda görünür.
         </p>
       </div>
       {error ? <p className="text-body-sm text-error">{error}</p> : null}
@@ -99,18 +111,46 @@ export default function AdminAdvisorsPage() {
       </form>
       <div className="space-y-space-sm">
         {advisors.map((advisor) => (
-          <div
+          <article
             key={advisor.id}
-            className="flex flex-wrap items-center justify-between gap-space-sm rounded-xl bg-surface-container-lowest px-space-md py-space-md shadow-sm"
+            className="rounded-xl bg-surface-container-lowest px-space-md py-space-md shadow-sm"
           >
-            <div>
-              <p className="font-semibold text-on-surface">{advisor.name}</p>
-              <p className="text-body-sm text-on-surface-variant">
-                {advisor.title || "Danışman"} · {advisor.email}
-              </p>
+            <div className="flex flex-wrap items-center justify-between gap-space-sm">
+              <div>
+                <p className="font-semibold text-on-surface">{advisor.name}</p>
+                <p className="text-body-sm text-on-surface-variant">
+                  {advisor.title || "Danışman"} · {advisor.email}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setOpenId((current) => (current === advisor.id ? null : advisor.id))}
+                aria-expanded={openId === advisor.id}
+                className="text-label-lg font-bold text-primary underline-offset-2 hover:underline"
+              >
+                {advisor.studentCount} öğrenci
+              </button>
             </div>
-            <p className="text-label-lg font-bold text-primary">{advisor.studentCount} öğrenci</p>
-          </div>
+            {openId === advisor.id ? (
+              advisor.students.length === 0 ? (
+                <p className="mt-space-sm text-body-sm text-on-surface-variant">Bağlı öğrenci yok.</p>
+              ) : (
+                <ul className="mt-space-sm divide-y divide-outline-variant/40 rounded-lg bg-surface-container-low">
+                  {advisor.students.map((student) => (
+                    <li key={student.id} className="px-space-md py-2">
+                      <p className="font-semibold text-on-surface">{student.name}</p>
+                      <p className="text-body-sm text-on-surface-variant">
+                        {student.grade} · {student.program}
+                        {student.phone ? ` · ${student.phone}` : ""}
+                        {student.email ? ` · ${student.email}` : ""}
+                        {` · son net ${student.lastNet}`}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              )
+            ) : null}
+          </article>
         ))}
       </div>
     </div>

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { weekStartIso } from "@/lib/meeting-date";
 import { getSessionUser } from "@/lib/session";
 
 export async function GET() {
@@ -13,7 +14,7 @@ export async function GET() {
     orderBy: { user: { name: "asc" } },
     include: {
       user: { select: { name: true, email: true, phone: true } },
-      tasks: { select: { done: true } },
+      tasks: { select: { done: true, weekStart: true } },
       meetings: {
         where: { status: { in: ["upcoming", "requested"] } },
         select: { status: true, dateLabel: true, time: true },
@@ -23,8 +24,10 @@ export async function GET() {
 
   return NextResponse.json({
     students: students.map((student) => {
-      const done = student.tasks.filter((task) => task.done).length;
-      const completion = student.tasks.length ? Math.round((done / student.tasks.length) * 100) : 0;
+      const currentWeek = weekStartIso();
+      const thisWeek = student.tasks.filter((task) => task.weekStart === currentWeek || task.weekStart === "");
+      const done = thisWeek.filter((task) => task.done).length;
+      const completion = thisWeek.length ? Math.round((done / thisWeek.length) * 100) : 0;
       const next = student.meetings.find((meeting) => meeting.status === "upcoming");
       const requests = student.meetings.filter((meeting) => meeting.status === "requested").length;
       return {

@@ -178,61 +178,6 @@ export const packages: CoachingPackage[] = [
   },
 ];
 
-export const coaches = [
-  {
-    slug: "mert-yilmaz",
-    name: "Mert Yılmaz",
-    title: "YKS Sayısal Mentörü",
-    expertise: "TYT–AYT planlama, deneme karakutusu",
-    experience: "YKS Türkiye 47.'si · 4 yıl mentörlük",
-    group: "11. sınıf, 12. sınıf ve mezun sayısal",
-    bio: "Tıp fakültesi öğrencisi. Net artışını konu matrisi ve deneme kök neden analiziyle yönetir.",
-    initials: "MY",
-    degree: "YKS TR 47",
-    uni: "İTÜ",
-    tone: "from-primary to-primary-container",
-  },
-  {
-    slug: "zeynep-kaya",
-    name: "Zeynep Kaya",
-    title: "PDR Uzmanı · YKS EA",
-    expertise: "Eşit ağırlık, kaygı yönetimi",
-    experience: "8 yıl PDR · 900+ öğrenci",
-    group: "YKS eşit ağırlık ve sözel",
-    bio: "Psikolojik danışmanlık kökenli. Programı öğrencinin gerçek ritmine göre kurar, veliyle şeffaf iletişim kurar.",
-    initials: "ZK",
-    degree: "PDR",
-    uni: "Boğaziçi",
-    tone: "from-secondary to-secondary-container",
-  },
-  {
-    slug: "elif-demir",
-    name: "Elif Demir",
-    title: "LGS Yeni Nesil Koçu",
-    expertise: "Yeni nesil soru, veli iş birliği",
-    experience: "7 yıl LGS koçluğu",
-    group: "7. ve 8. sınıf LGS",
-    bio: "Okul ödevi ile LGS hazırlığını çarpıştırmadan yürütür. Dijital disiplin ve paragraf okuryazarlığı odaklı çalışır.",
-    initials: "ED",
-    degree: "LGS %0.1",
-    uni: "Hacettepe",
-    tone: "from-primary-container to-primary",
-  },
-  {
-    slug: "ahmet-ozkan",
-    name: "Ahmet Özkan",
-    title: "Rehber Öğretmen · YKS/LGS",
-    expertise: "Motivasyon, günlük disiplin",
-    experience: "10 yıl rehberlik ve koçluk",
-    group: "Disiplin kurmakta zorlanan öğrenciler",
-    bio: "Günlük takip sistemini öğrencinin hayatına uyarlar. Kopuşları erken yakalar, programı onararak ilerletir.",
-    initials: "AÖ",
-    degree: "Rehberlik",
-    uni: "ODTÜ",
-    tone: "from-on-surface to-primary",
-  },
-];
-
 export const faqs = [
   {
     q: "Koçluk sistemi nasıl çalışıyor?",

@@ -49,7 +49,7 @@ export default function AdvisorStudentsPage() {
             <tr>
               <th className="px-space-md py-space-md font-semibold">Öğrenci</th>
               <th className="px-space-md py-space-md font-semibold">Program</th>
-              <th className="px-space-md py-space-md font-semibold">Tamamlama</th>
+              <th className="px-space-md py-space-md font-semibold">Bu hafta</th>
               <th className="px-space-md py-space-md font-semibold">Son Net</th>
               <th className="px-space-md py-space-md font-semibold">Risk</th>
               <th className="px-space-md py-space-md font-semibold">Sonraki Seans</th>

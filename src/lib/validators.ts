@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { isMondayIso, PROGRAM_DAYS } from "@/lib/meeting-date";
 
 export const loginSchema = z.object({
   email: z.string().trim().email("Geçerli bir e-posta gir."),
@@ -37,11 +38,32 @@ export const taskToggleSchema = z.object({
   done: z.boolean(),
 });
 
+export function normalizeVideoUrl(value: string) {
+  const trimmed = value.trim();
+  if (!trimmed) return "";
+  const withProtocol = /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
+  try {
+    const url = new URL(withProtocol);
+    if (url.protocol !== "http:" && url.protocol !== "https:") return null;
+    return url.toString();
+  } catch {
+    return null;
+  }
+}
+
+export const dayNoteSchema = z.object({
+  weekStart: z.string().refine(isMondayIso, "Hafta bir pazartesi günü olmalı."),
+  day: z.enum(PROGRAM_DAYS),
+  body: z.string().trim().max(1000),
+});
+
 export const createTaskSchema = z.object({
+  weekStart: z.string().refine(isMondayIso, "Hafta bir pazartesi günü olmalı."),
   day: z.enum(["Pzt", "Sal", "Çar", "Per", "Cum", "Cmt", "Paz"]),
   subject: z.string().trim().min(2).max(80),
   title: z.string().trim().min(2).max(200),
   duration: z.string().trim().min(1).max(40),
+  videoUrl: z.string().trim().max(500).optional().or(z.literal("")),
 });
 
 const meetingDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
@@ -87,4 +109,37 @@ export const enrollSchema = z.object({
   requestId: z.string().min(1),
   advisorId: z.string().min(1).nullable(),
   password: z.string().min(4).max(80),
+});
+
+export function safeHref(value: string) {
+  const href = value.trim();
+  if (href.startsWith("/") && !href.startsWith("//") && !href.includes("\\")) return href;
+  try {
+    const url = new URL(href);
+    if (url.protocol === "https:" || url.protocol === "http:") return href;
+  } catch {
+    return null;
+  }
+  return null;
+}
+
+export const brandSchema = z.object({
+  name: z.string().trim().min(2).max(80),
+  tagline: z.string().trim().min(2).max(80),
+  logoUrl: z.string().trim().min(1).max(500),
+});
+
+export const navLinkSchema = z.object({
+  label: z.string().trim().min(1).max(60),
+  href: z.string().trim().min(1).max(200),
+  visible: z.boolean().optional(),
+});
+
+export const slideSchema = z.object({
+  title: z.string().trim().min(1).max(120),
+  subtitle: z.string().trim().max(300).optional().or(z.literal("")),
+  imageUrl: z.string().trim().min(1).max(500),
+  buttonLabel: z.string().trim().max(40).optional().or(z.literal("")),
+  buttonHref: z.string().trim().max(200).optional().or(z.literal("")),
+  visible: z.boolean().optional(),
 });

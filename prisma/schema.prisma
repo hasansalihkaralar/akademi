@@ -41,16 +41,30 @@ model StudentProfile {
   trials   Trial[]
   meetings Meeting[]
   notes    SessionNote[]
+  dayNotes DayNote[]
+}
+
+model DayNote {
+  id        String         @id @default(cuid())
+  studentId String
+  student   StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  weekStart String
+  day       String
+  body      String
+
+  @@unique([studentId, weekStart, day])
 }
 
 model Task {
   id        String         @id @default(cuid())
   studentId String
   student   StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  weekStart String         @default("")
   day       String
   subject   String
   title     String
   duration  String
+  videoUrl  String?
   done      Boolean        @default(false)
   sortOrder Int            @default(0)
 }
@@ -121,5 +135,38 @@ model ContactMessage {
   exam          String?
   applicantRole String?
   message       String
+  read          Boolean  @default(false)
   createdAt     DateTime @default(now())
+}
+
+model SiteSetting {
+  key   String @id
+  value String
+}
+
+model NavLink {
+  id        String  @id @default(cuid())
+  label     String
+  href      String
+  sortOrder Int     @default(0)
+  visible   Boolean @default(true)
+}
+
+model Slide {
+  id          String  @id @default(cuid())
+  title       String
+  subtitle    String  @default("")
+  imageUrl    String
+  buttonLabel String  @default("")
+  buttonHref  String  @default("")
+  sortOrder   Int     @default(0)
+  visible     Boolean @default(true)
+}
+
+model MediaAsset {
+  id        String   @id @default(cuid())
+  url       String
+  filename  String
+  alt       String   @default("")
+  createdAt DateTime @default(now())
 }

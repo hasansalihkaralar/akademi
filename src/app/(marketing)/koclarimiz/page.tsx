@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { CoachCard } from "@/components/CoachCard";
-import { coaches } from "@/lib/content";
+import { listPublicAdvisors } from "@/lib/advisors";
 
 export const metadata: Metadata = { title: "Koçlarımız" };
 
-export default function CoachesPage() {
+export default async function CoachesPage() {
+  const advisors = await listPublicAdvisors();
   return (
     <div className="w-full">
       <section className="bg-gradient-to-b from-surface-container-low to-surface py-space-2xl">
@@ -22,7 +23,7 @@ export default function CoachesPage() {
           </p>
           <div className="mt-space-lg grid grid-cols-2 gap-space-sm md:grid-cols-4">
             {[
-              ["4+", "Aktif Mentör"],
+              [String(advisors.length), "Aktif Mentör"],
               ["%98", "Memnuniyet"],
               ["PDR", "Süpervizyon"],
               ["7/24", "Panel Takibi"],
@@ -40,9 +41,11 @@ export default function CoachesPage() {
       </section>
       <section className="shell pb-space-2xl">
         <div className="grid gap-space-lg md:grid-cols-2 lg:grid-cols-4">
-          {coaches.map((coach) => (
-            <CoachCard key={coach.slug} coach={coach} />
-          ))}
+          {advisors.length === 0 ? (
+            <p className="text-body-md text-on-surface-variant">Kadrodaki mentörler burada listelenecek.</p>
+          ) : (
+            advisors.map((coach) => <CoachCard key={coach.id} coach={coach} />)
+          )}
         </div>
       </section>
     </div>

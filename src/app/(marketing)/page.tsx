@@ -1,8 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
 import { FaqList } from "@/components/FaqList";
+import { HomeSlider } from "@/components/HomeSlider";
 import { Icon } from "@/components/Icon";
-import { brand, coaches, faqs } from "@/lib/content";
+import { CoachCard } from "@/components/CoachCard";
+import { listPublicAdvisors } from "@/lib/advisors";
+import { brand, faqs } from "@/lib/content";
+import { getSiteContent } from "@/lib/site-content";
 
 const steps = [
   {
@@ -31,9 +35,11 @@ const steps = [
   },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const [site, advisors] = await Promise.all([getSiteContent(), listPublicAdvisors()]);
   return (
     <div className="flex w-full flex-col">
+      <HomeSlider slides={site.slides} />
       {/* HERO */}
       <section className="relative w-full overflow-hidden bg-gradient-to-b from-surface-container-low via-surface to-surface pb-space-2xl pt-space-xl">
         <div className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-primary/5 blur-3xl" />
@@ -311,41 +317,8 @@ export default function HomePage() {
             </Link>
           </div>
           <div className="grid grid-cols-1 gap-space-lg sm:grid-cols-2 lg:grid-cols-4">
-            {coaches.map((coach) => (
-              <article
-                key={coach.slug}
-                className="group flex flex-col overflow-hidden rounded-xl bg-surface-container-lowest shadow-sm transition-all duration-200 hover:shadow-xl"
-              >
-                <div
-                  className={`relative flex h-48 items-end justify-center bg-gradient-to-br ${coach.tone} pb-6`}
-                >
-                  <span className="text-5xl font-extrabold text-white/90">{coach.initials}</span>
-                  <div className="absolute left-3 top-3 rounded-full bg-primary px-space-sm py-1 text-label-md font-bold text-on-primary shadow-sm">
-                    {coach.degree}
-                  </div>
-                </div>
-                <div className="flex flex-grow flex-col p-space-lg">
-                  <h3 className="text-title-lg font-bold text-on-surface">{coach.name}</h3>
-                  <p className="mb-space-sm text-body-sm font-semibold text-primary">{coach.title}</p>
-                  <div className="mb-space-md flex flex-wrap gap-1">
-                    <span className="rounded bg-surface-container px-2 py-0.5 text-label-md text-on-surface-variant">
-                      {coach.uni}
-                    </span>
-                    <span className="rounded bg-surface-container px-2 py-0.5 text-label-md text-on-surface-variant">
-                      {coach.expertise.split(",")[0]}
-                    </span>
-                  </div>
-                  <p className="mb-space-lg line-clamp-2 text-body-sm text-on-surface-variant">
-                    {coach.bio}
-                  </p>
-                  <Link
-                    href="/on-gorusme"
-                    className="mt-auto w-full rounded-lg bg-surface-container py-2.5 text-center text-label-md font-bold text-primary transition-colors hover:bg-primary hover:text-on-primary"
-                  >
-                    Detaylı Profil & Ön Görüşme
-                  </Link>
-                </div>
-              </article>
+            {advisors.map((coach) => (
+              <CoachCard key={coach.id} coach={coach} />
             ))}
           </div>
         </div>

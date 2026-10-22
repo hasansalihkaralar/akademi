@@ -4,20 +4,17 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { brand } from "@/lib/content";
+import { defaultBrand, defaultMenu, type SiteBrand, type SiteMenuItem } from "@/lib/site-defaults";
 import { Icon } from "./Icon";
 import { Logo } from "./Logo";
 
-const links = [
-  { href: "/", label: "Ana Sayfa" },
-  { href: "/kocluk", label: "YKS & LGS Koçluğu" },
-  { href: "/paketler", label: "Paketler & Fiyatlar" },
-  { href: "/koclarimiz", label: "Koçlarımız" },
-  { href: "/biz-kimiz", label: "Biz Kimiz?" },
-  { href: "/sss", label: "S.S.S." },
-  { href: "/iletisim", label: "İletişim" },
-];
-
-export function SiteHeader() {
+export function SiteHeader({
+  menu = defaultMenu,
+  siteBrand = defaultBrand,
+}: {
+  menu?: SiteMenuItem[];
+  siteBrand?: SiteBrand;
+}) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
@@ -37,14 +34,14 @@ export function SiteHeader() {
   return (
     <header className="fixed top-0 z-50 w-full bg-surface/95 shadow-[0_1px_8px_rgba(0,0,0,0.04)] backdrop-blur-xl">
       <div className="mx-auto flex h-16 w-full max-w-[1600px] items-center justify-between gap-3 px-4 sm:px-6 md:h-20">
-        <Logo compact />
+        <Logo compact brand={siteBrand} />
 
         <nav className="hidden min-w-0 flex-1 items-center justify-center gap-4 overflow-x-auto 2xl:flex">
-          {links.map((link) => {
+          {menu.map((link) => {
             const active = pathname === link.href;
             return (
               <Link
-                key={link.href}
+                key={link.id}
                 href={link.href}
                 className={`whitespace-nowrap text-[13px] transition-colors ${
                   active
@@ -117,11 +114,11 @@ export function SiteHeader() {
           />
           <div className="absolute left-0 right-0 top-full z-50 max-h-[min(80vh,640px)] overflow-y-auto border-t border-outline-variant/30 bg-surface shadow-lg 2xl:hidden">
             <nav className="shell flex flex-col gap-1 py-space-md">
-              {links.map((link) => {
+              {menu.map((link) => {
                 const active = pathname === link.href;
                 return (
                   <Link
-                    key={link.href}
+                    key={link.id}
                     href={link.href}
                     onClick={() => setOpen(false)}
                     className={`rounded-lg px-space-md py-3 text-title-md transition ${

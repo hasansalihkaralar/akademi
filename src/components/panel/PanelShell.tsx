@@ -6,22 +6,32 @@ import { Icon } from "@/components/Icon";
 import { Logo } from "@/components/Logo";
 
 type NavItem = { href: string; label: string; icon: string };
+type NavGroup = { label: string; items: NavItem[] };
 
 export function PanelShell({
   role,
   name,
   subtitle,
-  nav,
+  nav = [],
+  groups,
   children,
 }: {
   role: "ogrenci" | "danisman" | "veli" | "admin";
   name: string;
   subtitle: string;
-  nav: NavItem[];
+  nav?: NavItem[];
+  groups?: NavGroup[];
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
   const router = useRouter();
+  const sections = groups?.length ? groups : [{ label: "", items: nav }];
+
+  function itemClass(active: boolean) {
+    return `flex items-center gap-space-sm rounded-lg px-space-md py-2.5 text-label-lg transition ${
+      active ? "bg-primary font-bold text-on-primary" : "text-on-surface-variant hover:bg-surface-container hover:text-on-surface"
+    }`;
+  }
 
   async function logout() {
     await fetch("/api/auth/logout", { method: "POST" });
@@ -36,24 +46,25 @@ export function PanelShell({
           <Logo />
         </div>
 
-        <nav className="flex flex-1 flex-col gap-1">
-          {nav.map((item) => {
-            const active = pathname === item.href;
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`flex items-center gap-space-sm rounded-lg px-space-md py-2.5 text-label-lg transition ${
-                  active
-                    ? "bg-primary font-bold text-on-primary"
-                    : "text-on-surface-variant hover:bg-surface-container hover:text-on-surface"
-                }`}
-              >
-                <Icon name={item.icon} className="text-[20px]" />
-                {item.label}
-              </Link>
-            );
-          })}
+        <nav className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto">
+          {sections.map((group) => (
+            <div key={group.label || "menu"} className="flex flex-col gap-1">
+              {group.label ? (
+                <p className="px-space-md pb-1 pt-space-md text-label-md font-bold uppercase tracking-wider text-secondary">
+                  {group.label}
+                </p>
+              ) : null}
+              {group.items.map((item) => {
+                const active = pathname === item.href;
+                return (
+                  <Link key={item.href} href={item.href} className={itemClass(active)}>
+                    <Icon name={item.icon} className="text-[20px]" />
+                    {item.label}
+                  </Link>
+                );
+              })}
+            </div>
+          ))}
         </nav>
 
         <button
@@ -70,9 +81,9 @@ export function PanelShell({
         <header className="sticky top-0 z-30 border-b border-outline-variant/30 bg-surface-container-lowest/95 px-space-md py-space-md backdrop-blur lg:px-space-xl">
           <div className="flex items-start justify-between gap-space-md">
             <div className="flex min-w-0 items-start gap-space-sm">
-              <Link href="/" className="mt-0.5 shrink-0 lg:hidden" aria-label="Amfi Koçluk ana sayfa">
-                <img src="/logo.png" alt="" className="h-9 w-9 object-contain" />
-              </Link>
+              <div className="mt-0.5 lg:hidden">
+                <Logo markOnly />
+              </div>
               <div className="min-w-0">
               <p className="text-label-md font-bold uppercase tracking-wider text-secondary">
                 {role === "admin"
@@ -117,22 +128,22 @@ export function PanelShell({
         </header>
 
         <div className="scrollbar-none flex gap-1 overflow-x-auto border-b border-outline-variant/30 bg-surface-container-lowest px-space-md [-ms-overflow-style:none] [scrollbar-width:none] lg:hidden [&::-webkit-scrollbar]:hidden">
-          {nav.map((item) => {
-            const active = pathname === item.href;
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`shrink-0 whitespace-nowrap border-b-2 px-3 py-3 text-label-md font-semibold ${
-                  active
-                    ? "border-primary text-primary"
-                    : "border-transparent text-on-surface-variant"
-                }`}
-              >
-                {item.label}
-              </Link>
-            );
-          })}
+          {sections.flatMap((group) =>
+            group.items.map((item) => {
+              const active = pathname === item.href;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`shrink-0 whitespace-nowrap border-b-2 px-3 py-3 text-label-md font-semibold ${
+                    active ? "border-primary text-primary" : "border-transparent text-on-surface-variant"
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              );
+            }),
+          )}
         </div>
 
         <main className="flex-1 overflow-x-hidden p-space-md pb-24 lg:p-space-xl lg:pb-space-xl">

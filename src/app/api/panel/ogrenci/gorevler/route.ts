@@ -7,13 +7,13 @@ async function profileFor(user: { id: string; role: string }) {
   if (user.role === "ogrenci") {
     return prisma.studentProfile.findUnique({
       where: { userId: user.id },
-      include: { tasks: { orderBy: { sortOrder: "asc" } } },
+      include: { tasks: { orderBy: { sortOrder: "asc" } }, dayNotes: true },
     });
   }
   if (user.role === "veli") {
     return prisma.studentProfile.findFirst({
       where: { parentId: user.id },
-      include: { tasks: { orderBy: { sortOrder: "asc" } } },
+      include: { tasks: { orderBy: { sortOrder: "asc" } }, dayNotes: true },
     });
   }
   return null;
@@ -31,13 +31,22 @@ export async function GET() {
   }
 
   return NextResponse.json({
+    viewer: user.role,
     tasks: profile.tasks.map((task) => ({
       id: task.id,
       day: task.day,
       subject: task.subject,
       title: task.title,
       duration: task.duration,
+      videoUrl: task.videoUrl,
       done: task.done,
+      weekStart: task.weekStart,
+      sortOrder: task.sortOrder,
+    })),
+    dayNotes: profile.dayNotes.map((note) => ({
+      weekStart: note.weekStart,
+      day: note.day,
+      body: note.body,
     })),
   });
 }

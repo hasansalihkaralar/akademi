@@ -24,6 +24,50 @@ export function startOfWeek(date: Date) {
   return start;
 }
 
+export const PROGRAM_DAYS = ["Pzt", "Sal", "Çar", "Per", "Cum", "Cmt", "Paz"] as const;
+
+const MONTHS_LONG = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
+
+export function isoDate(date: Date) {
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${date.getFullYear()}-${month}-${day}`;
+}
+
+export function parseIsoDate(value: string) {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+  if (!match) return null;
+  const date = new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+  if (isoDate(date) !== value) return null;
+  return date;
+}
+
+export function weekStartIso(date = new Date()) {
+  return isoDate(startOfWeek(date));
+}
+
+export function isMondayIso(value: string) {
+  const date = parseIsoDate(value);
+  return Boolean(date && date.getDay() === 1);
+}
+
+export function shiftWeekIso(value: string, weeks: number) {
+  const date = parseIsoDate(value) ?? startOfWeek(new Date());
+  date.setDate(date.getDate() + weeks * 7);
+  return isoDate(date);
+}
+
+export function weekRangeLabel(mondayIso: string) {
+  const start = parseIsoDate(mondayIso);
+  if (!start) return mondayIso;
+  const end = new Date(start);
+  end.setDate(end.getDate() + 6);
+  if (start.getMonth() === end.getMonth()) {
+    return `${start.getDate()}–${end.getDate()} ${MONTHS_LONG[start.getMonth()]} ${start.getFullYear()}`;
+  }
+  return `${start.getDate()} ${MONTHS_LONG[start.getMonth()]} – ${end.getDate()} ${MONTHS_LONG[end.getMonth()]} ${end.getFullYear()}`;
+}
+
 export function meetingDateLabel(isoDate: string) {
   const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(isoDate);
   if (!match) return null;
