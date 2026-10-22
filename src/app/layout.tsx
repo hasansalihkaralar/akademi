@@ -10,8 +10,8 @@ const sans = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: {
-    default: "Pusula Akademi | YKS & LGS Derece Koçluğu",
-    template: "%s | Pusula Akademi",
+    default: "Amfi Koçluk | YKS & LGS Derece Koçluğu",
+    template: "%s | Amfi Koçluk",
   },
   description:
     "YKS ve LGS hazırlığında kişiye özel program, deneme analizi, günlük takip ve PDR uzmanı koçluk. Veli bilgilendirme sistemiyle şeffaf süreç.",

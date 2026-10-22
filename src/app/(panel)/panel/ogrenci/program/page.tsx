@@ -1,18 +1,49 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Icon } from "@/components/Icon";
-import { studentTasks } from "@/lib/panel-data";
+
+type Task = {
+  id: string;
+  day: string;
+  subject: string;
+  title: string;
+  duration: string;
+  done: boolean;
+};
 
 export default function StudentProgramPage() {
-  const [tasks, setTasks] = useState(studentTasks);
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [error, setError] = useState("");
 
-  function toggle(id: string) {
-    setTasks((prev) => prev.map((t) => (t.id === id ? { ...t, done: !t.done } : t)));
+  useEffect(() => {
+    fetch("/api/panel/ogrenci/gorevler")
+      .then(async (response) => {
+        if (!response.ok) {
+          setError("Programı görmek için öğrenci hesabıyla giriş yap.");
+          return;
+        }
+        const data = (await response.json()) as { tasks: Task[] };
+        setTasks(data.tasks);
+      })
+      .catch(() => setError("Program yüklenemedi."));
+  }, []);
+
+  async function toggle(task: Task) {
+    const next = !task.done;
+    setTasks((prev) => prev.map((item) => (item.id === task.id ? { ...item, done: next } : item)));
+    const response = await fetch("/api/panel/ogrenci/gorevler", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: task.id, done: next }),
+    });
+    if (!response.ok) {
+      setTasks((prev) => prev.map((item) => (item.id === task.id ? { ...item, done: task.done } : item)));
+    }
   }
 
-  const done = tasks.filter((t) => t.done).length;
-  const pct = Math.round((done / tasks.length) * 100);
+  const done = tasks.filter((task) => task.done).length;
+  const pct = tasks.length ? Math.round((done / tasks.length) * 100) : 0;
 
   return (
     <div className="space-y-space-lg">
@@ -21,7 +52,7 @@ export default function StudentProgramPage() {
           <div>
             <h2 className="text-headline-sm text-on-surface">Haftalık Program</h2>
             <p className="mt-1 text-body-sm text-on-surface-variant">
-              30 Eyl – 6 Eki · Koç tarafından PDR onaylı
+              Koç tarafından PDR onaylı görev listesi
             </p>
           </div>
           <div className="text-right">
@@ -36,12 +67,14 @@ export default function StudentProgramPage() {
         </div>
       </div>
 
+      {error ? <p className="text-body-sm text-error">{error}</p> : null}
+
       <div className="space-y-space-sm">
         {tasks.map((task) => (
           <button
             key={task.id}
             type="button"
-            onClick={() => toggle(task.id)}
+            onClick={() => toggle(task)}
             className="flex w-full items-center gap-space-md rounded-xl bg-surface-container-lowest px-space-md py-space-md text-left shadow-sm transition hover:shadow-md"
           >
             <span

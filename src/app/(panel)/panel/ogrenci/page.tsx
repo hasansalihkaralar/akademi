@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Icon } from "@/components/Icon";
-import { studentMeetings, studentTasks, studentTrials } from "@/lib/panel-data";
+import { studentTasks, studentTrials } from "@/lib/panel-data";
+import { NextMeetingCard, NextMeetingStat } from "./next-meeting";
 
 export const metadata: Metadata = { title: "Öğrenci Özet" };
 
 export default function StudentDashboardPage() {
   const done = studentTasks.filter((t) => t.done).length;
   const completion = Math.round((done / studentTasks.length) * 100);
-  const nextMeeting = studentMeetings.find((m) => m.status === "upcoming");
   const lastTrial = studentTrials[0];
 
   return (
@@ -18,7 +18,6 @@ export default function StudentDashboardPage() {
           ["Haftalık Tamamlama", `%${completion}`, "assignment_turned_in", "text-primary"],
           ["Son TYT Net", String(lastTrial.tyt || lastTrial.ayt), "analytics", "text-secondary"],
           ["Kalan Görev", String(studentTasks.length - done), "pending_actions", "text-primary"],
-          ["Sonraki Seans", nextMeeting?.date ?? "—", "videocam", "text-secondary"],
         ].map(([label, value, icon, color]) => (
           <div
             key={label}
@@ -31,6 +30,7 @@ export default function StudentDashboardPage() {
             <p className={`text-headline-md font-extrabold ${color}`}>{value}</p>
           </div>
         ))}
+        <NextMeetingStat />
       </div>
 
       <div className="grid gap-space-lg lg:grid-cols-5">
@@ -68,22 +68,7 @@ export default function StudentDashboardPage() {
         </section>
 
         <section className="space-y-space-lg lg:col-span-2">
-          <div className="rounded-xl bg-primary p-space-lg text-on-primary shadow-md">
-            <p className="text-label-md font-bold uppercase tracking-wider text-primary-fixed">
-              Sonraki görüşme
-            </p>
-            <h3 className="mt-space-sm text-headline-sm">{nextMeeting?.title}</h3>
-            <p className="mt-1 text-body-sm text-primary-fixed">
-              {nextMeeting?.date} · {nextMeeting?.time} · {nextMeeting?.with}
-            </p>
-            <Link
-              href="/panel/ogrenci/gorusmeler"
-              className="mt-space-lg inline-flex items-center gap-1 rounded-full bg-secondary-container px-space-md py-2 text-label-md font-bold text-on-secondary"
-            >
-              <Icon name="videocam" className="text-[18px]" />
-              Seansa git
-            </Link>
-          </div>
+          <NextMeetingCard />
 
           <div className="rounded-xl bg-surface-container-lowest p-space-lg shadow-sm">
             <h3 className="text-title-md font-bold text-on-surface">Koç notu</h3>

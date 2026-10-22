@@ -1,18 +1,47 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Icon } from "@/components/Icon";
-import { advisorStudents } from "@/lib/panel-data";
+
+type StudentOption = { id: string; name: string; grade: string };
+type Note = { id: string; body: string; studentName: string; createdAt: string };
 
 export default function AdvisorNotesPage() {
-  const [studentId, setStudentId] = useState(advisorStudents[0].id);
+  const [students, setStudents] = useState<StudentOption[]>([]);
+  const [studentId, setStudentId] = useState("");
   const [note, setNote] = useState("");
-  const [saved, setSaved] = useState<string[]>([]);
+  const [saved, setSaved] = useState<Note[]>([]);
+  const [error, setError] = useState("");
 
-  function save() {
-    if (!note.trim()) return;
-    const student = advisorStudents.find((s) => s.id === studentId);
-    setSaved((prev) => [`${student?.name}: ${note.trim()}`, ...prev]);
+  useEffect(() => {
+    fetch("/api/panel/danisman/notlar")
+      .then(async (response) => {
+        if (!response.ok) {
+          setError("Notları görmek için danışman hesabıyla giriş yap.");
+          return;
+        }
+        const data = (await response.json()) as { students: StudentOption[]; notes: Note[] };
+        setStudents(data.students);
+        setSaved(data.notes);
+        setStudentId(data.students[0]?.id ?? "");
+      })
+      .catch(() => setError("Notlar yüklenemedi."));
+  }, []);
+
+  async function save() {
+    if (!note.trim() || !studentId) return;
+    setError("");
+    const response = await fetch("/api/panel/danisman/notlar", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ studentId, body: note }),
+    });
+    const data = (await response.json().catch(() => null)) as Note | { error?: string } | null;
+    if (!response.ok || !data || !("id" in data)) {
+      setError(data && "error" in data ? data.error || "Not kaydedilemedi." : "Not kaydedilemedi.");
+      return;
+    }
+    setSaved((prev) => [data, ...prev]);
     setNote("");
   }
 
@@ -21,9 +50,11 @@ export default function AdvisorNotesPage() {
       <div>
         <h2 className="text-headline-sm text-on-surface">Seans Notları</h2>
         <p className="mt-1 text-body-sm text-on-surface-variant">
-          Öğrenci bazlı notlar veli özetine ve bir sonraki seansa taşınır.
+          Öğrenci bazlı notlar veritabanına kaydedilir ve bir sonraki seansta burada durur.
         </p>
       </div>
+
+      {error ? <p className="text-body-sm text-error">{error}</p> : null}
 
       <div className="grid gap-space-lg lg:grid-cols-2">
         <div className="rounded-xl bg-surface-container-lowest p-space-lg shadow-sm">
@@ -34,9 +65,9 @@ export default function AdvisorNotesPage() {
               value={studentId}
               onChange={(e) => setStudentId(e.target.value)}
             >
-              {advisorStudents.map((s) => (
-                <option key={s.id} value={s.id}>
-                  {s.name} · {s.grade}
+              {students.map((student) => (
+                <option key={student.id} value={student.id}>
+                  {student.name} · {student.grade}
                 </option>
               ))}
             </select>
@@ -60,16 +91,17 @@ export default function AdvisorNotesPage() {
           <h3 className="text-title-lg font-bold text-on-surface">Kayıtlı notlar</h3>
           {saved.length === 0 ? (
             <p className="mt-space-md text-body-sm text-on-surface-variant">
-              Henüz bu oturumda kayıtlı not yok. Soldan bir not ekleyebilirsin.
+              Henüz kayıtlı not yok.
             </p>
           ) : (
             <ul className="mt-space-md space-y-space-sm">
-              {saved.map((item, index) => (
+              {saved.map((item) => (
                 <li
-                  key={index}
+                  key={item.id}
                   className="rounded-lg bg-surface-container-low p-space-md text-body-sm text-on-surface"
                 >
-                  {item}
+                  <p className="font-semibold">{item.studentName}</p>
+                  <p className="mt-1">{item.body}</p>
                 </li>
               ))}
             </ul>

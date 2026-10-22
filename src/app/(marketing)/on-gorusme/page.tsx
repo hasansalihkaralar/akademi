@@ -40,7 +40,7 @@ export default async function OnGorusmePage({
               Önce ücretsiz analiz, sonra paket
             </h1>
             <p className="mt-space-md text-body-lg text-on-surface-variant">
-              Pusula Akademi&apos;de paket satın almadan önce 15 dakikalık ücretsiz ön görüşme
+              Amfi Koçluk&apos;ta paket satın almadan önce 15 dakikalık ücretsiz ön görüşme
               yapılır. Seviye tespiti, hedef ve koç eşleştirmesi bu adımda netleşir.
             </p>
 

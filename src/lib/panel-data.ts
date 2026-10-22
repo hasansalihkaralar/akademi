@@ -1,4 +1,4 @@
-export type PanelRole = "ogrenci" | "danisman" | "veli";
+export type PanelRole = "ogrenci" | "danisman" | "veli" | "admin";
 
 export type WeeklyTask = {
   id: string;
@@ -60,6 +60,12 @@ export const demoAccounts = {
     password: "demo123",
     name: "Ayşe Yılmaz",
     child: "Arda Yılmaz",
+  },
+  admin: {
+    email: "admin@demo.com",
+    password: "demo123",
+    name: "Amfi Yönetim",
+    title: "Yönetici",
   },
 } as const;
 

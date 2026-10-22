@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
 import { Icon } from "@/components/Icon";
 import { demoAccounts, type PanelRole } from "@/lib/panel-data";
 
@@ -10,34 +10,49 @@ const tabs: { id: PanelRole; label: string; icon: string }[] = [
   { id: "ogrenci", label: "Öğrenci Girişi", icon: "school" },
   { id: "danisman", label: "Danışman Girişi", icon: "psychology" },
   { id: "veli", label: "Veli Girişi", icon: "family_restroom" },
+  { id: "admin", label: "Yönetim Girişi", icon: "admin_panel_settings" },
 ];
 
+function roleFromQuery(value: string | null): PanelRole {
+  return tabs.some((tab) => tab.id === value) ? (value as PanelRole) : "ogrenci";
+}
+
 export function LoginForm() {
-  const router = useRouter();
   const searchParams = useSearchParams();
-  const initialRole = (searchParams.get("rol") as PanelRole) || "ogrenci";
-  const [role, setRole] = useState<PanelRole>(
-    tabs.some((t) => t.id === initialRole) ? initialRole : "ogrenci",
-  );
+  const requestedRole = searchParams.get("rol");
+  const [role, setRole] = useState<PanelRole>(roleFromQuery(requestedRole));
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    setRole(roleFromQuery(requestedRole));
+  }, [requestedRole]);
+
   const copy = useMemo(() => {
     if (role === "danisman") {
       return {
-        badge: "Pusula Akademi Danışman Paneli",
+        badge: "Amfi Koçluk Danışman Paneli",
         title: "Danışman Portalı'na Hoş Geldiniz",
         desc: "Öğrenci listeni, haftalık seanslarını ve deneme takiplerini tek ekrandan yönet.",
         submit: "Danışman Paneline Giriş Yap",
         redirect: "/panel/danisman",
       };
     }
+    if (role === "admin") {
+      return {
+        badge: "Amfi Koçluk Yönetim Paneli",
+        title: "Yönetim Paneli'ne Hoş Geldiniz",
+        desc: "Öğrencileri danışmanlara ata, yeni üyelik aç ve gelen talepleri yönet.",
+        submit: "Yönetim Paneline Giriş Yap",
+        redirect: "/panel/admin",
+      };
+    }
     if (role === "veli") {
       return {
-        badge: "Pusula Akademi Veli Bilgi Sistemi",
+        badge: "Amfi Koçluk Veli Bilgi Sistemi",
         title: "Veli Portalı'na Hoş Geldiniz",
         desc: "Öğrencinin haftalık tamamlama oranını, deneme netlerini ve koç notlarını takip edin.",
         submit: "Veli Portalı'na Giriş Yap",
@@ -45,7 +60,7 @@ export function LoginForm() {
       };
     }
     return {
-      badge: "Pusula Akademi Öğrenci Bilgi Sistemi",
+      badge: "Amfi Koçluk Öğrenci Bilgi Sistemi",
       title: "Öğrenci Portalı'na Hoş Geldiniz",
       desc: "Haftalık çalışma programını görüntüle, deneme analizlerini incele ve koçunla görüşmelerini planla.",
       submit: "Öğrenci Portalı'na Giriş Yap",
@@ -53,8 +68,13 @@ export function LoginForm() {
     };
   }, [role]);
 
+  function selectRole(next: PanelRole) {
+    setRole(next);
+    setError("");
+  }
+
   function fillDemo() {
-    const account = demoAccounts[role === "veli" ? "veli" : role];
+    const account = demoAccounts[role];
     setEmail(account.email);
     setPassword(account.password);
     setError("");
@@ -64,42 +84,37 @@ export function LoginForm() {
     event.preventDefault();
     setLoading(true);
     setError("");
-    await new Promise((r) => setTimeout(r, 700));
 
-    const account = demoAccounts[role === "veli" ? "veli" : role];
-    const ok =
-      (email === account.email && password === account.password) ||
-      (email.length > 3 && password.length >= 4);
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password, role }),
+        signal: AbortSignal.timeout(12000),
+      });
+      const data = (await response.json().catch(() => null)) as { error?: string } | null;
 
-    if (!ok) {
-      setError("Giriş bilgileri hatalı. Demo için 'Demo doldur' kullanabilirsiniz.");
+      if (!response.ok) {
+        setError(data?.error || "Giriş yapılamadı.");
+        setLoading(false);
+        return;
+      }
+
+      window.location.assign(copy.redirect);
+    } catch {
+      setError("Sunucuya ulaşılamadı. Birkaç saniye sonra tekrar dene.");
       setLoading(false);
-      return;
     }
-
-    localStorage.setItem("pusula-panel-role", role === "veli" ? "veli" : role);
-    localStorage.setItem(
-      "pusula-panel-user",
-      JSON.stringify({
-        name: account.name,
-        email: account.email,
-        role,
-      }),
-    );
-    router.push(copy.redirect);
   }
 
   return (
     <div className="rounded-xl bg-surface-container-lowest p-space-lg shadow-xl sm:p-space-xl">
-      <div className="mb-space-lg grid grid-cols-3 gap-1 rounded-xl bg-surface-container-low p-1.5">
+      <div className="mb-space-lg grid grid-cols-4 gap-1 rounded-xl bg-surface-container-low p-1.5">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             type="button"
-            onClick={() => {
-              setRole(tab.id);
-              setError("");
-            }}
+            onClick={() => selectRole(tab.id)}
             className={`flex flex-col items-center justify-center gap-1 rounded-lg px-1 py-2.5 text-center text-[11px] font-semibold transition-all sm:flex-row sm:gap-space-xs sm:px-space-sm sm:text-label-lg ${
               role === tab.id
                 ? "bg-surface-container-lowest font-bold text-primary shadow-sm"
@@ -108,7 +123,7 @@ export function LoginForm() {
           >
             <Icon name={tab.icon} className="text-[18px] sm:text-[20px]" />
             <span className="leading-tight">
-              {tab.id === "ogrenci" ? "Öğrenci" : tab.id === "danisman" ? "Danışman" : "Veli"}
+              {tab.id === "ogrenci" ? "Öğrenci" : tab.id === "danisman" ? "Danışman" : tab.id === "veli" ? "Veli" : "Yönetim"}
             </span>
           </button>
         ))}
@@ -202,6 +217,7 @@ export function LoginForm() {
           <li>Öğrenci: ogrenci@demo.com / demo123</li>
           <li>Danışman: danisman@demo.com / demo123</li>
           <li>Veli: veli@demo.com / demo123</li>
+          <li>Yönetim: admin@demo.com / demo123</li>
         </ul>
       </div>
 

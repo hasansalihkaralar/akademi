@@ -69,7 +69,7 @@ export default function ContactPage() {
               </div>
             </div>
             <iframe
-              title="Pusula Akademi ofis konumu"
+              title="Amfi Koçluk ofis konumu"
               src={brand.mapsUrl}
               className="h-72 w-full rounded-2xl border-0 shadow-md"
               loading="lazy"

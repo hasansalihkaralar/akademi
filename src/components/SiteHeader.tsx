@@ -36,10 +36,10 @@ export function SiteHeader() {
 
   return (
     <header className="fixed top-0 z-50 w-full bg-surface/95 shadow-[0_1px_8px_rgba(0,0,0,0.04)] backdrop-blur-xl">
-      <div className="shell flex h-16 items-center justify-between gap-3 md:h-20 md:gap-space-md">
+      <div className="mx-auto flex h-16 w-full max-w-[1600px] items-center justify-between gap-3 px-4 sm:px-6 md:h-20">
         <Logo compact />
 
-        <nav className="hidden items-center gap-5 2xl:flex">
+        <nav className="hidden min-w-0 flex-1 items-center justify-center gap-4 overflow-x-auto 2xl:flex">
           {links.map((link) => {
             const active = pathname === link.href;
             return (
@@ -163,11 +163,25 @@ export function SiteHeader() {
                   Ücretsiz Ön Görüşme Yap
                 </Link>
                 <Link
-                  href="/giris"
+                  href="/giris?rol=ogrenci"
                   onClick={() => setOpen(false)}
                   className="btn-secondary w-full"
                 >
-                  Öğrenci / Danışman Girişi
+                  Öğrenci Girişi
+                </Link>
+                <Link
+                  href="/giris?rol=danisman"
+                  onClick={() => setOpen(false)}
+                  className="btn-secondary w-full"
+                >
+                  Danışman Girişi
+                </Link>
+                <Link
+                  href="/giris?rol=veli"
+                  onClick={() => setOpen(false)}
+                  className="btn-secondary w-full"
+                >
+                  Veli Girişi
                 </Link>
               </div>
             </nav>

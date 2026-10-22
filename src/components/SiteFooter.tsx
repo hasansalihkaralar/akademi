@@ -10,7 +10,7 @@ export function SiteFooter() {
         <div className="mb-space-2xl grid grid-cols-1 gap-space-xl md:grid-cols-2 lg:grid-cols-4">
           <div className="flex flex-col">
             <div className="mb-space-md">
-              <Logo subtitle="YKS & LGS Rehberliği" />
+              <Logo />
             </div>
             <p className="mb-space-md text-body-sm leading-relaxed text-on-surface-variant">
               Türkiye&apos;nin en seçkin üniversite ve nitelikli liselerine hazırlanan
@@ -57,8 +57,18 @@ export function SiteFooter() {
                 </Link>
               </li>
               <li>
-                <Link href="/giris" className="transition-colors hover:text-primary">
-                  Öğrenci / Danışman Girişi
+                <Link href="/giris?rol=ogrenci" className="transition-colors hover:text-primary">
+                  Öğrenci Girişi
+                </Link>
+              </li>
+              <li>
+                <Link href="/giris?rol=danisman" className="transition-colors hover:text-primary">
+                  Danışman Girişi
+                </Link>
+              </li>
+              <li>
+                <Link href="/giris?rol=veli" className="transition-colors hover:text-primary">
+                  Veli Girişi
                 </Link>
               </li>
             </ul>
@@ -144,7 +154,7 @@ export function SiteFooter() {
         </div>
 
         <div className="flex flex-col items-center justify-between gap-space-sm border-t border-outline-variant/40 pt-space-lg text-center text-body-sm text-on-surface-variant md:flex-row md:text-left">
-          <p>© {new Date().getFullYear()} Pusula Akademi. Tüm hakları saklıdır.</p>
+          <p>© {new Date().getFullYear()} Amfi Koçluk. Tüm hakları saklıdır.</p>
           <p>YKS & LGS derece koçluğu · Online takip paneli</p>
         </div>
       </div>

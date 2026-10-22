@@ -6,9 +6,32 @@ import { Icon } from "./Icon";
 
 export function ContactForm() {
   const [sent, setSent] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  function onSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setLoading(true);
+    setError("");
+    const form = new FormData(event.currentTarget);
+    const response = await fetch("/api/iletisim", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: form.get("name"),
+        phone: form.get("phone"),
+        email: form.get("email"),
+        exam: form.get("exam"),
+        applicantRole: form.get("role"),
+        message: form.get("message"),
+      }),
+    });
+    if (!response.ok) {
+      const data = (await response.json().catch(() => null)) as { error?: string } | null;
+      setError(data?.error || "Mesaj kaydedilemedi.");
+      setLoading(false);
+      return;
+    }
     setSent(true);
   }
 
@@ -86,8 +109,9 @@ export function ContactForm() {
           placeholder="Kısaca hedefinizi ve sorularınızı yazın..."
         />
       </label>
-      <button type="submit" className="btn-primary w-full py-4">
-        <span>Mesaj Gönder</span>
+      {error ? <p className="text-body-sm text-error">{error}</p> : null}
+      <button type="submit" disabled={loading} className="btn-primary w-full py-4 disabled:opacity-70">
+        <span>{loading ? "Gönderiliyor..." : "Mesaj Gönder"}</span>
         <Icon name="arrow_forward" className="text-[20px]" />
       </button>
       <p className="text-center text-label-md text-on-surface-variant">

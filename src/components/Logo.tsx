@@ -1,8 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
+import { brand } from "@/lib/content";
 
 export function Logo({
-  subtitle = "YKS & LGS Derece Koçluğu",
+  subtitle = brand.tagline,
   compact = false,
 }: {
   subtitle?: string;
@@ -11,15 +12,15 @@ export function Logo({
   return (
     <Link
       href="/"
-      className="flex min-w-0 max-w-[min(100%,280px)] shrink items-center gap-2 sm:max-w-none sm:gap-space-md"
-      aria-label="Pusula Akademi ana sayfa"
+      className="flex shrink-0 items-center gap-2 sm:gap-space-md"
+      aria-label={`${brand.name} ana sayfa`}
     >
       <Image
         src="/logo.png"
         alt=""
-        width={120}
-        height={40}
-        className="h-7 w-auto shrink-0 object-contain sm:h-8"
+        width={64}
+        height={64}
+        className="h-9 w-9 shrink-0 object-contain sm:h-10 sm:w-10"
         priority
       />
       <span className="flex min-w-0 flex-col">
@@ -28,7 +29,7 @@ export function Logo({
             compact ? "text-[15px] font-bold sm:text-headline-sm" : "text-headline-sm"
           }`}
         >
-          Pusula Akademi
+          {brand.name}
         </span>
         <span
           className={`mt-0.5 truncate font-semibold tracking-wide text-secondary ${

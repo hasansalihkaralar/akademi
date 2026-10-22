@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Icon } from "@/components/Icon";
+import { Logo } from "@/components/Logo";
 
 type NavItem = { href: string; label: string; icon: string };
 
@@ -13,7 +14,7 @@ export function PanelShell({
   nav,
   children,
 }: {
-  role: "ogrenci" | "danisman";
+  role: "ogrenci" | "danisman" | "veli" | "admin";
   name: string;
   subtitle: string;
   nav: NavItem[];
@@ -22,28 +23,18 @@ export function PanelShell({
   const pathname = usePathname();
   const router = useRouter();
 
-  function logout() {
-    if (typeof window !== "undefined") {
-      localStorage.removeItem("pusula-panel-role");
-      localStorage.removeItem("pusula-panel-user");
-    }
+  async function logout() {
+    await fetch("/api/auth/logout", { method: "POST" });
     router.push("/giris");
+    router.refresh();
   }
 
   return (
     <div className="flex min-h-screen bg-surface-container-low">
       <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col border-r border-outline-variant/30 bg-surface-container-lowest p-space-md lg:flex">
-        <Link href="/" className="mb-space-lg flex items-center gap-space-sm px-space-sm">
-          <div className="grid h-9 w-9 place-items-center rounded-lg bg-primary text-on-primary">
-            <Icon name="explore" className="text-[20px]" />
-          </div>
-          <div>
-            <p className="text-title-md font-bold text-primary">Pusula Panel</p>
-            <p className="text-label-md text-secondary">
-              {role === "ogrenci" ? "Öğrenci" : "Danışman"}
-            </p>
-          </div>
-        </Link>
+        <div className="mb-space-lg px-space-sm">
+          <Logo />
+        </div>
 
         <nav className="flex flex-1 flex-col gap-1">
           {nav.map((item) => {
@@ -78,14 +69,25 @@ export function PanelShell({
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="sticky top-0 z-30 border-b border-outline-variant/30 bg-surface-container-lowest/95 px-space-md py-space-md backdrop-blur lg:px-space-xl">
           <div className="flex items-start justify-between gap-space-md">
-            <div className="min-w-0">
+            <div className="flex min-w-0 items-start gap-space-sm">
+              <Link href="/" className="mt-0.5 shrink-0 lg:hidden" aria-label="Amfi Koçluk ana sayfa">
+                <img src="/logo.png" alt="" className="h-9 w-9 object-contain" />
+              </Link>
+              <div className="min-w-0">
               <p className="text-label-md font-bold uppercase tracking-wider text-secondary">
-                {role === "ogrenci" ? "Öğrenci Paneli" : "Danışman Paneli"}
+                {role === "admin"
+                  ? "Yönetim Paneli"
+                  : role === "danisman"
+                    ? "Danışman Paneli"
+                    : role === "veli"
+                      ? "Veli Paneli"
+                      : "Öğrenci Paneli"}
               </p>
               <h1 className="truncate text-title-lg font-bold text-on-surface">{name}</h1>
               <p className="line-clamp-2 text-body-sm text-on-surface-variant sm:line-clamp-none">
                 {subtitle}
               </p>
+              </div>
             </div>
             <div className="flex shrink-0 items-center gap-space-sm">
               <button

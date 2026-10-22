@@ -1,17 +1,17 @@
 export const brand = {
-  name: "Pusula Akademi",
-  tagline: "YKS & LGS Derece Koçluğu",
+  name: "Amfi Koçluk",
+  tagline: "Hedefin Amfide",
   phone: "0850 840 00 00",
   phoneHref: "tel:+908508400000",
   whatsapp: "908508400000",
   whatsappHref: "https://wa.me/908508400000",
-  email: "merhaba@pusulaakademi.com",
+  email: "merhaba@amfikocluk.com",
   address: "Maslak Mah. Büyükdere Cad. No: 255, Sarıyer / İstanbul",
   mapsUrl:
     "https://www.google.com/maps?q=Maslak+B%C3%BCy%C3%BCkdere+Caddesi+Sar%C4%B1yer+%C4%B0stanbul&output=embed",
-  instagram: "https://instagram.com/pusulaakademi",
-  youtube: "https://youtube.com/@pusulaakademi",
-  tiktok: "https://www.tiktok.com/@pusulaakademi",
+  instagram: "https://instagram.com/amfikocluk",
+  youtube: "https://youtube.com/@amfikocluk",
+  tiktok: "https://www.tiktok.com/@amfikocluk",
 };
 
 export type Program = "yks" | "lgs";

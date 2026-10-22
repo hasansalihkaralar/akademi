@@ -17,7 +17,7 @@ export default function AboutPage() {
             Biz kimiz?
           </h1>
           <p className="mt-space-md text-body-lg text-on-surface-variant">
-            Pusula Akademi, sınav hazırlığını “daha çok çalış” cümlesine bırakmamak için
+            Amfi Koçluk, sınav hazırlığını “daha çok çalış” cümlesine bırakmamak için
             kuruldu. Kurucu ekip, yıllarca öğrencinin asıl sorununu gördü: bilgi eksiğinden
             çok, plansızlık, kopuş ve evde büyüyen belirsizlik.
           </p>
@@ -44,7 +44,7 @@ export default function AboutPage() {
         {[
           [
             "Kuruluş hikâyesi",
-            "İlk koçluklar, rehberlik odasında yetişmeyen öğrenciler için birebir takip denemesiydi. Günlük kontrol, deneme analizi ve veli özeti aynı dile bağlanınca netler toplanmaya başladı. Pusula Akademi bu pratikten doğdu.",
+            "İlk koçluklar, rehberlik odasında yetişmeyen öğrenciler için birebir takip denemesiydi. Günlük kontrol, deneme analizi ve veli özeti aynı dile bağlanınca netler toplanmaya başladı. Amfi Koçluk bu pratikten doğdu.",
           ],
           [
             "Eğitim anlayışı",
@@ -108,7 +108,7 @@ export default function AboutPage() {
             </h2>
             <p className="mt-space-sm text-body-md text-on-surface-variant">
               Psikolojik Danışmanlık ve Rehberlik mezunu. On yılı aşkın süredir sınav
-              öğrencileriyle çalışıyor. Pusula Akademi&apos;yi, “öğrenciye program atıp
+              öğrencileriyle çalışıyor. Amfi Koçluk&apos;u, “öğrenciye program atıp
               kaybolan” modellere alternatif olarak kurdu.
             </p>
           </div>

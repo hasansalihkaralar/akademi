@@ -7,12 +7,38 @@ import { Icon } from "./Icon";
 
 export function OnGorusmeForm({ initialPackageId }: { initialPackageId?: string }) {
   const [sent, setSent] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const [packageId, setPackageId] = useState<string>(
     getPackage(initialPackageId)?.id ?? "",
   );
 
-  function onSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setLoading(true);
+    setError("");
+    const form = new FormData(event.currentTarget);
+    const response = await fetch("/api/on-gorusme", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        studentName: form.get("studentName"),
+        phone: form.get("phone"),
+        email: form.get("email"),
+        applicantRole: form.get("role"),
+        exam: form.get("exam"),
+        grade: form.get("grade"),
+        packageId,
+        struggle: form.get("struggle"),
+        message: form.get("message"),
+      }),
+    });
+    if (!response.ok) {
+      const data = (await response.json().catch(() => null)) as { error?: string } | null;
+      setError(data?.error || "Talep kaydedilemedi.");
+      setLoading(false);
+      return;
+    }
     setSent(true);
   }
 
@@ -174,9 +200,10 @@ export function OnGorusmeForm({ initialPackageId }: { initialPackageId?: string 
         </span>
       </label>
 
-      <button type="submit" className="btn-primary w-full py-4">
+      {error ? <p className="text-body-sm text-error">{error}</p> : null}
+      <button type="submit" disabled={loading} className="btn-primary w-full py-4 disabled:opacity-70">
         <Icon name="calendar_today" className="text-[20px]" />
-        <span>Ücretsiz Ön Görüşmeyi Başlat</span>
+        <span>{loading ? "Kaydediliyor..." : "Ücretsiz Ön Görüşmeyi Başlat"}</span>
       </button>
       <p className="text-center text-label-md text-on-surface-variant">
         Bilgilerin KVKK kapsamında gizli tutulur. Spam arama yapılmaz.

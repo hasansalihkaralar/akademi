@@ -17,7 +17,7 @@ export default function CoachingPage() {
             YKS ve LGS koçluğu kimler için, nasıl işler?
           </h1>
           <p className="mt-space-md max-w-3xl text-body-lg text-on-surface-variant">
-            Pusula Akademi&apos;de koçluk; program yazıp bırakmak değildir. Haftalık plan,
+            Amfi Koçluk&apos;ta koçluk; program yazıp bırakmak değildir. Haftalık plan,
             öğrenci takibi, deneme analizi, eksik konu haritası ve PDR uzmanı motivasyon
             desteği aynı sistemde yürür. Veli de süreçten kopmaz.
           </p>

@@ -80,6 +80,20 @@ export default function LoginPage() {
                       <Icon name="psychology" className="text-[20px]" />
                       Danışman paneli
                     </Link>
+                    <Link
+                      href="/giris?rol=veli"
+                      className="flex items-center gap-space-sm rounded-lg bg-surface-container-low px-space-md py-3 text-label-lg font-semibold text-primary"
+                    >
+                      <Icon name="family_restroom" className="text-[20px]" />
+                      Veli paneli
+                    </Link>
+                    <Link
+                      href="/giris?rol=admin"
+                      className="flex items-center gap-space-sm rounded-lg bg-surface-container-low px-space-md py-3 text-label-lg font-semibold text-primary"
+                    >
+                      <Icon name="admin_panel_settings" className="text-[20px]" />
+                      Yönetim paneli
+                    </Link>
                   </div>
                 </div>
               </div>

@@ -9,7 +9,7 @@ export default function ConsentPage() {
       <p className="mt-space-md">
         Koçluk sürecinin yürütülmesi, veli bilgilendirmesi, SMS/e-posta ile randevu
         hatırlatması ve hizmet kalitesi iletişimi için kişisel verilerimin işlenmesine açık
-        rıza veriyorum. Rızamı merhaba@pusulaakademi.com adresine yazarak geri alabilirim.
+        rıza veriyorum. Rızamı merhaba@amfikocluk.com adresine yazarak geri alabilirim.
       </p>
     </article>
   );

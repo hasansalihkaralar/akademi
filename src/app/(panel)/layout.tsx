@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | Pusula Panel",
+    template: "%s | Amfi Panel",
     default: "Panel",
   },
 };

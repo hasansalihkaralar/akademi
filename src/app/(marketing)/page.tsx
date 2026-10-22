@@ -358,7 +358,7 @@ export default function HomePage() {
             <div className="flex flex-col lg:col-span-6">
               <span className="section-badge self-start">Fark Yaratan Altyapı</span>
               <h2 className="mb-space-md text-headline-lg text-on-surface">
-                Neden Pusula Akademi? Veriye Dayalı, PDR Denetimli
+                Neden Amfi Koçluk? Veriye Dayalı, PDR Denetimli
               </h2>
               <p className="mb-space-xl text-body-lg leading-relaxed text-on-surface-variant">
                 Sıradan sohbet koçluğu değil; gelişiminizin her saniyesini kayıt altına alan öğrenci

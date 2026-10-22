@@ -8,7 +8,7 @@ export default function DistanceSalesPage() {
       <h1 className="text-headline-lg text-on-surface">Mesafeli Satış Sözleşmesi</h1>
       <p className="mt-space-md">
         Bu metin taslaktır; yayına alınmadan önce avukat kontrolünden geçmelidir. Satıcı:
-        Pusula Akademi. Konu: YKS / LGS online koçluk paketi.
+        Amfi Koçluk. Konu: YKS / LGS online koçluk paketi.
       </p>
       <h2 className="mt-space-xl text-title-lg font-bold text-on-surface">1. Taraflar ve konu</h2>
       <p>

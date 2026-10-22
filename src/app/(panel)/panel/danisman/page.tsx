@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Icon } from "@/components/Icon";
-import { advisorAgenda, advisorStudents } from "@/lib/panel-data";
+import { advisorStudents } from "@/lib/panel-data";
+import { TodayAgenda, TodaySessionCount } from "./today-agenda";
 
 export const metadata: Metadata = { title: "Danışman Özet" };
 
@@ -18,7 +19,6 @@ export default function AdvisorDashboardPage() {
           ["Aktif Öğrenci", String(advisorStudents.length), "groups"],
           ["Ort. Tamamlama", `%${avgCompletion}`, "monitoring"],
           ["Riskli Öğrenci", String(atRisk), "warning"],
-          ["Bugün Seans", String(advisorAgenda.length), "event"],
         ].map(([label, value, icon]) => (
           <div
             key={label}
@@ -31,6 +31,7 @@ export default function AdvisorDashboardPage() {
             <p className="text-headline-md font-extrabold text-primary">{value}</p>
           </div>
         ))}
+        <TodaySessionCount />
       </div>
 
       <div className="grid gap-space-lg lg:grid-cols-5">
@@ -68,26 +69,7 @@ export default function AdvisorDashboardPage() {
           </div>
         </section>
 
-        <section className="rounded-xl bg-surface-container-lowest p-space-lg shadow-sm lg:col-span-2">
-          <h2 className="mb-space-md text-title-lg font-bold text-on-surface">Bugünün ajandası</h2>
-          <div className="space-y-space-sm">
-            {advisorAgenda.map((item) => (
-              <div
-                key={item.time + item.student}
-                className="rounded-lg border-l-4 border-secondary-container bg-surface-container-low p-space-sm"
-              >
-                <p className="text-label-md font-bold text-secondary">{item.time}</p>
-                <p className="text-title-md font-semibold text-on-surface">{item.student}</p>
-                <p className="text-body-sm text-on-surface-variant">
-                  {item.type} · {item.note}
-                </p>
-              </div>
-            ))}
-          </div>
-          <Link href="/panel/danisman/takvim" className="btn-secondary mt-space-md w-full">
-            Takvimi aç
-          </Link>
-        </section>
+        <TodayAgenda />
       </div>
     </div>
   );

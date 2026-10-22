@@ -1,0 +1,125 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         String
+  phone        String?
+  title        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  studentProfile StudentProfile?  @relation("StudentUser")
+  advised        StudentProfile[] @relation("Advisor")
+  parentOf       StudentProfile[] @relation("Parent")
+  notes          SessionNote[]
+}
+
+model StudentProfile {
+  id        String  @id @default(cuid())
+  userId    String  @unique
+  user      User    @relation("StudentUser", fields: [userId], references: [id], onDelete: Cascade)
+  advisorId String?
+  advisor   User?   @relation("Advisor", fields: [advisorId], references: [id])
+  parentId  String?
+  parent    User?   @relation("Parent", fields: [parentId], references: [id])
+  grade     String
+  program   String
+  risk      String  @default("düşük")
+  lastNet   Float   @default(0)
+
+  tasks    Task[]
+  trials   Trial[]
+  meetings Meeting[]
+  notes    SessionNote[]
+}
+
+model Task {
+  id        String         @id @default(cuid())
+  studentId String
+  student   StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  day       String
+  subject   String
+  title     String
+  duration  String
+  done      Boolean        @default(false)
+  sortOrder Int            @default(0)
+}
+
+model Trial {
+  id        String         @id @default(cuid())
+  studentId String
+  student   StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  name      String
+  dateLabel String
+  tyt       Float          @default(0)
+  ayt       Float          @default(0)
+  delta     String
+  sortOrder Int            @default(0)
+}
+
+model Meeting {
+  id        String         @id @default(cuid())
+  studentId String
+  student   StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  title     String
+  dateLabel String
+  time      String
+  type          String
+  status        String
+  note          String?
+  meetUrl       String?
+  googleEventId String?
+}
+
+model GoogleConnection {
+  id           String   @id @default("default")
+  email        String
+  refreshToken String
+  updatedAt    DateTime @updatedAt
+}
+
+model SessionNote {
+  id        String         @id @default(cuid())
+  studentId String
+  student   StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  authorId  String
+  author    User           @relation(fields: [authorId], references: [id])
+  body      String
+  createdAt DateTime       @default(now())
+}
+
+model ConsultationRequest {
+  id            String   @id @default(cuid())
+  studentName   String
+  phone         String
+  email         String
+  applicantRole String
+  exam          String
+  grade         String
+  packageId     String?
+  struggle      String?
+  message       String?
+  status        String   @default("yeni")
+  createdAt     DateTime @default(now())
+}
+
+model ContactMessage {
+  id            String   @id @default(cuid())
+  name          String
+  phone         String
+  email         String
+  exam          String?
+  applicantRole String?
+  message       String
+  createdAt     DateTime @default(now())
+}

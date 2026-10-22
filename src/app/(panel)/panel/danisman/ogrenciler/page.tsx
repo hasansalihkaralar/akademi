@@ -1,24 +1,47 @@
-import type { Metadata } from "next";
-import { Icon } from "@/components/Icon";
-import { advisorStudents } from "@/lib/panel-data";
+"use client";
 
-export const metadata: Metadata = { title: "Öğrencilerim" };
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { Icon } from "@/components/Icon";
+
+type StudentRow = {
+  id: string;
+  name: string;
+  grade: string;
+  program: string;
+  completion: number;
+  lastNet: number;
+  risk: string;
+  nextMeeting: string;
+  requests: number;
+};
 
 export default function AdvisorStudentsPage() {
+  const [students, setStudents] = useState<StudentRow[]>([]);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    fetch("/api/panel/danisman/ogrenciler")
+      .then(async (response) => {
+        if (!response.ok) {
+          setError("Öğrencileri görmek için danışman hesabıyla giriş yap.");
+          return;
+        }
+        const data = (await response.json()) as { students: StudentRow[] };
+        setStudents(data.students);
+      })
+      .catch(() => setError("Öğrenci listesi yüklenemedi."));
+  }, []);
+
   return (
     <div className="space-y-space-lg">
-      <div className="flex flex-wrap items-end justify-between gap-space-md">
-        <div>
-          <h2 className="text-headline-sm text-on-surface">Öğrencilerim</h2>
-          <p className="mt-1 text-body-sm text-on-surface-variant">
-            Tamamlama, son net ve risk skoruna göre takip listesi.
-          </p>
-        </div>
-        <button type="button" className="btn-primary">
-          <Icon name="person_add" className="text-[18px]" />
-          Yeni eşleştirme
-        </button>
+      <div>
+        <h2 className="text-headline-sm text-on-surface">Öğrencilerim</h2>
+        <p className="mt-1 text-body-sm text-on-surface-variant">
+          Sana atanmış öğrencilerin tamamlama, son net ve risk durumu.
+        </p>
       </div>
+      {error ? <p className="text-body-sm text-error">{error}</p> : null}
 
       <div className="overflow-x-auto rounded-xl bg-surface-container-lowest shadow-sm">
         <table className="w-full min-w-[720px] text-left text-body-sm">
@@ -34,7 +57,7 @@ export default function AdvisorStudentsPage() {
             </tr>
           </thead>
           <tbody>
-            {advisorStudents.map((student) => (
+            {students.map((student) => (
               <tr key={student.id} className="border-t border-outline-variant/40">
                 <td className="px-space-md py-space-md">
                   <p className="font-semibold text-on-surface">{student.name}</p>
@@ -44,10 +67,7 @@ export default function AdvisorStudentsPage() {
                 <td className="px-space-md py-space-md">
                   <div className="flex items-center gap-2">
                     <div className="h-2 w-16 overflow-hidden rounded-full bg-surface-container-highest">
-                      <div
-                        className="h-full rounded-full bg-primary"
-                        style={{ width: `${student.completion}%` }}
-                      />
+                      <div className="h-full rounded-full bg-primary" style={{ width: `${student.completion}%` }} />
                     </div>
                     <span>%{student.completion}</span>
                   </div>
@@ -68,17 +88,28 @@ export default function AdvisorStudentsPage() {
                 </td>
                 <td className="px-space-md py-space-md text-on-surface-variant">
                   {student.nextMeeting}
+                  {student.requests > 0 ? (
+                    <span className="mt-1 block font-semibold text-primary">Talep var</span>
+                  ) : null}
                 </td>
                 <td className="px-space-md py-space-md">
-                  <button
-                    type="button"
-                    className="rounded-lg bg-surface-container px-3 py-1.5 text-label-md font-semibold text-primary"
+                  <Link
+                    href={`/panel/danisman/ogrenciler/${student.id}`}
+                    className="inline-flex items-center gap-1 rounded-lg bg-surface-container px-3 py-1.5 text-label-md font-semibold text-primary"
                   >
+                    <Icon name="visibility" className="text-[16px]" />
                     Detay
-                  </button>
+                  </Link>
                 </td>
               </tr>
             ))}
+            {students.length === 0 && !error ? (
+              <tr>
+                <td className="px-space-md py-space-lg text-on-surface-variant" colSpan={7}>
+                  Sana atanmış öğrenci yok. Yönetim panelinden atama yapılınca burada görünür.
+                </td>
+              </tr>
+            ) : null}
           </tbody>
         </table>
       </div>
