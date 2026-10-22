@@ -30,31 +30,44 @@ async function ensureSiteContent() {
   });
 }
 
+const fallbackSite = {
+  brand: defaultBrand,
+  menu: defaultMenu,
+  slides: [] as SiteSlide[],
+};
+
 export async function getSiteContent(): Promise<{ brand: SiteBrand; menu: SiteMenuItem[]; slides: SiteSlide[] }> {
   noStore();
-  await ensureSiteContent();
-  const [settings, links, slides] = await Promise.all([
-    prisma.siteSetting.findMany(),
-    prisma.navLink.findMany({ where: { visible: true }, orderBy: { sortOrder: "asc" } }),
-    prisma.slide.findMany({ where: { visible: true }, orderBy: { sortOrder: "asc" } }),
-  ]);
-  const map = new Map(settings.map((item) => [item.key, item.value]));
-  return {
-    brand: {
-      name: map.get("brandName") || defaultBrand.name,
-      tagline: map.get("tagline") || defaultBrand.tagline,
-      logoUrl: map.get("logoUrl") || defaultBrand.logoUrl,
-    },
-    menu: links.map((item) => ({ id: item.id, label: item.label, href: item.href })),
-    slides: slides.map((item) => ({
-      id: item.id,
-      title: item.title,
-      subtitle: item.subtitle,
-      imageUrl: item.imageUrl,
-      buttonLabel: item.buttonLabel,
-      buttonHref: item.buttonHref,
-    })),
-  };
+  try {
+    await ensureSiteContent();
+    const [settings, links, slides] = await Promise.all([
+      prisma.siteSetting.findMany(),
+      prisma.navLink.findMany({ where: { visible: true }, orderBy: { sortOrder: "asc" } }),
+      prisma.slide.findMany({ where: { visible: true }, orderBy: { sortOrder: "asc" } }),
+    ]);
+    const map = new Map(settings.map((item) => [item.key, item.value]));
+    return {
+      brand: {
+        name: map.get("brandName") || defaultBrand.name,
+        tagline: map.get("tagline") || defaultBrand.tagline,
+        logoUrl: map.get("logoUrl") || defaultBrand.logoUrl,
+      },
+      menu: links.length
+        ? links.map((item) => ({ id: item.id, label: item.label, href: item.href }))
+        : defaultMenu,
+      slides: slides.map((item) => ({
+        id: item.id,
+        title: item.title,
+        subtitle: item.subtitle,
+        imageUrl: item.imageUrl,
+        buttonLabel: item.buttonLabel,
+        buttonHref: item.buttonHref,
+      })),
+    };
+  } catch (error) {
+    console.error("Site içeriği okunamadı, varsayılan menü kullanıldı.", error);
+    return fallbackSite;
+  }
 }
 
 export async function shiftOrder(

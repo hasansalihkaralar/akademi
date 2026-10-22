@@ -29,17 +29,22 @@ function initials(name: string) {
 
 export async function listPublicAdvisors() {
   noStore();
-  const advisors = await prisma.user.findMany({
-    where: { role: "danisman" },
-    orderBy: { name: "asc" },
-    select: { id: true, name: true, title: true, photoUrl: true },
-  });
-  return advisors.map((advisor, index) => ({
-    id: advisor.id,
-    name: advisor.name,
-    title: advisor.title?.trim() || "Danışman",
-    photoUrl: advisor.photoUrl,
-    initials: initials(advisor.name) || "A",
-    tone: tones[index % tones.length],
-  }));
+  try {
+    const advisors = await prisma.user.findMany({
+      where: { role: "danisman" },
+      orderBy: { name: "asc" },
+      select: { id: true, name: true, title: true, photoUrl: true },
+    });
+    return advisors.map((advisor, index) => ({
+      id: advisor.id,
+      name: advisor.name,
+      title: advisor.title?.trim() || "Danışman",
+      photoUrl: advisor.photoUrl,
+      initials: initials(advisor.name) || "A",
+      tone: tones[index % tones.length],
+    }));
+  } catch (error) {
+    console.error("Mentör listesi okunamadı.", error);
+    return [];
+  }
 }
