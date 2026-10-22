@@ -15,6 +15,7 @@ model User {
   role         String
   phone        String?
   title        String?
+  photoUrl     String?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 

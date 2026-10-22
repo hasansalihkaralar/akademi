@@ -150,7 +150,7 @@ export default async function HomePage() {
                     </div>
                   </div>
                 </div>
-                <div className="mt-space-md flex items-center gap-space-sm rounded-xl bg-primary p-space-md text-on-primary shadow-lg sm:absolute sm:-bottom-5 sm:-left-5 sm:mt-0 sm:max-w-xs">
+                <div className="mt-space-md flex items-center gap-space-sm rounded-xl bg-primary p-space-md text-on-primary shadow-lg sm:absolute sm:-bottom-12 sm:-left-5 sm:mt-0 sm:max-w-xs">
                   <Icon name="military_tech" className="shrink-0 text-[28px] text-tertiary-fixed" />
                   <div>
                     <p className="text-label-lg font-bold leading-tight">YKS Türkiye 47.&apos;si</p>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { ImagePicker } from "@/components/panel/ImagePicker";
 
 type AdvisorStudent = {
   id: string;
@@ -18,9 +19,21 @@ type Advisor = {
   email: string;
   phone: string | null;
   title: string | null;
+  photoUrl: string | null;
   studentCount: number;
   students: AdvisorStudent[];
 };
+
+type Draft = {
+  name: string;
+  email: string;
+  phone: string;
+  title: string;
+  password: string;
+  photoUrl: string;
+};
+
+const emptyDraft: Draft = { name: "", email: "", phone: "", title: "", password: "", photoUrl: "" };
 
 export default function AdminAdvisorsPage() {
   const [advisors, setAdvisors] = useState<Advisor[]>([]);
@@ -30,6 +43,9 @@ export default function AdminAdvisorsPage() {
   const [title, setTitle] = useState("");
   const [error, setError] = useState("");
   const [openId, setOpenId] = useState<string | null>(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [draft, setDraft] = useState<Draft>(emptyDraft);
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     fetch("/api/panel/admin/danismanlar")
@@ -64,12 +80,52 @@ export default function AdminAdvisorsPage() {
     setTitle("");
   }
 
+  function startEdit(advisor: Advisor) {
+    setError("");
+    setEditingId(advisor.id);
+    setDraft({
+      name: advisor.name,
+      email: advisor.email,
+      phone: advisor.phone || "",
+      title: advisor.title || "",
+      password: "",
+      photoUrl: advisor.photoUrl || "",
+    });
+  }
+
+  async function saveAdvisor(event: React.FormEvent) {
+    event.preventDefault();
+    if (!editingId) return;
+    setError("");
+    setSaving(true);
+    const response = await fetch(`/api/panel/admin/danismanlar/${editingId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(draft),
+    });
+    const data = (await response.json().catch(() => null)) as
+      | (Pick<Advisor, "id" | "name" | "email" | "phone" | "title" | "photoUrl"> & { error?: string })
+      | null;
+    setSaving(false);
+    if (!response.ok || !data || !data.id) {
+      setError(data?.error || "Danışman güncellenemedi.");
+      return;
+    }
+    setAdvisors((prev) =>
+      prev
+        .map((row) => (row.id === data.id ? { ...row, ...data } : row))
+        .sort((a, b) => a.name.localeCompare(b.name, "tr")),
+    );
+    setEditingId(null);
+  }
+
   return (
     <div className="space-y-space-lg">
       <div>
         <h2 className="text-headline-sm text-on-surface">Danışmanlar</h2>
         <p className="mt-1 text-body-sm text-on-surface-variant">
           Yeni danışman hesabı aç. Eklenen kişi Koçlarımız sayfasında ve ana sayfadaki mentör kadrosunda görünür.
+          Fotoğraf ve bilgileri listedeki Düzenle ile güncellersin.
         </p>
       </div>
       {error ? <p className="text-body-sm text-error">{error}</p> : null}
@@ -116,21 +172,99 @@ export default function AdminAdvisorsPage() {
             className="rounded-xl bg-surface-container-lowest px-space-md py-space-md shadow-sm"
           >
             <div className="flex flex-wrap items-center justify-between gap-space-sm">
-              <div>
-                <p className="font-semibold text-on-surface">{advisor.name}</p>
-                <p className="text-body-sm text-on-surface-variant">
-                  {advisor.title || "Danışman"} · {advisor.email}
-                </p>
+              <div className="flex items-center gap-space-sm">
+                {advisor.photoUrl ? (
+                  <img
+                    src={advisor.photoUrl}
+                    alt=""
+                    className="h-12 w-12 rounded-full object-cover"
+                  />
+                ) : (
+                  <span className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-fixed text-label-lg font-bold text-primary">
+                    {advisor.name.slice(0, 1)}
+                  </span>
+                )}
+                <div>
+                  <p className="font-semibold text-on-surface">{advisor.name}</p>
+                  <p className="text-body-sm text-on-surface-variant">
+                    {advisor.title || "Danışman"} · {advisor.email}
+                  </p>
+                </div>
               </div>
-              <button
-                type="button"
-                onClick={() => setOpenId((current) => (current === advisor.id ? null : advisor.id))}
-                aria-expanded={openId === advisor.id}
-                className="text-label-lg font-bold text-primary underline-offset-2 hover:underline"
-              >
-                {advisor.studentCount} öğrenci
-              </button>
+              <div className="flex items-center gap-space-md">
+                <button
+                  type="button"
+                  onClick={() => (editingId === advisor.id ? setEditingId(null) : startEdit(advisor))}
+                  className="rounded-full bg-surface-container px-3 py-2 text-label-md font-semibold text-primary"
+                >
+                  {editingId === advisor.id ? "Kapat" : "Düzenle"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setOpenId((current) => (current === advisor.id ? null : advisor.id))}
+                  aria-expanded={openId === advisor.id}
+                  className="text-label-lg font-bold text-primary underline-offset-2 hover:underline"
+                >
+                  {advisor.studentCount} öğrenci
+                </button>
+              </div>
             </div>
+            {editingId === advisor.id ? (
+              <form onSubmit={saveAdvisor} className="mt-space-md grid gap-space-sm md:grid-cols-2">
+                <input
+                  required
+                  value={draft.name}
+                  onChange={(event) => setDraft((current) => ({ ...current, name: event.target.value }))}
+                  placeholder="Ad soyad"
+                  className="h-11 rounded-lg bg-surface-container-low px-3 text-body-sm outline-none focus:ring-2 focus:ring-primary"
+                />
+                <input
+                  required
+                  type="email"
+                  value={draft.email}
+                  onChange={(event) => setDraft((current) => ({ ...current, email: event.target.value }))}
+                  placeholder="E-posta"
+                  className="h-11 rounded-lg bg-surface-container-low px-3 text-body-sm outline-none focus:ring-2 focus:ring-primary"
+                />
+                <input
+                  value={draft.phone}
+                  onChange={(event) => setDraft((current) => ({ ...current, phone: event.target.value }))}
+                  placeholder="Telefon"
+                  className="h-11 rounded-lg bg-surface-container-low px-3 text-body-sm outline-none focus:ring-2 focus:ring-primary"
+                />
+                <input
+                  value={draft.title}
+                  onChange={(event) => setDraft((current) => ({ ...current, title: event.target.value }))}
+                  placeholder="Ünvan"
+                  className="h-11 rounded-lg bg-surface-container-low px-3 text-body-sm outline-none focus:ring-2 focus:ring-primary"
+                />
+                <input
+                  value={draft.password}
+                  onChange={(event) => setDraft((current) => ({ ...current, password: event.target.value }))}
+                  placeholder="Yeni şifre (boşsa değişmez)"
+                  className="h-11 rounded-lg bg-surface-container-low px-3 text-body-sm outline-none focus:ring-2 focus:ring-primary md:col-span-2"
+                />
+                <div className="md:col-span-2">
+                  <p className="mb-2 text-label-md font-semibold text-on-surface">Mentör fotoğrafı</p>
+                  <ImagePicker
+                    value={draft.photoUrl}
+                    onChange={(url) => setDraft((current) => ({ ...current, photoUrl: url }))}
+                  />
+                  {draft.photoUrl ? (
+                    <button
+                      type="button"
+                      onClick={() => setDraft((current) => ({ ...current, photoUrl: "" }))}
+                      className="mt-2 text-label-md font-semibold text-error"
+                    >
+                      Fotoğrafı kaldır
+                    </button>
+                  ) : null}
+                </div>
+                <button type="submit" disabled={saving} className="btn-primary md:col-span-2">
+                  {saving ? "Kaydediliyor..." : "Kaydet"}
+                </button>
+              </form>
+            ) : null}
             {openId === advisor.id ? (
               advisor.students.length === 0 ? (
                 <p className="mt-space-sm text-body-sm text-on-surface-variant">Bağlı öğrenci yok.</p>

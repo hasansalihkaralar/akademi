@@ -100,6 +100,15 @@ export const createAdvisorSchema = z.object({
   phone: z.string().trim().max(30).optional().or(z.literal("")),
 });
 
+export const updateAdvisorSchema = z.object({
+  name: z.string().trim().min(2).max(120),
+  email: z.string().trim().email(),
+  title: z.string().trim().max(120).optional().or(z.literal("")),
+  phone: z.string().trim().max(30).optional().or(z.literal("")),
+  password: z.string().min(4).max(80).optional().or(z.literal("")),
+  photoUrl: z.string().trim().max(500).optional().or(z.literal("")),
+});
+
 export const requestStatusSchema = z.object({
   id: z.string().min(1),
   status: z.enum(["yeni", "gorusuldu", "uye"]),

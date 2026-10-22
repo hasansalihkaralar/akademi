@@ -4,8 +4,12 @@ import type { PublicAdvisor } from "@/lib/advisors";
 export function CoachCard({ coach }: { coach: PublicAdvisor }) {
   return (
     <article className="group flex flex-col overflow-hidden rounded-xl bg-surface-container-lowest shadow-sm transition-all duration-200 hover:shadow-xl">
-      <div className={`relative flex h-48 items-end justify-center bg-gradient-to-br ${coach.tone} pb-6`}>
-        <span className="text-5xl font-extrabold text-white/90">{coach.initials}</span>
+      <div className={`relative flex h-48 items-end justify-center overflow-hidden bg-gradient-to-br ${coach.tone} pb-6`}>
+        {coach.photoUrl ? (
+          <img src={coach.photoUrl} alt="" className="absolute inset-0 h-full w-full object-cover" />
+        ) : (
+          <span className="text-5xl font-extrabold text-white/90">{coach.initials}</span>
+        )}
       </div>
       <div className="flex flex-grow flex-col p-space-lg">
         <h3 className="text-title-lg font-bold text-on-surface">{coach.name}</h3>

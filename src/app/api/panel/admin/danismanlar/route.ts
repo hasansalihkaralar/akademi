@@ -17,6 +17,7 @@ export async function GET() {
       email: true,
       phone: true,
       title: true,
+      photoUrl: true,
       advised: {
         orderBy: { user: { name: "asc" } },
         select: {
@@ -37,6 +38,7 @@ export async function GET() {
       email: advisor.email,
       phone: advisor.phone,
       title: advisor.title,
+      photoUrl: advisor.photoUrl,
       studentCount: advisor.advised.length,
       students: advisor.advised.map((student) => ({
         id: student.id,
@@ -76,7 +78,7 @@ export async function POST(request: Request) {
       title: parsed.data.title || "Danışman",
       phone: parsed.data.phone || null,
     },
-    select: { id: true, name: true, email: true, phone: true, title: true },
+    select: { id: true, name: true, email: true, phone: true, title: true, photoUrl: true },
   });
 
   return NextResponse.json({ ...advisor, studentCount: 0, students: [] }, { status: 201 });
