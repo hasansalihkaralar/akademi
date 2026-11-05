@@ -9,6 +9,7 @@ const nav = [
   { href: "/panel/ogrenci/program", label: "Program", icon: "calendar_month" },
   { href: "/panel/ogrenci/denemeler", label: "Denemeler", icon: "analytics" },
   { href: "/panel/ogrenci/gorusmeler", label: "Görüşmeler", icon: "videocam" },
+  { href: "/panel/ogrenci/siparisler", label: "Siparişlerim", icon: "receipt_long" },
 ];
 
 export default function StudentPanelLayout({ children }: { children: React.ReactNode }) {
@@ -16,14 +17,20 @@ export default function StudentPanelLayout({ children }: { children: React.React
   const [profile, setProfile] = useState<{
     name: string;
     subtitle: string;
-    role: "ogrenci" | "veli";
-  }>({ name: "…", subtitle: "Oturum kontrol ediliyor", role: "ogrenci" });
+    role: "ogrenci" | "veli" | "bekliyor";
+  }>({ name: "…", subtitle: "Oturum kontrol ediliyor", role: "bekliyor" });
 
   useEffect(() => {
-    fetch("/api/auth/me")
+    const ac = new AbortController();
+    fetch("/api/auth/me", { credentials: "same-origin", cache: "no-store", signal: ac.signal })
       .then(async (response) => {
+        if (ac.signal.aborted) return;
+        if (response.status === 401) {
+          router.replace("/giris");
+          return;
+        }
         if (!response.ok) {
-          router.replace("/giris?rol=ogrenci");
+          setProfile((prev) => ({ ...prev, subtitle: "Oturum doğrulanamadı, yeniden dene." }));
           return;
         }
         const data = (await response.json()) as {
@@ -31,7 +38,7 @@ export default function StudentPanelLayout({ children }: { children: React.React
           subtitle: string;
         };
         if (data.user.role !== "ogrenci" && data.user.role !== "veli") {
-          router.replace("/giris?rol=ogrenci");
+          router.replace("/giris");
           return;
         }
         setProfile({
@@ -40,11 +47,24 @@ export default function StudentPanelLayout({ children }: { children: React.React
           role: data.user.role === "veli" ? "veli" : "ogrenci",
         });
       })
-      .catch(() => router.replace("/giris?rol=ogrenci"));
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+        setProfile((prev) => ({ ...prev, subtitle: "Bağlantı hatası, sayfayı yenile." }));
+      });
+    return () => ac.abort();
   }, [router]);
 
+  const items =
+    profile.role === "ogrenci" ? nav : nav.filter((item) => item.href !== "/panel/ogrenci/gorusmeler");
+
   return (
-    <PanelShell role={profile.role} name={profile.name} subtitle={profile.subtitle} nav={nav}>
+    <PanelShell
+      role={profile.role === "veli" ? "veli" : "ogrenci"}
+      name={profile.name}
+      subtitle={profile.subtitle}
+      nav={items}
+      homeHref="/panel/ogrenci"
+    >
       {children}
     </PanelShell>
   );

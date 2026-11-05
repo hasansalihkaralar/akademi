@@ -16,10 +16,9 @@ export async function GET() {
   });
 
   const notes = await prisma.sessionNote.findMany({
-    where: { authorId: user.id },
+    where: { authorId: user.id, student: { advisorId: user.id } },
     include: { student: { include: { user: { select: { name: true } } } } },
     orderBy: { createdAt: "desc" },
-    take: 30,
   });
 
   return NextResponse.json({
@@ -30,6 +29,7 @@ export async function GET() {
     })),
     notes: notes.map((note) => ({
       id: note.id,
+      studentId: note.studentId,
       body: note.body,
       studentName: note.student.user.name,
       createdAt: note.createdAt.toISOString(),
@@ -68,10 +68,34 @@ export async function POST(request: Request) {
   return NextResponse.json(
     {
       id: note.id,
+      studentId: note.studentId,
       body: note.body,
       studentName: student.user.name,
       createdAt: note.createdAt.toISOString(),
     },
     { status: 201 },
   );
+}
+
+export async function DELETE(request: Request) {
+  const user = await getSessionUser();
+  if (!user || user.role !== "danisman") {
+    return NextResponse.json({ error: "Danışman oturumu gerekli." }, { status: 401 });
+  }
+
+  const body = await request.json().catch(() => null);
+  const id = typeof body?.id === "string" ? body.id : "";
+  if (!id) {
+    return NextResponse.json({ error: "Not seçilmedi." }, { status: 400 });
+  }
+
+  const note = await prisma.sessionNote.findFirst({
+    where: { id, authorId: user.id, student: { advisorId: user.id } },
+  });
+  if (!note) {
+    return NextResponse.json({ error: "Not bulunamadı." }, { status: 404 });
+  }
+
+  await prisma.sessionNote.delete({ where: { id: note.id } });
+  return NextResponse.json({ ok: true });
 }

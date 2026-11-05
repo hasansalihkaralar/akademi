@@ -12,6 +12,7 @@ const groups = [
       { href: "/panel/admin/ogrenciler", label: "Öğrenciler", icon: "groups" },
       { href: "/panel/admin/danismanlar", label: "Danışmanlar", icon: "psychology" },
       { href: "/panel/admin/talepler", label: "Talepler", icon: "inbox" },
+      { href: "/panel/admin/odemeler", label: "Ödemeler", icon: "payments" },
       { href: "/panel/admin/mesajlar", label: "Mesajlar", icon: "mail" },
     ],
   },
@@ -31,10 +32,16 @@ export default function AdminPanelLayout({ children }: { children: React.ReactNo
   const [profile, setProfile] = useState({ name: "…", subtitle: "Oturum kontrol ediliyor" });
 
   useEffect(() => {
-    fetch("/api/auth/me")
+    const ac = new AbortController();
+    fetch("/api/auth/me", { credentials: "same-origin", cache: "no-store", signal: ac.signal })
       .then(async (response) => {
+        if (ac.signal.aborted) return;
+        if (response.status === 401) {
+          router.replace("/giris");
+          return;
+        }
         if (!response.ok) {
-          router.replace("/giris?rol=admin");
+          setProfile((prev) => ({ ...prev, subtitle: "Oturum doğrulanamadı, yeniden dene." }));
           return;
         }
         const data = (await response.json()) as {
@@ -42,16 +49,26 @@ export default function AdminPanelLayout({ children }: { children: React.ReactNo
           subtitle: string;
         };
         if (data.user.role !== "admin") {
-          router.replace("/giris?rol=admin");
+          router.replace("/giris");
           return;
         }
         setProfile({ name: data.user.name, subtitle: data.subtitle });
       })
-      .catch(() => router.replace("/giris?rol=admin"));
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+        setProfile((prev) => ({ ...prev, subtitle: "Bağlantı hatası, sayfayı yenile." }));
+      });
+    return () => ac.abort();
   }, [router]);
 
   return (
-    <PanelShell role="admin" name={profile.name} subtitle={profile.subtitle} groups={groups}>
+    <PanelShell
+      role="admin"
+      name={profile.name}
+      subtitle={profile.subtitle}
+      groups={groups}
+      homeHref="/panel/admin"
+    >
       {children}
     </PanelShell>
   );

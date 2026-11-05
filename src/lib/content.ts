@@ -14,6 +14,14 @@ export const brand = {
   tiktok: "https://www.tiktok.com/@amfikocluk",
 };
 
+export const bankTransfer = {
+  bankName: "Türkiye İş Bankası",
+  accountName: "Amfi Koçluk Eğitim ve Danışmanlık",
+  iban: "TR00 0006 4000 0011 2345 6789 01",
+  branch: "Maslak Şubesi",
+  descriptionHint: "Açıklamaya öğrenci adını ve e-postasını yazın.",
+};
+
 export type Program = "yks" | "lgs";
 
 export type PackageId =

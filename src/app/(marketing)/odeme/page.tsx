@@ -20,12 +20,15 @@ export default async function CheckoutPage({
           <div>
             <h1 className="text-headline-lg text-on-surface">Satın Alma</h1>
             <p className="mt-space-sm max-w-2xl text-body-md text-on-surface-variant">
-              Bu sayfa, ücretsiz ön görüşme sonrası paket kararını vermiş öğrenciler içindir.
-              Henüz görüşme yapmadıysan önce{" "}
+              Paket satın almak için önce öğrenci üyeliği gerekir. Üye değilsen{" "}
+              <a href="/uye-ol" className="font-semibold text-primary underline">
+                üye ol
+              </a>
+              ; hesabın varsa giriş yapıp ödemeye devam et. Henüz görüşme yapmadıysan önce{" "}
               <a href="/on-gorusme" className="font-semibold text-primary underline">
                 ön görüşme formunu
               </a>{" "}
-              doldur.
+              doldurabilirsin.
             </p>
           </div>
           <div className="flex items-center gap-space-xs rounded-full bg-surface-container-lowest px-space-md py-space-sm text-label-md font-semibold text-primary shadow-sm">

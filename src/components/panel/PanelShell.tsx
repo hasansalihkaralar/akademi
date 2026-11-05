@@ -14,6 +14,7 @@ export function PanelShell({
   subtitle,
   nav = [],
   groups,
+  homeHref,
   children,
 }: {
   role: "ogrenci" | "danisman" | "veli" | "admin";
@@ -21,11 +22,19 @@ export function PanelShell({
   subtitle: string;
   nav?: NavItem[];
   groups?: NavGroup[];
+  homeHref?: string;
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
   const router = useRouter();
   const sections = groups?.length ? groups : [{ label: "", items: nav }];
+  const logoHref =
+    homeHref ||
+    (role === "admin"
+      ? "/panel/admin"
+      : role === "danisman"
+        ? "/panel/danisman"
+        : "/panel/ogrenci");
 
   function itemClass(active: boolean) {
     return `flex items-center gap-space-sm rounded-lg px-space-md py-2.5 text-label-lg transition ${
@@ -43,7 +52,7 @@ export function PanelShell({
     <div className="flex min-h-screen bg-surface-container-low">
       <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col border-r border-outline-variant/30 bg-surface-container-lowest p-space-md lg:flex">
         <div className="mb-space-lg px-space-sm">
-          <Logo />
+          <Logo href={logoHref} />
         </div>
 
         <nav className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto">
@@ -82,7 +91,7 @@ export function PanelShell({
           <div className="flex items-start justify-between gap-space-md">
             <div className="flex min-w-0 items-start gap-space-sm">
               <div className="mt-0.5 lg:hidden">
-                <Logo markOnly />
+                <Logo markOnly href={logoHref} />
               </div>
               <div className="min-w-0">
               <p className="text-label-md font-bold uppercase tracking-wider text-secondary">

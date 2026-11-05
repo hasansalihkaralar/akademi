@@ -14,6 +14,14 @@ type StudentRow = {
   risk: string;
   nextMeeting: string;
   requests: number;
+  quota?: {
+    packageName: string | null;
+    used: number;
+    total: number;
+    remaining: number;
+    weekUsed: boolean;
+    cooldownUntilLabel?: string | null;
+  };
 };
 
 export default function AdvisorStudentsPage() {
@@ -49,7 +57,8 @@ export default function AdvisorStudentsPage() {
             <tr>
               <th className="px-space-md py-space-md font-semibold">Öğrenci</th>
               <th className="px-space-md py-space-md font-semibold">Program</th>
-              <th className="px-space-md py-space-md font-semibold">Bu hafta</th>
+              <th className="px-space-md py-space-md font-semibold">Toplantı hakkı</th>
+              <th className="px-space-md py-space-md font-semibold">Tamamlama</th>
               <th className="px-space-md py-space-md font-semibold">Son Net</th>
               <th className="px-space-md py-space-md font-semibold">Risk</th>
               <th className="px-space-md py-space-md font-semibold">Sonraki Seans</th>
@@ -64,6 +73,23 @@ export default function AdvisorStudentsPage() {
                   <p className="text-body-sm text-on-surface-variant">{student.grade}</p>
                 </td>
                 <td className="px-space-md py-space-md">{student.program}</td>
+                <td className="px-space-md py-space-md">
+                  {student.quota?.packageName ? (
+                    <>
+                      <p className="font-semibold text-on-surface">
+                        {student.quota.used}/{student.quota.total}
+                      </p>
+                      <p className="text-body-sm text-on-surface-variant">
+                        {student.quota.packageName}
+                        {student.quota.cooldownUntilLabel
+                          ? ` · en erken ${student.quota.cooldownUntilLabel}`
+                          : " · randevu müsait"}
+                      </p>
+                    </>
+                  ) : (
+                    <span className="text-on-surface-variant">Paket yok</span>
+                  )}
+                </td>
                 <td className="px-space-md py-space-md">
                   <div className="flex items-center gap-2">
                     <div className="h-2 w-16 overflow-hidden rounded-full bg-surface-container-highest">
@@ -86,12 +112,7 @@ export default function AdvisorStudentsPage() {
                     {student.risk}
                   </span>
                 </td>
-                <td className="px-space-md py-space-md text-on-surface-variant">
-                  {student.nextMeeting}
-                  {student.requests > 0 ? (
-                    <span className="mt-1 block font-semibold text-primary">Talep var</span>
-                  ) : null}
-                </td>
+                <td className="px-space-md py-space-md text-on-surface-variant">{student.nextMeeting}</td>
                 <td className="px-space-md py-space-md">
                   <Link
                     href={`/panel/danisman/ogrenciler/${student.id}`}
@@ -105,7 +126,7 @@ export default function AdvisorStudentsPage() {
             ))}
             {students.length === 0 && !error ? (
               <tr>
-                <td className="px-space-md py-space-lg text-on-surface-variant" colSpan={7}>
+                <td className="px-space-md py-space-lg text-on-surface-variant" colSpan={8}>
                   Sana atanmış öğrenci yok. Yönetim panelinden atama yapılınca burada görünür.
                 </td>
               </tr>

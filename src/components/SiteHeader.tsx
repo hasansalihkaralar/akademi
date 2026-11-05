@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { brand } from "@/lib/content";
+import { panelHomeForRole } from "@/lib/panel-home";
 import { defaultBrand, defaultMenu, type SiteBrand, type SiteMenuItem } from "@/lib/site-defaults";
 import { Icon } from "./Icon";
 import { Logo } from "./Logo";
@@ -16,10 +16,26 @@ export function SiteHeader({
   siteBrand?: SiteBrand;
 }) {
   const [open, setOpen] = useState(false);
+  const [accountHref, setAccountHref] = useState("/giris");
   const pathname = usePathname();
 
   useEffect(() => {
     setOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    const ac = new AbortController();
+    fetch("/api/auth/me", { credentials: "same-origin", cache: "no-store", signal: ac.signal })
+      .then(async (response) => {
+        if (!response.ok) {
+          setAccountHref("/giris");
+          return;
+        }
+        const data = (await response.json()) as { user?: { role?: string } };
+        setAccountHref(data.user?.role ? panelHomeForRole(data.user.role) : "/giris");
+      })
+      .catch(() => setAccountHref("/giris"));
+    return () => ac.abort();
   }, [pathname]);
 
   useEffect(() => {
@@ -56,25 +72,6 @@ export function SiteHeader({
         </nav>
 
         <div className="flex shrink-0 items-center gap-1.5 sm:gap-space-sm">
-          <a
-            href={brand.phoneHref}
-            className="hidden items-center gap-space-xs rounded-full bg-surface-container px-3 py-2 text-label-md text-on-surface transition-colors hover:bg-surface-container-high xl:flex"
-            aria-label={brand.phone}
-          >
-            <Icon name="call" className="text-[18px] text-primary" />
-            <span className="hidden 2xl:inline">{brand.phone}</span>
-          </a>
-
-          <a
-            href={brand.whatsappHref}
-            target="_blank"
-            rel="noreferrer"
-            className="hidden items-center gap-space-xs rounded-full bg-surface-container-low px-3 py-2 text-label-md text-on-surface transition-colors hover:bg-surface-container lg:flex"
-          >
-            <span className="h-2 w-2 rounded-full bg-[#25D366]" />
-            <span>WhatsApp</span>
-          </a>
-
           <Link
             href="/on-gorusme"
             className="btn-primary hidden h-10 px-3 py-0 text-label-md lg:inline-flex xl:px-space-lg"
@@ -85,9 +82,9 @@ export function SiteHeader({
           </Link>
 
           <Link
-            href="/giris"
+            href={accountHref}
             className="grid h-9 w-9 place-items-center rounded-full bg-primary text-on-primary sm:h-8 sm:w-8"
-            aria-label="Panele giriş"
+            aria-label={accountHref === "/giris" ? "Panele giriş" : "Panele dön"}
           >
             <Icon name="person" className="text-[18px]" />
           </Link>
@@ -134,23 +131,6 @@ export function SiteHeader({
 
               <div className="my-space-sm h-px bg-outline-variant/40" />
 
-              <a
-                href={brand.phoneHref}
-                className="flex items-center gap-space-sm rounded-lg px-space-md py-3 text-title-md text-on-surface"
-              >
-                <Icon name="call" className="text-[20px] text-primary" />
-                {brand.phone}
-              </a>
-              <a
-                href={brand.whatsappHref}
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-space-sm rounded-lg px-space-md py-3 text-title-md text-on-surface"
-              >
-                <span className="h-2.5 w-2.5 rounded-full bg-[#25D366]" />
-                WhatsApp Destek
-              </a>
-
               <div className="mt-space-sm flex flex-col gap-space-sm pb-space-md">
                 <Link
                   href="/on-gorusme"
@@ -160,25 +140,18 @@ export function SiteHeader({
                   Ücretsiz Ön Görüşme Yap
                 </Link>
                 <Link
-                  href="/giris?rol=ogrenci"
+                  href="/uye-ol"
                   onClick={() => setOpen(false)}
                   className="btn-secondary w-full"
                 >
-                  Öğrenci Girişi
+                  Öğrenci Üye Ol
                 </Link>
                 <Link
-                  href="/giris?rol=danisman"
+                  href={accountHref}
                   onClick={() => setOpen(false)}
                   className="btn-secondary w-full"
                 >
-                  Danışman Girişi
-                </Link>
-                <Link
-                  href="/giris?rol=veli"
-                  onClick={() => setOpen(false)}
-                  className="btn-secondary w-full"
-                >
-                  Veli Girişi
+                  {accountHref === "/giris" ? "Giriş Yap" : "Panele Dön"}
                 </Link>
               </div>
             </nav>

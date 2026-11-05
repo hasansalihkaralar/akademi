@@ -10,18 +10,27 @@ type Summary = {
   advisors: number;
   requests: number;
   messages: number;
+  payments: number;
 };
 
 export default function AdminHomePage() {
   const [summary, setSummary] = useState<Summary | null>(null);
   const [error, setError] = useState("");
-  const [google, setGoogle] = useState<{ connected: boolean; email: string | null } | null>(null);
+  const [google, setGoogle] = useState<{
+    connected: boolean;
+    healthy?: boolean;
+    email: string | null;
+    error?: string | null;
+  } | null>(null);
   const [googleNote, setGoogleNote] = useState("");
 
   useEffect(() => {
     const flag = new URLSearchParams(window.location.search).get("google");
-    if (flag === "ok") setGoogleNote("Google hesabı bağlandı. Yeni randevular Meet bağlantısı alır.");
-    if (flag === "hata") setGoogleNote("Google bağlantısı tamamlanmadı. amfikocluk@gmail.com ile tekrar dene.");
+    if (flag === "ok") setGoogleNote("Google hesabı bağlandı. Eksik Meet linkleri de doldurulur.");
+    if (flag === "hata")
+      setGoogleNote(
+        "Google bağlantısı tamamlanmadı. amfikocluk@gmail.com ile tekrar dene ve Google Takvim / Meet iznini mutlaka onayla.",
+      );
     if (flag === "ayar") setGoogleNote("Google anahtarları ortam dosyasında yok.");
     fetch("/api/panel/admin/ozet")
       .then(async (response) => {
@@ -35,7 +44,14 @@ export default function AdminHomePage() {
     fetch("/api/google/status")
       .then(async (response) => {
         if (!response.ok) return;
-        setGoogle((await response.json()) as { connected: boolean; email: string | null });
+        setGoogle(
+          (await response.json()) as {
+            connected: boolean;
+            healthy?: boolean;
+            email: string | null;
+            error?: string | null;
+          },
+        );
       })
       .catch(() => undefined);
   }, []);
@@ -47,6 +63,7 @@ export default function AdminHomePage() {
         ["Danışman", String(summary.advisors), "psychology", "/panel/admin/danismanlar"],
         ["Yeni talep", String(summary.requests), "inbox", "/panel/admin/talepler"],
         ["Okunmamış mesaj", String(summary.messages), "mail", "/panel/admin/mesajlar"],
+        ["Gelen ödeme", String(summary.payments), "payments", "/panel/admin/odemeler"],
       ]
     : [];
 
@@ -63,13 +80,15 @@ export default function AdminHomePage() {
       <section className="rounded-xl bg-surface-container-lowest p-space-lg shadow-sm">
         <h3 className="text-title-lg font-bold text-on-surface">Google Meet</h3>
         <p className="mt-1 text-body-sm text-on-surface-variant">
-          {google?.connected
-            ? `${google.email} bağlı. Danışman randevu yazınca Meet odası bu hesaptan açılır.`
-            : "amfikocluk@gmail.com hesabını bir kez bağla. Sonraki randevuların Meet bağlantısı otomatik gelir."}
+          {google?.healthy
+            ? `${google.email} bağlı ve çalışıyor. Öğrenci/danışman randevularında Meet linki otomatik oluşur.`
+            : google?.connected
+              ? `${google.email} kayıtlı ama Meet için Takvim izni yok veya bağlantı geçersiz. ${google.error || "Bağlantıyı yenile ve Takvim iznini onayla."}`
+              : "amfikocluk@gmail.com hesabını bağla. Açılan Google ekranında Takvim iznini de onayla; aksi halde Meet linki oluşmaz."}
         </p>
         <a href="/api/google/connect" className="btn-primary mt-space-md">
           <Icon name="videocam" className="text-[18px]" />
-          {google?.connected ? "Hesabı yeniden bağla" : "Google hesabını bağla"}
+          {google?.healthy ? "Hesabı yeniden bağla" : google?.connected ? "Bağlantıyı yenile" : "Google hesabını bağla"}
         </a>
       </section>
       <div className="grid gap-space-md sm:grid-cols-2 xl:grid-cols-3">

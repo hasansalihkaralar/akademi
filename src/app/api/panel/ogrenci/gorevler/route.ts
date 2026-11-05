@@ -30,24 +30,32 @@ export async function GET() {
     return NextResponse.json({ error: "Öğrenci kaydı bulunamadı." }, { status: 404 });
   }
 
+  const hasPackage = Boolean(profile.packageId);
+
   return NextResponse.json({
     viewer: user.role,
-    tasks: profile.tasks.map((task) => ({
-      id: task.id,
-      day: task.day,
-      subject: task.subject,
-      title: task.title,
-      duration: task.duration,
-      videoUrl: task.videoUrl,
-      done: task.done,
-      weekStart: task.weekStart,
-      sortOrder: task.sortOrder,
-    })),
-    dayNotes: profile.dayNotes.map((note) => ({
-      weekStart: note.weekStart,
-      day: note.day,
-      body: note.body,
-    })),
+    hasPackage,
+    packageId: profile.packageId,
+    tasks: hasPackage
+      ? profile.tasks.map((task) => ({
+          id: task.id,
+          day: task.day,
+          subject: task.subject,
+          title: task.title,
+          duration: task.duration,
+          videoUrl: task.videoUrl,
+          done: task.done,
+          weekStart: task.weekStart,
+          sortOrder: task.sortOrder,
+        }))
+      : [],
+    dayNotes: hasPackage
+      ? profile.dayNotes.map((note) => ({
+          weekStart: note.weekStart,
+          day: note.day,
+          body: note.body,
+        }))
+      : [],
   });
 }
 

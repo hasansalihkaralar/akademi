@@ -6,7 +6,7 @@ import { LoginForm } from "@/components/panel/LoginForm";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 
-export const metadata: Metadata = { title: "Öğrenci & Danışman Girişi" };
+export const metadata: Metadata = { title: "Giriş" };
 
 export default function LoginPage() {
   return (
@@ -21,7 +21,7 @@ export default function LoginPage() {
                 Ana Sayfa
               </Link>
               <Icon name="chevron_right" className="text-[14px] text-outline" />
-              <span className="font-semibold text-primary">Giriş Portalı</span>
+              <span className="font-semibold text-primary">Giriş</span>
             </nav>
             <span className="hidden items-center gap-1 rounded-full bg-[#DCFCE7] px-2 py-0.5 text-label-md font-semibold text-[#15803D] sm:inline-flex">
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#15803D]" />
@@ -43,10 +43,10 @@ export default function LoginPage() {
 
               <div className="flex flex-col gap-space-lg lg:col-span-5">
                 <div className="relative overflow-hidden rounded-xl bg-primary p-space-lg text-on-primary shadow-xl">
-                  <h2 className="text-headline-sm">Tek panel, iki taraf</h2>
+                  <h2 className="text-headline-sm">Tek giriş, doğru panel</h2>
                   <p className="mt-space-sm text-body-sm text-primary-fixed">
-                    Öğrenci kendi programını takip eder; danışman tüm öğrencilerin
-                    netlerini, seanslarını ve risk durumunu yönetir.
+                    Öğrenci, danışman, veli veya yönetim — aynı ekrandan giriş yap; sistem
+                    hesabının yetkisine göre seni yönlendirir.
                   </p>
                   <ul className="mt-space-lg space-y-space-sm text-body-sm">
                     {[
@@ -64,37 +64,14 @@ export default function LoginPage() {
                 </div>
 
                 <div className="rounded-xl bg-surface-container-lowest p-space-lg shadow-md">
-                  <h3 className="text-title-lg font-bold text-on-surface">Hızlı erişim</h3>
-                  <div className="mt-space-md grid gap-space-sm">
-                    <Link
-                      href="/giris?rol=ogrenci"
-                      className="flex items-center gap-space-sm rounded-lg bg-surface-container-low px-space-md py-3 text-label-lg font-semibold text-primary"
-                    >
-                      <Icon name="school" className="text-[20px]" />
-                      Öğrenci paneli
-                    </Link>
-                    <Link
-                      href="/giris?rol=danisman"
-                      className="flex items-center gap-space-sm rounded-lg bg-surface-container-low px-space-md py-3 text-label-lg font-semibold text-primary"
-                    >
-                      <Icon name="psychology" className="text-[20px]" />
-                      Danışman paneli
-                    </Link>
-                    <Link
-                      href="/giris?rol=veli"
-                      className="flex items-center gap-space-sm rounded-lg bg-surface-container-low px-space-md py-3 text-label-lg font-semibold text-primary"
-                    >
-                      <Icon name="family_restroom" className="text-[20px]" />
-                      Veli paneli
-                    </Link>
-                    <Link
-                      href="/giris?rol=admin"
-                      className="flex items-center gap-space-sm rounded-lg bg-surface-container-low px-space-md py-3 text-label-lg font-semibold text-primary"
-                    >
-                      <Icon name="admin_panel_settings" className="text-[20px]" />
-                      Yönetim paneli
-                    </Link>
-                  </div>
+                  <h3 className="text-title-lg font-bold text-on-surface">Hesabın yok mu?</h3>
+                  <p className="mt-space-sm text-body-sm text-on-surface-variant">
+                    Öğrenci üyeliği oluştur, ardından paket satın alabilirsin.
+                  </p>
+                  <Link href="/uye-ol" className="btn-primary mt-space-md w-full">
+                    <Icon name="person_add" className="text-[20px]" />
+                    Öğrenci üye ol
+                  </Link>
                 </div>
               </div>
             </div>

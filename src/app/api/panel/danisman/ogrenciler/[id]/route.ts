@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { weekStartIso } from "@/lib/meeting-date";
+import { summarizeMeetingQuota } from "@/lib/meeting-quota";
 import { getSessionUser } from "@/lib/session";
 import { createTaskSchema, normalizeVideoUrl } from "@/lib/validators";
 
@@ -22,6 +23,12 @@ export async function GET(_request: Request, context: RouteContext) {
       dayNotes: true,
       trials: { orderBy: { sortOrder: "asc" } },
       meetings: { orderBy: { dateLabel: "asc" } },
+      payments: {
+        where: { status: "odendi" },
+        orderBy: { createdAt: "desc" },
+        take: 1,
+        select: { packageId: true, packageName: true, createdAt: true },
+      },
       notes: {
         orderBy: { createdAt: "desc" },
         include: { author: { select: { name: true } } },
@@ -36,6 +43,15 @@ export async function GET(_request: Request, context: RouteContext) {
   const currentWeek = weekStartIso();
   const thisWeek = student.tasks.filter((task) => task.weekStart === currentWeek || task.weekStart === "");
   const done = thisWeek.filter((task) => task.done).length;
+  const payment = student.payments[0];
+  const packageId = student.packageId || payment?.packageId || null;
+  const quota = summarizeMeetingQuota({
+    packageId,
+    packageStartedAt: student.packageStartedAt || payment?.createdAt || null,
+    packageName: payment?.packageName || null,
+    meetings: student.meetings,
+  });
+
   return NextResponse.json({
     id: student.id,
     name: student.user.name,
@@ -47,6 +63,16 @@ export async function GET(_request: Request, context: RouteContext) {
     lastNet: student.lastNet,
     completion: thisWeek.length ? Math.round((done / thisWeek.length) * 100) : 0,
     parent: student.parent,
+    quota: {
+      packageId: quota.packageId,
+      packageName: quota.packageName,
+      used: quota.used,
+      total: quota.total,
+      remaining: quota.remaining,
+      weekUsed: quota.weekUsed,
+      weeklyLimit: quota.weeklyLimit,
+      cooldownUntilLabel: quota.cooldownUntilLabel,
+    },
     tasks: student.tasks,
     dayNotes: student.dayNotes.map((note) => ({
       id: note.id,

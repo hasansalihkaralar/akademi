@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Icon } from "@/components/Icon";
 import { advisorStudents } from "@/lib/panel-data";
+import { AppointmentRequests } from "./appointment-requests";
 import { TodayAgenda, TodaySessionCount } from "./today-agenda";
 
 export const metadata: Metadata = { title: "Danışman Özet" };
@@ -14,6 +15,7 @@ export default function AdvisorDashboardPage() {
 
   return (
     <div className="space-y-space-lg">
+      <AppointmentRequests />
       <div className="grid gap-space-md sm:grid-cols-2 xl:grid-cols-4">
         {[
           ["Aktif Öğrenci", String(advisorStudents.length), "groups"],

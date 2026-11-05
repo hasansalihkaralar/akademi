@@ -2,7 +2,7 @@ import { createHmac, timingSafeEqual } from "crypto";
 import { cookies } from "next/headers";
 import { prisma } from "@/lib/db";
 
-export const SESSION_COOKIE = "pusula_session";
+export const SESSION_COOKIE = "amfi_session";
 const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 
 export type SessionPayload = {
@@ -44,7 +44,7 @@ export const sessionCookieOptions = {
   sameSite: "lax" as const,
   secure: process.env.NODE_ENV === "production",
   path: "/",
-  maxAge: WEEK_MS / 1000,
+  maxAge: 60 * 60 * 24 * 7,
 };
 
 export async function getSessionUser() {

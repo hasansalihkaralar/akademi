@@ -58,18 +58,13 @@ export function SiteFooter({ siteBrand = defaultBrand }: { siteBrand?: SiteBrand
                 </Link>
               </li>
               <li>
-                <Link href="/giris?rol=ogrenci" className="transition-colors hover:text-primary">
-                  Öğrenci Girişi
+                <Link href="/giris" className="transition-colors hover:text-primary">
+                  Panel Girişi
                 </Link>
               </li>
               <li>
-                <Link href="/giris?rol=danisman" className="transition-colors hover:text-primary">
-                  Danışman Girişi
-                </Link>
-              </li>
-              <li>
-                <Link href="/giris?rol=veli" className="transition-colors hover:text-primary">
-                  Veli Girişi
+                <Link href="/uye-ol" className="transition-colors hover:text-primary">
+                  Öğrenci Üye Ol
                 </Link>
               </li>
             </ul>

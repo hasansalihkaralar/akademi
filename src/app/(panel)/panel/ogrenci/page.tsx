@@ -1,28 +1,96 @@
-import type { Metadata } from "next";
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { Icon } from "@/components/Icon";
-import { studentTasks, studentTrials } from "@/lib/panel-data";
 import { NextMeetingCard, NextMeetingStat } from "./next-meeting";
 
-export const metadata: Metadata = { title: "Öğrenci Özet" };
+type Task = {
+  id: string;
+  day: string;
+  subject: string;
+  title: string;
+  duration: string;
+  done: boolean;
+};
+
+type Summary = {
+  hasPackage: boolean;
+  packageName: string | null;
+  completion: number;
+  remainingTasks: number;
+  lastNet: number | null;
+  tasks: Task[];
+};
+
+function PackageGate() {
+  return (
+    <section className="rounded-xl bg-surface-container-lowest p-space-xl shadow-sm">
+      <div className="mx-auto max-w-xl text-center">
+        <div className="mx-auto mb-space-md grid h-14 w-14 place-items-center rounded-full bg-primary-fixed text-primary">
+          <Icon name="inventory_2" className="text-[28px]" />
+        </div>
+        <h2 className="text-headline-sm text-on-surface">Önce paket satın al</h2>
+        <p className="mt-space-sm text-body-md text-on-surface-variant">
+          Üyeliğin hazır. Haftalık program, deneme takibi ve görüşme hakları paket satın
+          aldıktan sonra hesabına tanımlanır.
+        </p>
+        <div className="mt-space-lg flex flex-wrap justify-center gap-space-sm">
+          <Link href="/paketler" className="btn-primary">
+            <Icon name="shopping_bag" className="text-[18px]" />
+            Paketleri gör
+          </Link>
+          <Link href="/odeme" className="btn-secondary">
+            Satın almaya git
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 export default function StudentDashboardPage() {
-  const done = studentTasks.filter((t) => t.done).length;
-  const completion = Math.round((done / studentTasks.length) * 100);
-  const lastTrial = studentTrials[0];
+  const [summary, setSummary] = useState<Summary | null>(null);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    fetch("/api/panel/ogrenci/ozet")
+      .then(async (response) => {
+        if (!response.ok) {
+          setError("Özet yüklenemedi.");
+          return;
+        }
+        setSummary((await response.json()) as Summary);
+      })
+      .catch(() => setError("Özet yüklenemedi."));
+  }, []);
+
+  if (error) {
+    return <p className="text-body-sm text-error">{error}</p>;
+  }
+
+  if (!summary) {
+    return <p className="text-body-sm text-on-surface-variant">Özet yükleniyor…</p>;
+  }
+
+  if (!summary.hasPackage) {
+    return <PackageGate />;
+  }
 
   return (
     <div className="space-y-space-lg">
       <div className="grid gap-space-md sm:grid-cols-2 xl:grid-cols-4">
         {[
-          ["Haftalık Tamamlama", `%${completion}`, "assignment_turned_in", "text-primary"],
-          ["Son TYT Net", String(lastTrial.tyt || lastTrial.ayt), "analytics", "text-secondary"],
-          ["Kalan Görev", String(studentTasks.length - done), "pending_actions", "text-primary"],
+          ["Haftalık Tamamlama", `%${summary.completion}`, "assignment_turned_in", "text-primary"],
+          [
+            "Son TYT Net",
+            summary.lastNet != null ? String(summary.lastNet) : "—",
+            "analytics",
+            "text-secondary",
+          ],
+          ["Kalan Görev", String(summary.remainingTasks), "pending_actions", "text-primary"],
         ].map(([label, value, icon, color]) => (
-          <div
-            key={label}
-            className="rounded-xl bg-surface-container-lowest p-space-lg shadow-sm"
-          >
+          <div key={label} className="rounded-xl bg-surface-container-lowest p-space-lg shadow-sm">
             <div className="mb-space-sm flex items-center justify-between">
               <p className="text-label-md text-on-surface-variant">{label}</p>
               <Icon name={icon} className={`text-[22px] ${color}`} />
@@ -41,43 +109,40 @@ export default function StudentDashboardPage() {
               Tüm program
             </Link>
           </div>
-          <div className="space-y-space-sm">
-            {studentTasks.slice(0, 5).map((task) => (
-              <div
-                key={task.id}
-                className="flex items-center gap-space-md rounded-lg bg-surface-container-low px-space-md py-space-sm"
-              >
-                <span
-                  className={`grid h-8 w-8 place-items-center rounded-full text-label-md font-bold ${
-                    task.done
-                      ? "bg-primary text-on-primary"
-                      : "bg-surface-container-highest text-primary"
-                  }`}
+          {summary.tasks.length === 0 ? (
+            <p className="text-body-sm text-on-surface-variant">
+              Bu hafta henüz görev yazılmamış. Danışman atandıktan sonra program burada görünür.
+            </p>
+          ) : (
+            <div className="space-y-space-sm">
+              {summary.tasks.map((task) => (
+                <div
+                  key={task.id}
+                  className="flex items-center gap-space-md rounded-lg bg-surface-container-low px-space-md py-space-sm"
                 >
-                  {task.done ? "✓" : task.day}
-                </span>
-                <div className="min-w-0 flex-1">
-                  <p className="truncate text-title-md font-semibold text-on-surface">{task.title}</p>
-                  <p className="text-body-sm text-on-surface-variant">
-                    {task.subject} · {task.duration}
-                  </p>
+                  <span
+                    className={`grid h-8 w-8 place-items-center rounded-full text-label-md font-bold ${
+                      task.done
+                        ? "bg-primary text-on-primary"
+                        : "bg-surface-container-highest text-primary"
+                    }`}
+                  >
+                    {task.done ? "✓" : task.day}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-title-md font-semibold text-on-surface">{task.title}</p>
+                    <p className="text-body-sm text-on-surface-variant">
+                      {task.subject} · {task.duration}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </section>
 
-        <section className="space-y-space-lg lg:col-span-2">
+        <section className="lg:col-span-2">
           <NextMeetingCard />
-
-          <div className="rounded-xl bg-surface-container-lowest p-space-lg shadow-sm">
-            <h3 className="text-title-md font-bold text-on-surface">Koç notu</h3>
-            <p className="mt-space-sm text-body-sm leading-relaxed text-on-surface-variant">
-              Bu hafta türev setini bitirmen kritik. Perşembe denemesinden önce AYT Mat yanlış
-              köklerini paneldeki karakutuya yükle.
-            </p>
-            <p className="mt-space-sm text-label-md font-semibold text-primary">— Mert Yılmaz</p>
-          </div>
         </section>
       </div>
     </div>

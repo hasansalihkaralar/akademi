@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { weekStartIso } from "@/lib/meeting-date";
+import { summarizeMeetingQuota } from "@/lib/meeting-quota";
 import { getSessionUser } from "@/lib/session";
 
 export async function GET() {
@@ -16,8 +17,13 @@ export async function GET() {
       user: { select: { name: true, email: true, phone: true } },
       tasks: { select: { done: true, weekStart: true } },
       meetings: {
-        where: { status: { in: ["upcoming", "requested"] } },
-        select: { status: true, dateLabel: true, time: true },
+        select: { status: true, dateLabel: true, time: true, title: true, meetUrl: true },
+      },
+      payments: {
+        where: { status: "odendi" },
+        orderBy: { createdAt: "desc" },
+        take: 1,
+        select: { packageId: true, packageName: true, createdAt: true },
       },
     },
   });
@@ -30,6 +36,14 @@ export async function GET() {
       const completion = thisWeek.length ? Math.round((done / thisWeek.length) * 100) : 0;
       const next = student.meetings.find((meeting) => meeting.status === "upcoming");
       const requests = student.meetings.filter((meeting) => meeting.status === "requested").length;
+      const payment = student.payments[0];
+      const packageId = student.packageId || payment?.packageId || null;
+      const quota = summarizeMeetingQuota({
+        packageId,
+        packageStartedAt: student.packageStartedAt || payment?.createdAt || null,
+        packageName: payment?.packageName || null,
+        meetings: student.meetings,
+      });
       return {
         id: student.id,
         name: student.user.name,
@@ -41,6 +55,14 @@ export async function GET() {
         risk: student.risk,
         nextMeeting: next ? `${next.dateLabel} ${next.time}` : "—",
         requests,
+        quota: {
+          packageName: quota.packageName,
+          used: quota.used,
+          total: quota.total,
+          remaining: quota.remaining,
+          weekUsed: quota.weekUsed,
+          cooldownUntilLabel: quota.cooldownUntilLabel,
+        },
       };
     }),
   });

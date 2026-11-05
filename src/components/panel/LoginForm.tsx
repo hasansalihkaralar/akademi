@@ -2,25 +2,16 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Icon } from "@/components/Icon";
 import { demoAccounts, type PanelRole } from "@/lib/panel-data";
-
-const tabs: { id: PanelRole; label: string; icon: string }[] = [
-  { id: "ogrenci", label: "Öğrenci Girişi", icon: "school" },
-  { id: "danisman", label: "Danışman Girişi", icon: "psychology" },
-  { id: "veli", label: "Veli Girişi", icon: "family_restroom" },
-  { id: "admin", label: "Yönetim Girişi", icon: "admin_panel_settings" },
-];
-
-function roleFromQuery(value: string | null): PanelRole {
-  return tabs.some((tab) => tab.id === value) ? (value as PanelRole) : "ogrenci";
-}
+import { panelHomeForRole } from "@/lib/panel-home";
+import { safeHref } from "@/lib/validators";
 
 export function LoginForm() {
   const searchParams = useSearchParams();
-  const requestedRole = searchParams.get("rol");
-  const [role, setRole] = useState<PanelRole>(roleFromQuery(requestedRole));
+  const nextRaw = searchParams.get("next");
+  const nextPath = nextRaw && safeHref(nextRaw)?.startsWith("/") ? safeHref(nextRaw)! : null;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -28,52 +19,21 @@ export function LoginForm() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setRole(roleFromQuery(requestedRole));
-  }, [requestedRole]);
+    const ac = new AbortController();
+    fetch("/api/auth/me", { credentials: "same-origin", cache: "no-store", signal: ac.signal })
+      .then(async (response) => {
+        if (!response.ok) return;
+        const data = (await response.json()) as { user?: { role?: PanelRole } };
+        if (!data.user?.role) return;
+        window.location.assign(
+          nextPath && data.user.role === "ogrenci" ? nextPath : panelHomeForRole(data.user.role),
+        );
+      })
+      .catch(() => undefined);
+    return () => ac.abort();
+  }, [nextPath]);
 
-  const copy = useMemo(() => {
-    if (role === "danisman") {
-      return {
-        badge: "Amfi Koçluk Danışman Paneli",
-        title: "Danışman Portalı'na Hoş Geldiniz",
-        desc: "Öğrenci listeni, haftalık seanslarını ve deneme takiplerini tek ekrandan yönet.",
-        submit: "Danışman Paneline Giriş Yap",
-        redirect: "/panel/danisman",
-      };
-    }
-    if (role === "admin") {
-      return {
-        badge: "Amfi Koçluk Yönetim Paneli",
-        title: "Yönetim Paneli'ne Hoş Geldiniz",
-        desc: "Öğrencileri danışmanlara ata, yeni üyelik aç ve gelen talepleri yönet.",
-        submit: "Yönetim Paneline Giriş Yap",
-        redirect: "/panel/admin",
-      };
-    }
-    if (role === "veli") {
-      return {
-        badge: "Amfi Koçluk Veli Bilgi Sistemi",
-        title: "Veli Portalı'na Hoş Geldiniz",
-        desc: "Öğrencinin haftalık tamamlama oranını, deneme netlerini ve koç notlarını takip edin.",
-        submit: "Veli Portalı'na Giriş Yap",
-        redirect: "/panel/ogrenci?veli=1",
-      };
-    }
-    return {
-      badge: "Amfi Koçluk Öğrenci Bilgi Sistemi",
-      title: "Öğrenci Portalı'na Hoş Geldiniz",
-      desc: "Haftalık çalışma programını görüntüle, deneme analizlerini incele ve koçunla görüşmelerini planla.",
-      submit: "Öğrenci Portalı'na Giriş Yap",
-      redirect: "/panel/ogrenci",
-    };
-  }, [role]);
-
-  function selectRole(next: PanelRole) {
-    setRole(next);
-    setError("");
-  }
-
-  function fillDemo() {
+  function fillDemo(role: PanelRole) {
     const account = demoAccounts[role];
     setEmail(account.email);
     setPassword(account.password);
@@ -89,18 +49,23 @@ export function LoginForm() {
       const response = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password, role }),
+        credentials: "same-origin",
+        body: JSON.stringify({ email, password }),
         signal: AbortSignal.timeout(12000),
       });
-      const data = (await response.json().catch(() => null)) as { error?: string } | null;
+      const data = (await response.json().catch(() => null)) as {
+        error?: string;
+        user?: { role: PanelRole };
+      } | null;
 
-      if (!response.ok) {
+      if (!response.ok || !data?.user) {
         setError(data?.error || "Giriş yapılamadı.");
         setLoading(false);
         return;
       }
 
-      window.location.assign(copy.redirect);
+      const home = panelHomeForRole(data.user.role);
+      window.location.assign(nextPath && data.user.role === "ogrenci" ? nextPath : home);
     } catch {
       setError("Sunucuya ulaşılamadı. Birkaç saniye sonra tekrar dene.");
       setLoading(false);
@@ -109,38 +74,20 @@ export function LoginForm() {
 
   return (
     <div className="rounded-xl bg-surface-container-lowest p-space-lg shadow-xl sm:p-space-xl">
-      <div className="mb-space-lg grid grid-cols-4 gap-1 rounded-xl bg-surface-container-low p-1.5">
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            type="button"
-            onClick={() => selectRole(tab.id)}
-            className={`flex flex-col items-center justify-center gap-1 rounded-lg px-1 py-2.5 text-center text-[11px] font-semibold transition-all sm:flex-row sm:gap-space-xs sm:px-space-sm sm:text-label-lg ${
-              role === tab.id
-                ? "bg-surface-container-lowest font-bold text-primary shadow-sm"
-                : "text-on-surface-variant hover:text-on-surface"
-            }`}
-          >
-            <Icon name={tab.icon} className="text-[18px] sm:text-[20px]" />
-            <span className="leading-tight">
-              {tab.id === "ogrenci" ? "Öğrenci" : tab.id === "danisman" ? "Danışman" : tab.id === "veli" ? "Veli" : "Yönetim"}
-            </span>
-          </button>
-        ))}
-      </div>
-
       <div className="mb-space-lg">
         <div className="mb-space-sm inline-flex items-center gap-1.5 rounded-full bg-primary-fixed px-space-sm py-1 text-label-md font-semibold text-on-primary-fixed">
           <Icon name="verified_user" className="text-[16px]" />
-          {copy.badge}
+          Amfi Koçluk Panel Girişi
         </div>
-        <h1 className="mb-space-xs text-headline-md text-on-surface">{copy.title}</h1>
-        <p className="text-body-md text-on-surface-variant">{copy.desc}</p>
+        <h1 className="mb-space-xs text-headline-md text-on-surface">Panele hoş geldiniz</h1>
+        <p className="text-body-md text-on-surface-variant">
+          E-posta ve şifrenle giriş yap. Hesap yetkine göre doğru panele yönlendirilirsin.
+        </p>
       </div>
 
       <form className="flex flex-col gap-space-md" onSubmit={onSubmit}>
         <label className="block text-label-lg text-on-surface">
-          E-posta veya telefon <span className="text-secondary">*</span>
+          E-posta <span className="text-secondary">*</span>
           <div className="relative mt-1.5 flex items-center">
             <Icon
               name="badge"
@@ -148,10 +95,11 @@ export function LoginForm() {
             />
             <input
               required
+              type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="h-12 w-full rounded-lg bg-surface-container-low py-2 pl-11 pr-4 text-body-md text-on-surface outline-none transition focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary"
-              placeholder="ornek@mail.com veya 05XX..."
+              placeholder="ornek@mail.com"
             />
           </div>
         </label>
@@ -159,7 +107,7 @@ export function LoginForm() {
         <div>
           <div className="mb-1.5 flex items-center justify-between">
             <label className="text-label-lg text-on-surface">
-              Portal giriş şifresi <span className="text-secondary">*</span>
+              Şifre <span className="text-secondary">*</span>
             </label>
             <button type="button" className="text-label-md text-secondary hover:text-secondary-container">
               Şifremi Unuttum?
@@ -189,37 +137,52 @@ export function LoginForm() {
           </div>
         </div>
 
-        <div className="flex items-center justify-between py-space-xs">
-          <label className="flex cursor-pointer items-center gap-space-xs select-none">
-            <input type="checkbox" className="h-4 w-4 accent-primary" />
-            <span className="text-body-sm text-on-surface-variant">Bu cihazda beni hatırla</span>
-          </label>
-          <button
-            type="button"
-            onClick={fillDemo}
-            className="text-label-md font-semibold text-primary underline"
-          >
-            Demo doldur
-          </button>
-        </div>
+        <label className="flex cursor-pointer items-center gap-space-xs select-none py-space-xs">
+          <input type="checkbox" className="h-4 w-4 accent-primary" />
+          <span className="text-body-sm text-on-surface-variant">Bu cihazda beni hatırla</span>
+        </label>
 
         {error ? <p className="text-body-sm text-error">{error}</p> : null}
 
         <button type="submit" disabled={loading} className="btn-primary h-12 w-full disabled:opacity-70">
           <Icon name="login" className="text-[20px]" />
-          {loading ? "Giriş yapılıyor..." : copy.submit}
+          {loading ? "Giriş yapılıyor..." : "Giriş Yap"}
         </button>
       </form>
 
       <div className="mt-space-lg rounded-xl bg-surface-container-low p-space-md text-body-sm text-on-surface-variant">
         <p className="font-semibold text-on-surface">Demo hesaplar</p>
         <ul className="mt-space-xs space-y-1">
-          <li>Öğrenci: ogrenci@demo.com / demo123</li>
-          <li>Danışman: danisman@demo.com / demo123</li>
-          <li>Veli: veli@demo.com / demo123</li>
-          <li>Yönetim: admin@demo.com / demo123</li>
+          {(
+            [
+              ["ogrenci", "Öğrenci"],
+              ["danisman", "Danışman"],
+              ["veli", "Veli"],
+              ["admin", "Yönetim"],
+            ] as const
+          ).map(([role, label]) => (
+            <li key={role}>
+              <button
+                type="button"
+                onClick={() => fillDemo(role)}
+                className="text-left hover:text-primary hover:underline"
+              >
+                {label}: {demoAccounts[role].email} / {demoAccounts[role].password}
+              </button>
+            </li>
+          ))}
         </ul>
       </div>
+
+      <p className="mt-space-md text-center text-body-sm text-on-surface-variant">
+        Öğrenci hesabın yok mu?{" "}
+        <Link
+          href={nextPath ? `/uye-ol?next=${encodeURIComponent(nextPath)}` : "/uye-ol"}
+          className="font-semibold text-primary"
+        >
+          Üye ol
+        </Link>
+      </p>
 
       <div className="mt-space-md flex flex-wrap items-center justify-between gap-space-sm text-label-md text-on-surface-variant">
         <span className="inline-flex items-center gap-1">

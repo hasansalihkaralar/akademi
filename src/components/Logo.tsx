@@ -8,10 +8,12 @@ export function Logo({
   brand,
   compact = false,
   markOnly = false,
+  href = "/",
 }: {
   brand?: SiteBrand;
   compact?: boolean;
   markOnly?: boolean;
+  href?: string;
 }) {
   const [live, setLive] = useState<SiteBrand>(brand ?? defaultBrand);
 
@@ -40,7 +42,7 @@ export function Logo({
 
   return (
     <Link
-      href="/"
+      href={href}
       className="flex shrink-0 items-center gap-2 sm:gap-space-md"
       aria-label={`${live.name} ana sayfa`}
     >

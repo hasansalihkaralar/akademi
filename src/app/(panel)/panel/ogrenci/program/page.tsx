@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Icon } from "@/components/Icon";
 import { groupWeekTasks, WeekNav } from "@/components/panel/WeekNav";
@@ -22,6 +23,7 @@ type DayNote = { weekStart: string; day: string; body: string };
 export default function StudentProgramPage() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [dayNotes, setDayNotes] = useState<DayNote[]>([]);
+  const [hasPackage, setHasPackage] = useState<boolean | null>(null);
   const [canToggle, setCanToggle] = useState(true);
   const [error, setError] = useState("");
   const [week, setWeek] = useState(() => weekStartIso());
@@ -33,7 +35,13 @@ export default function StudentProgramPage() {
           setError("Programı görmek için öğrenci hesabıyla giriş yap.");
           return;
         }
-        const data = (await response.json()) as { tasks: Task[]; dayNotes?: DayNote[]; viewer?: string };
+        const data = (await response.json()) as {
+          tasks: Task[];
+          dayNotes?: DayNote[];
+          viewer?: string;
+          hasPackage?: boolean;
+        };
+        setHasPackage(Boolean(data.hasPackage));
         setTasks(data.tasks);
         setDayNotes(data.dayNotes ?? []);
         setCanToggle(data.viewer !== "veli");
@@ -64,6 +72,25 @@ export default function StudentProgramPage() {
   const done = visible.filter((task) => task.done).length;
   const pct = visible.length ? Math.round((done / visible.length) * 100) : 0;
 
+  if (hasPackage === false) {
+    return (
+      <section className="rounded-xl bg-surface-container-lowest p-space-xl shadow-sm">
+        <h2 className="text-headline-sm text-on-surface">Program paketle açılır</h2>
+        <p className="mt-space-sm text-body-md text-on-surface-variant">
+          Haftalık görevler, paket satın alıp danışman atandıktan sonra burada görünür.
+        </p>
+        <div className="mt-space-lg flex flex-wrap gap-space-sm">
+          <Link href="/paketler" className="btn-primary">
+            Paketleri gör
+          </Link>
+          <Link href="/odeme" className="btn-secondary">
+            Satın almaya git
+          </Link>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <div className="space-y-space-lg">
       <div className="rounded-xl bg-surface-container-lowest p-space-lg shadow-sm">
@@ -89,7 +116,7 @@ export default function StudentProgramPage() {
 
       {error ? <p className="text-body-sm text-error">{error}</p> : null}
 
-      {groups.length === 0 && !error ? (
+      {groups.length === 0 && !error && hasPackage ? (
         <p className="text-body-sm text-on-surface-variant">Seçili haftaya program yazılmamış.</p>
       ) : null}
 

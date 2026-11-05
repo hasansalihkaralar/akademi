@@ -68,6 +68,11 @@ export function weekRangeLabel(mondayIso: string) {
   return `${start.getDate()} ${MONTHS_LONG[start.getMonth()]} – ${end.getDate()} ${MONTHS_LONG[end.getMonth()]} ${end.getFullYear()}`;
 }
 
+export function meetingLabelToIso(label: string, year = new Date().getFullYear()) {
+  const date = parseMeetingDate(label, year);
+  return date ? isoDate(date) : "";
+}
+
 export function meetingDateLabel(isoDate: string) {
   const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(isoDate);
   if (!match) return null;

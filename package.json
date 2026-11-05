@@ -1,5 +1,5 @@
 {
-  "name": "akademi-koc",
+  "name": "amfi-kocluk",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -7,7 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:push": "prisma db push",
     "db:seed": "prisma db seed",
+    "db:phpmyadmin": "bash scripts/phpmyadmin.sh",
     "postinstall": "prisma generate"
   },
   "dependencies": {

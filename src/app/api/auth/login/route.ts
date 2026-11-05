@@ -21,13 +21,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "E-posta veya şifre hatalı." }, { status: 401 });
   }
 
-  if (user.role !== parsed.data.role) {
-    return NextResponse.json(
-      { error: "Bu hesap seçtiğin giriş türüyle eşleşmiyor." },
-      { status: 403 },
-    );
-  }
-
   const response = NextResponse.json({
     user: { id: user.id, name: user.name, email: user.email, role: user.role },
   });

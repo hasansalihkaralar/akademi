@@ -42,21 +42,12 @@ export function PackageCard({ pack }: { pack: CoachingPackage }) {
           </li>
         ))}
       </ul>
-      <div className="mt-space-lg space-y-space-sm">
-        <Link
-          href={`/on-gorusme?paket=${pack.id}`}
-          className={`block w-full text-center ${pack.popular ? "btn-primary" : "btn-navy"}`}
-        >
-          Ücretsiz Ön Görüşme Talep Et
-        </Link>
-        <p className="text-center text-label-md text-on-surface-variant">
-          Önce 15 dk analiz yapılır; ödeme görüşme sonrasındadır.
-        </p>
+      <div className="mt-space-lg">
         <Link
           href={`/odeme?paket=${pack.id}`}
-          className="block text-center text-label-md font-semibold text-primary underline-offset-2 hover:underline"
+          className={`block w-full text-center ${pack.popular ? "btn-primary" : "btn-navy"}`}
         >
-          Ön görüşme yaptım, satın al →
+          Satın Al
         </Link>
       </div>
     </article>

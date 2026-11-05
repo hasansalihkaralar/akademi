@@ -366,7 +366,7 @@ export default async function HomePage() {
                     <div className="h-3 w-3 rounded-full bg-[#ffb599]" />
                     <div className="h-3 w-3 rounded-full bg-[#25D366]" />
                     <span className="ml-2 font-mono text-label-md text-on-surface-variant">
-                      pusula-portal / ogrenci_analiz
+                      amfi-portal / ogrenci_analiz
                     </span>
                   </div>
                   <span className="rounded bg-surface-container px-2 py-0.5 text-label-md font-bold text-primary">

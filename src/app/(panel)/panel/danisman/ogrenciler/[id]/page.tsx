@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Icon } from "@/components/Icon";
+import { MeetingActions } from "@/components/panel/MeetingActions";
 import { groupWeekTasks, WeekNav } from "@/components/panel/WeekNav";
 import { PROGRAM_DAYS, weekStartIso } from "@/lib/meeting-date";
 
@@ -18,6 +19,16 @@ type Detail = {
   lastNet: number;
   completion: number;
   parent: { name: string; phone: string | null; email: string } | null;
+  quota?: {
+    packageId: string | null;
+    packageName: string | null;
+    used: number;
+    total: number;
+    remaining: number;
+    weekUsed: boolean;
+    weeklyLimit: number;
+    cooldownUntilLabel?: string | null;
+  };
   tasks: { id: string; weekStart: string; day: string; subject: string; title: string; duration: string; videoUrl: string | null; done: boolean; sortOrder: number }[];
   dayNotes: { id: string; weekStart: string; day: string; body: string }[];
   trials: { id: string; name: string; dateLabel: string; tyt: number; ayt: number; delta: string }[];
@@ -150,22 +161,6 @@ export default function AdvisorStudentDetailPage() {
     setMeetingNote("");
   }
 
-  async function confirmMeeting(meetingId: string, date: string, time: string) {
-    if (!student || !date || !time) return;
-    setError("");
-    const response = await fetch(`/api/panel/danisman/ogrenciler/${student.id}/gorusmeler`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: meetingId, date, time }),
-    });
-    const data = (await response.json().catch(() => null)) as Detail["meetings"][number] | { error?: string } | null;
-    if (!response.ok || !data || !("id" in data)) {
-      setError(data && "error" in data && data.error ? data.error : "Talep randevuya çevrilemedi.");
-      return;
-    }
-    putMeeting(data);
-  }
-
   useEffect(() => {
     if (!params.id) return;
     fetch(`/api/panel/danisman/ogrenciler/${params.id}`)
@@ -210,6 +205,24 @@ export default function AdvisorStudentDetailPage() {
                 <p className="text-stat-counter text-primary">%{student.completion}</p>
                 <p className="text-label-md text-on-surface-variant">bu haftanın görevleri · son net {student.lastNet}</p>
               </div>
+            </div>
+            <div className="mt-space-md rounded-lg bg-surface-container-low px-space-md py-space-sm text-body-sm text-on-surface">
+              {student.quota?.packageName ? (
+                <>
+                  <span className="font-semibold">Toplantı hakkı:</span> {student.quota.used}/{student.quota.total} kullanıldı
+                  <span className="mx-1">·</span>
+                  kalan {student.quota.remaining}
+                  <span className="mx-1">·</span>
+                  Meet sonrası 7 gün
+                  <span className="mx-1">·</span>
+                  {student.quota.cooldownUntilLabel
+                    ? `en erken ${student.quota.cooldownUntilLabel}`
+                    : "randevu müsait"}
+                  <span className="mt-1 block text-on-surface-variant">{student.quota.packageName}</span>
+                </>
+              ) : (
+                <span className="text-on-surface-variant">Paket tanımlı değil — toplantı hakkı görünmüyor.</span>
+              )}
             </div>
           </div>
 
@@ -356,20 +369,23 @@ export default function AdvisorStudentDetailPage() {
                   Not
                   <input className="input-field mt-1" value={meetingNote} onChange={(event) => setMeetingNote(event.target.value)} placeholder="İsteğe bağlı" />
                 </label>
+                {error ? <p className="text-body-sm text-error">{error}</p> : null}
                 <button type="submit" className="btn-primary" disabled={savingMeeting}>
                   <Icon name="event" className="text-[18px]" />
                   {savingMeeting ? "Kaydediliyor…" : "Randevu oluştur"}
                 </button>
               </form>
-              {student.meetings.length === 0 ? <p className="text-body-sm text-on-surface-variant">Görüşme yok.</p> : null}
+              {student.meetings.filter((meeting) => meeting.status !== "requested").length === 0 ? (
+                <p className="text-body-sm text-on-surface-variant">Görüşme yok.</p>
+              ) : null}
               <div className="space-y-space-sm">
-                {student.meetings.map((meeting) => (
+                {student.meetings
+                  .filter((meeting) => meeting.status !== "requested")
+                  .map((meeting) => (
                   <div key={meeting.id} className="rounded-lg bg-surface-container-low px-space-md py-space-sm">
                     <p className="font-semibold text-on-surface">{meeting.title}</p>
                     <p className="text-body-sm text-on-surface-variant">
-                      {meeting.status === "requested"
-                        ? "Öğrenci talep etti"
-                        : `${meeting.dateLabel} ${meeting.time} · ${meeting.status === "upcoming" ? "Yaklaşan" : "Tamamlandı"}`}
+                      {meeting.dateLabel} {meeting.time} · {meeting.status === "upcoming" ? "Yaklaşan" : "Tamamlandı"}
                       {meeting.note ? ` · ${meeting.note}` : ""}
                     </p>
                     {meeting.meetUrl ? (
@@ -377,22 +393,14 @@ export default function AdvisorStudentDetailPage() {
                         Meet bağlantısı
                       </a>
                     ) : null}
-                    {meeting.status === "requested" ? (
-                      <form
-                        className="mt-space-sm flex flex-wrap items-end gap-space-sm"
-                        onSubmit={(event) => {
-                          event.preventDefault();
-                          const data = new FormData(event.currentTarget);
-                          void confirmMeeting(meeting.id, String(data.get("date") || ""), String(data.get("time") || ""));
-                        }}
-                      >
-                        <input className="input-field" type="date" name="date" required aria-label="Randevu tarihi" />
-                        <input className="input-field" type="time" name="time" defaultValue="19:00" required aria-label="Randevu saati" />
-                        <button type="submit" className="btn-primary">
-                          Randevuya çevir
-                        </button>
-                      </form>
-                    ) : null}
+                    <MeetingActions
+                      studentId={student.id}
+                      meeting={meeting}
+                      onChange={putMeeting}
+                      onRemove={(id) =>
+                        setStudent((prev) => (prev ? { ...prev, meetings: prev.meetings.filter((item) => item.id !== id) } : prev))
+                      }
+                    />
                   </div>
                 ))}
               </div>

@@ -2,10 +2,12 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { Icon } from "@/components/Icon";
+import { MeetingActions } from "@/components/panel/MeetingActions";
 import { parseMeetingDate, sameCalendarDay, startOfWeek } from "@/lib/meeting-date";
 
 type Meeting = {
   id: string;
+  studentId: string;
   student: string;
   title: string;
   dateLabel: string;
@@ -135,7 +137,7 @@ export function AdvisorCalendar() {
             {selectedMeetings.map((meeting) => (
               <div
                 key={meeting.id}
-                className="flex items-center gap-space-md rounded-lg bg-surface-container-low p-space-md"
+                className="flex items-start gap-space-md rounded-lg bg-surface-container-low p-space-md"
               >
                 <div className="grid h-11 w-11 place-items-center rounded-lg bg-primary text-on-primary">
                   <Icon name={meeting.type === "online" ? "videocam" : "chat"} className="text-[22px]" />
@@ -153,6 +155,14 @@ export function AdvisorCalendar() {
                       Meet bağlantısı
                     </a>
                   ) : null}
+                  <MeetingActions
+                    studentId={meeting.studentId}
+                    meeting={meeting}
+                    onChange={(next) =>
+                      setMeetings((prev) => prev.map((item) => (item.id === next.id ? { ...item, ...next } : item)))
+                    }
+                    onRemove={(id) => setMeetings((prev) => prev.filter((item) => item.id !== id))}
+                  />
                 </div>
               </div>
             ))}

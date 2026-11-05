@@ -3,55 +3,72 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
 model User {
   id           String   @id @default(cuid())
-  email        String   @unique
-  passwordHash String
-  name         String
-  role         String
-  phone        String?
-  title        String?
-  photoUrl     String?
+  email        String   @unique @db.VarChar(191)
+  passwordHash String   @db.VarChar(255)
+  name         String   @db.VarChar(191)
+  role         String   @db.VarChar(40)
+  phone        String?  @db.VarChar(40)
+  title        String?  @db.VarChar(120)
+  photoUrl     String?  @db.VarChar(500)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  studentProfile StudentProfile?  @relation("StudentUser")
-  advised        StudentProfile[] @relation("Advisor")
-  parentOf       StudentProfile[] @relation("Parent")
-  notes          SessionNote[]
+  studentProfile     StudentProfile?  @relation("StudentUser")
+  advised            StudentProfile[] @relation("Advisor")
+  parentOf           StudentProfile[] @relation("Parent")
+  notes              SessionNote[]
+  availabilityBlocks AdvisorBlock[]
+}
+
+model AdvisorBlock {
+  id        String   @id @default(cuid())
+  advisorId String
+  advisor   User     @relation(fields: [advisorId], references: [id], onDelete: Cascade)
+  dateIso   String   @db.VarChar(32)
+  dateLabel String   @db.VarChar(80)
+  time      String   @db.VarChar(16)
+  note      String?  @db.Text
+  createdAt DateTime @default(now())
+
+  @@unique([advisorId, dateIso, time])
 }
 
 model StudentProfile {
-  id        String  @id @default(cuid())
-  userId    String  @unique
-  user      User    @relation("StudentUser", fields: [userId], references: [id], onDelete: Cascade)
-  advisorId String?
-  advisor   User?   @relation("Advisor", fields: [advisorId], references: [id])
-  parentId  String?
-  parent    User?   @relation("Parent", fields: [parentId], references: [id])
-  grade     String
-  program   String
-  risk      String  @default("düşük")
-  lastNet   Float   @default(0)
+  id               String    @id @default(cuid())
+  userId           String    @unique
+  user             User      @relation("StudentUser", fields: [userId], references: [id], onDelete: Cascade)
+  advisorId        String?
+  advisor          User?     @relation("Advisor", fields: [advisorId], references: [id])
+  parentId         String?
+  parent           User?     @relation("Parent", fields: [parentId], references: [id])
+  grade            String    @db.VarChar(40)
+  program          String    @db.VarChar(80)
+  risk             String    @default("düşük") @db.VarChar(20)
+  lastNet          Float     @default(0)
+  packageId        String?   @db.VarChar(40)
+  packageStartedAt DateTime?
 
   tasks    Task[]
   trials   Trial[]
   meetings Meeting[]
   notes    SessionNote[]
   dayNotes DayNote[]
+  payments Payment[]
 }
 
 model DayNote {
   id        String         @id @default(cuid())
   studentId String
   student   StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
-  weekStart String
-  day       String
-  body      String
+  weekStart String         @db.VarChar(32)
+  day       String         @db.VarChar(16)
+  body      String         @db.Text
 
   @@unique([studentId, weekStart, day])
 }
@@ -60,12 +77,12 @@ model Task {
   id        String         @id @default(cuid())
   studentId String
   student   StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
-  weekStart String         @default("")
-  day       String
-  subject   String
-  title     String
-  duration  String
-  videoUrl  String?
+  weekStart String         @default("") @db.VarChar(32)
+  day       String         @db.VarChar(16)
+  subject   String         @db.VarChar(80)
+  title     String         @db.VarChar(255)
+  duration  String         @db.VarChar(40)
+  videoUrl  String?        @db.VarChar(500)
   done      Boolean        @default(false)
   sortOrder Int            @default(0)
 }
@@ -74,32 +91,33 @@ model Trial {
   id        String         @id @default(cuid())
   studentId String
   student   StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
-  name      String
-  dateLabel String
+  name      String         @db.VarChar(191)
+  dateLabel String         @db.VarChar(80)
   tyt       Float          @default(0)
   ayt       Float          @default(0)
-  delta     String
+  delta     String         @db.VarChar(40)
   sortOrder Int            @default(0)
 }
 
 model Meeting {
-  id        String         @id @default(cuid())
-  studentId String
-  student   StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
-  title     String
-  dateLabel String
-  time      String
-  type          String
-  status        String
-  note          String?
-  meetUrl       String?
-  googleEventId String?
+  id            String         @id @default(cuid())
+  studentId     String
+  student       StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  title         String         @db.VarChar(191)
+  dateLabel     String         @db.VarChar(80)
+  time          String         @db.VarChar(16)
+  type          String         @db.VarChar(40)
+  status        String         @db.VarChar(40)
+  note          String?        @db.Text
+  advisorNote   String?        @db.Text
+  meetUrl       String?        @db.VarChar(500)
+  googleEventId String?        @db.VarChar(191)
 }
 
 model GoogleConnection {
-  id           String   @id @default("default")
-  email        String
-  refreshToken String
+  id           String   @id @default("default") @db.VarChar(40)
+  email        String   @db.VarChar(191)
+  refreshToken String   @db.Text
   updatedAt    DateTime @updatedAt
 }
 
@@ -109,65 +127,83 @@ model SessionNote {
   student   StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
   authorId  String
   author    User           @relation(fields: [authorId], references: [id])
-  body      String
+  body      String         @db.Text
   createdAt DateTime       @default(now())
 }
 
 model ConsultationRequest {
   id            String   @id @default(cuid())
-  studentName   String
-  phone         String
-  email         String
-  applicantRole String
-  exam          String
-  grade         String
-  packageId     String?
-  struggle      String?
-  message       String?
-  status        String   @default("yeni")
+  studentName   String   @db.VarChar(191)
+  phone         String   @db.VarChar(40)
+  email         String   @db.VarChar(191)
+  applicantRole String   @db.VarChar(40)
+  exam          String   @db.VarChar(80)
+  grade         String   @db.VarChar(40)
+  packageId     String?  @db.VarChar(40)
+  struggle      String?  @db.Text
+  message       String?  @db.Text
+  status        String   @default("yeni") @db.VarChar(40)
   createdAt     DateTime @default(now())
 }
 
 model ContactMessage {
   id            String   @id @default(cuid())
-  name          String
-  phone         String
-  email         String
-  exam          String?
-  applicantRole String?
-  message       String
+  name          String   @db.VarChar(191)
+  phone         String   @db.VarChar(40)
+  email         String   @db.VarChar(191)
+  exam          String?  @db.VarChar(80)
+  applicantRole String?  @db.VarChar(40)
+  message       String   @db.Text
   read          Boolean  @default(false)
   createdAt     DateTime @default(now())
 }
 
 model SiteSetting {
-  key   String @id
-  value String
+  key   String @id @db.VarChar(80)
+  value String @db.Text
 }
 
 model NavLink {
   id        String  @id @default(cuid())
-  label     String
-  href      String
+  label     String  @db.VarChar(120)
+  href      String  @db.VarChar(500)
   sortOrder Int     @default(0)
   visible   Boolean @default(true)
 }
 
 model Slide {
   id          String  @id @default(cuid())
-  title       String
-  subtitle    String  @default("")
-  imageUrl    String
-  buttonLabel String  @default("")
-  buttonHref  String  @default("")
+  title       String  @db.VarChar(255)
+  subtitle    String  @default("") @db.VarChar(500)
+  imageUrl    String  @db.VarChar(500)
+  buttonLabel String  @default("") @db.VarChar(120)
+  buttonHref  String  @default("") @db.VarChar(500)
   sortOrder   Int     @default(0)
   visible     Boolean @default(true)
 }
 
 model MediaAsset {
   id        String   @id @default(cuid())
-  url       String
-  filename  String
-  alt       String   @default("")
+  url       String   @db.VarChar(500)
+  filename  String   @db.VarChar(255)
+  alt       String   @default("") @db.VarChar(255)
   createdAt DateTime @default(now())
+}
+
+model Payment {
+  id          String          @id @default(cuid())
+  studentName String          @db.VarChar(191)
+  parentName  String          @db.VarChar(191)
+  phone       String          @db.VarChar(40)
+  email       String          @db.VarChar(191)
+  grade       String          @db.VarChar(40)
+  packageId   String          @db.VarChar(40)
+  packageName String          @db.VarChar(191)
+  amount      Int
+  status      String          @db.VarChar(40)
+  method      String          @default("kart") @db.VarChar(20)
+  receiptUrl  String?         @db.VarChar(500)
+  studentId   String?
+  student     StudentProfile? @relation(fields: [studentId], references: [id])
+  createdAt   DateTime        @default(now())
 }
