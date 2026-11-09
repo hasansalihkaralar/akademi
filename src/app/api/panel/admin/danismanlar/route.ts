@@ -77,6 +77,7 @@ export async function POST(request: Request) {
       role: "danisman",
       title: parsed.data.title || "Danışman",
       phone: parsed.data.phone || null,
+      emailVerifiedAt: new Date(),
     },
     select: { id: true, name: true, email: true, phone: true, title: true, photoUrl: true },
   });

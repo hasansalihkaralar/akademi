@@ -21,6 +21,17 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "E-posta veya şifre hatalı." }, { status: 401 });
   }
 
+  if (user.role === "ogrenci" && !user.emailVerifiedAt) {
+    return NextResponse.json(
+      {
+        error: "Önce e-posta adresini doğrula. Mailindeki bağlantıya tıkla veya doğrulama mailini yeniden gönder.",
+        needsVerification: true,
+        email: user.email,
+      },
+      { status: 403 },
+    );
+  }
+
   const response = NextResponse.json({
     user: { id: user.id, name: user.name, email: user.email, role: user.role },
   });

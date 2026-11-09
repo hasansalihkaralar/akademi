@@ -8,13 +8,14 @@ async function main() {
 
   await prisma.user.upsert({
     where: { email: "admin@demo.com" },
-    update: { role: "admin", name: "Amfi Yönetim", title: "Yönetici" },
+    update: { role: "admin", name: "Amfi Yönetim", title: "Yönetici", emailVerifiedAt: new Date() },
     create: {
       email: "admin@demo.com",
       passwordHash,
       name: "Amfi Yönetim",
       role: "admin",
       title: "Yönetici",
+      emailVerifiedAt: new Date(),
     },
   });
 
@@ -32,6 +33,7 @@ async function main() {
       role: "danisman",
       title: "YKS Sayısal Mentörü",
       phone: "08508400000",
+      emailVerifiedAt: new Date(),
     },
   });
 
@@ -42,6 +44,7 @@ async function main() {
       name: "Ayşe Yılmaz",
       role: "veli",
       phone: "05550000001",
+      emailVerifiedAt: new Date(),
     },
   });
 
@@ -52,6 +55,7 @@ async function main() {
       name: "Arda Yılmaz",
       role: "ogrenci",
       phone: "05550000002",
+      emailVerifiedAt: new Date(),
     },
   });
 
@@ -106,7 +110,13 @@ async function main() {
 
   for (const extra of extras) {
     const user = await prisma.user.create({
-      data: { email: extra.email, passwordHash, name: extra.name, role: "ogrenci" },
+      data: {
+        email: extra.email,
+        passwordHash,
+        name: extra.name,
+        role: "ogrenci",
+        emailVerifiedAt: new Date(),
+      },
     });
     await prisma.studentProfile.create({
       data: {

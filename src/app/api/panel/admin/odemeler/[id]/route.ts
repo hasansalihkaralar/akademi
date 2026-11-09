@@ -109,6 +109,7 @@ export async function POST(request: Request, context: RouteContext) {
             name: parsed.data.parentName || payment.parentName,
             role: "veli",
             passwordHash: await bcrypt.hash(parsed.data.parentPassword || "", 10),
+            emailVerifiedAt: new Date(),
           },
         })))
       : null;
@@ -119,6 +120,7 @@ export async function POST(request: Request, context: RouteContext) {
         phone: parsed.data.phone || null,
         role: "ogrenci",
         passwordHash: await bcrypt.hash(parsed.data.password, 10),
+        emailVerifiedAt: new Date(),
       },
     });
     const profile = await tx.studentProfile.create({

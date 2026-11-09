@@ -112,6 +112,7 @@ export async function POST(request: Request) {
           name: parsed.data.parentName,
           role: "veli",
           passwordHash: await bcrypt.hash(parsed.data.parentPassword, 10),
+          emailVerifiedAt: new Date(),
         },
       }));
     const user = await tx.user.create({
@@ -121,6 +122,7 @@ export async function POST(request: Request) {
         phone: parsed.data.phone || null,
         role: "ogrenci",
         passwordHash: await bcrypt.hash(parsed.data.password, 10),
+        emailVerifiedAt: new Date(),
       },
     });
     return tx.studentProfile.create({

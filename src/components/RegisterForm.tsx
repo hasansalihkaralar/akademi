@@ -22,11 +22,15 @@ export function RegisterForm() {
   const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [pendingEmail, setPendingEmail] = useState<string | null>(null);
+  const [notice, setNotice] = useState("");
+  const [resending, setResending] = useState(false);
 
   async function onSubmit(event: React.FormEvent) {
     event.preventDefault();
     setLoading(true);
     setError("");
+    setNotice("");
 
     if (password !== passwordConfirm) {
       setError("Şifreler eşleşmiyor.");
@@ -46,22 +50,87 @@ export function RegisterForm() {
           passwordConfirm,
           phone,
         }),
-        signal: AbortSignal.timeout(15000),
+        signal: AbortSignal.timeout(20000),
       });
-      const data = (await response.json().catch(() => null)) as { error?: string } | null;
+      const data = (await response.json().catch(() => null)) as {
+        error?: string;
+        needsVerification?: boolean;
+        email?: string;
+        message?: string;
+        mailWarning?: string | null;
+      } | null;
       if (!response.ok) {
         setError(data?.error || "Üyelik oluşturulamadı.");
         setLoading(false);
         return;
       }
-      window.location.assign(nextPath || "/panel/ogrenci");
+      setPendingEmail(data?.email || email.toLowerCase());
+      setNotice(data?.message || "Doğrulama maili gönderildi.");
+      setLoading(false);
     } catch {
       setError("Sunucuya ulaşılamadı. Birkaç saniye sonra tekrar dene.");
       setLoading(false);
     }
   }
 
+  async function resendMail() {
+    if (!pendingEmail) return;
+    setResending(true);
+    setError("");
+    setNotice("");
+    try {
+      const response = await fetch("/api/auth/resend-verification", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: pendingEmail }),
+        signal: AbortSignal.timeout(20000),
+      });
+      const data = (await response.json().catch(() => null)) as { error?: string; message?: string } | null;
+      if (!response.ok) {
+        setError(data?.error || "Mail yeniden gönderilemedi.");
+      } else {
+        setNotice(data?.message || "Doğrulama maili yeniden gönderildi.");
+      }
+    } catch {
+      setError("Sunucuya ulaşılamadı. Birkaç saniye sonra tekrar dene.");
+    } finally {
+      setResending(false);
+    }
+  }
+
   const loginHref = nextPath ? `/giris?next=${encodeURIComponent(nextPath)}` : "/giris";
+
+  if (pendingEmail) {
+    return (
+      <div className="rounded-xl bg-surface-container-lowest p-space-lg shadow-xl sm:p-space-xl">
+        <div className="mb-space-lg">
+          <div className="mb-space-sm inline-flex items-center gap-1.5 rounded-full bg-primary-fixed px-space-sm py-1 text-label-md font-semibold text-on-primary-fixed">
+            <Icon name="mark_email_unread" className="text-[16px]" />
+            E-posta doğrulama
+          </div>
+          <h1 className="mb-space-xs text-headline-md text-on-surface">Mailini kontrol et</h1>
+          <p className="text-body-md text-on-surface-variant">
+            <span className="font-semibold text-on-surface">{pendingEmail}</span> adresine doğrulama
+            bağlantısı gönderdik. Linke tıklayınca giriş yapabilirsin.
+          </p>
+        </div>
+        {notice ? <p className="mb-space-md text-body-sm text-primary">{notice}</p> : null}
+        {error ? <p className="mb-space-md text-body-sm text-error">{error}</p> : null}
+        <div className="flex flex-col gap-space-sm sm:flex-row">
+          <button type="button" className="btn-primary" disabled={resending} onClick={() => void resendMail()}>
+            <Icon name="forward_to_inbox" className="text-[18px]" />
+            {resending ? "Gönderiliyor…" : "Maili yeniden gönder"}
+          </button>
+          <Link href={loginHref} className="btn-secondary inline-flex items-center justify-center gap-2">
+            Giriş sayfasına git
+          </Link>
+        </div>
+        <p className="mt-space-md text-body-sm text-on-surface-variant">
+          Spam / gereksiz klasörünü de kontrol et. Link 24 saat geçerlidir.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="rounded-xl bg-surface-container-lowest p-space-lg shadow-xl sm:p-space-xl">
@@ -72,7 +141,7 @@ export function RegisterForm() {
         </div>
         <h1 className="mb-space-xs text-headline-md text-on-surface">Panele üye ol</h1>
         <p className="text-body-md text-on-surface-variant">
-          Hesabını oluştur. Üyelik sonrası paket satın alabilirsin; danışman ataması yönetim tarafından yapılır.
+          Hesabını oluştur. Üyelik sonrası e-posta doğrulaması gerekir; ardından paket satın alabilirsin.
         </p>
       </div>
 

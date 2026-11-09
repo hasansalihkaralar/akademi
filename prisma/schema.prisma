@@ -8,16 +8,19 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(cuid())
-  email        String   @unique @db.VarChar(191)
-  passwordHash String   @db.VarChar(255)
-  name         String   @db.VarChar(191)
-  role         String   @db.VarChar(40)
-  phone        String?  @db.VarChar(40)
-  title        String?  @db.VarChar(120)
-  photoUrl     String?  @db.VarChar(500)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id                 String    @id @default(cuid())
+  email              String    @unique @db.VarChar(191)
+  passwordHash       String    @db.VarChar(255)
+  name               String    @db.VarChar(191)
+  role               String    @db.VarChar(40)
+  phone              String?   @db.VarChar(40)
+  title              String?   @db.VarChar(120)
+  photoUrl           String?   @db.VarChar(500)
+  emailVerifiedAt    DateTime?
+  emailVerifyToken   String?   @unique @db.VarChar(128)
+  emailVerifyExpires DateTime?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
 
   studentProfile     StudentProfile?  @relation("StudentUser")
   advised            StudentProfile[] @relation("Advisor")

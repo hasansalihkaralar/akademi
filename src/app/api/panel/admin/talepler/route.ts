@@ -71,7 +71,13 @@ export async function POST(request: Request) {
         phone: lead.phone,
         role: "ogrenci",
         passwordHash: await bcrypt.hash(parsed.data.password, 10),
+        emailVerifiedAt: new Date(),
       },
+    });
+  } else if (!user.emailVerifiedAt) {
+    user = await prisma.user.update({
+      where: { id: user.id },
+      data: { emailVerifiedAt: new Date() },
     });
   }
 

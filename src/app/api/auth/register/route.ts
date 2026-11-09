@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
+import { createVerifyToken } from "@/lib/email-verification";
 import { prisma } from "@/lib/db";
-import { sessionCookieOptions, SESSION_COOKIE, signSession } from "@/lib/session";
+import { sendVerificationEmail } from "@/lib/mail";
 import { publicStudentRegisterSchema } from "@/lib/validators";
 
 export async function POST(request: Request) {
@@ -23,6 +24,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Bu e-posta zaten kayıtlı. Giriş yapmayı dene." }, { status: 409 });
   }
 
+  const { token, tokenHash, expiresAt } = createVerifyToken();
+
   const student = await prisma.$transaction(async (tx) => {
     const user = await tx.user.create({
       data: {
@@ -31,6 +34,9 @@ export async function POST(request: Request) {
         phone: parsed.data.phone,
         role: "ogrenci",
         passwordHash: await bcrypt.hash(parsed.data.password, 10),
+        emailVerifiedAt: null,
+        emailVerifyToken: tokenHash,
+        emailVerifyExpires: expiresAt,
       },
     });
 
@@ -45,12 +51,24 @@ export async function POST(request: Request) {
     return user;
   });
 
-  const response = NextResponse.json(
+  let mailWarning: string | null = null;
+  try {
+    await sendVerificationEmail(email, token);
+  } catch (error) {
+    console.error("[register] verification mail failed", error);
+    mailWarning =
+      "Hesap oluşturuldu ama doğrulama maili gönderilemedi. Biraz sonra tekrar gönderiyi dene.";
+  }
+
+  return NextResponse.json(
     {
-      user: { id: student.id, name: student.name, email: student.email, role: student.role },
+      needsVerification: true,
+      email: student.email,
+      message:
+        mailWarning ||
+        "Doğrulama maili gönderildi. Giriş yapmak için mailindeki linke tıkla.",
+      mailWarning,
     },
     { status: 201 },
   );
-  response.cookies.set(SESSION_COOKIE, signSession(student.id, student.role), sessionCookieOptions);
-  return response;
 }

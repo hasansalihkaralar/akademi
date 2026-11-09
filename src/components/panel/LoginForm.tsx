@@ -16,7 +16,20 @@ export function LoginForm() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const [notice, setNotice] = useState("");
   const [loading, setLoading] = useState(false);
+  const [needsVerification, setNeedsVerification] = useState(false);
+  const [resending, setResending] = useState(false);
+
+  useEffect(() => {
+    if (searchParams.get("verified") === "1") {
+      setNotice("E-posta adresin doğrulandı. Şimdi giriş yapabilirsin.");
+    } else if (searchParams.get("verify") === "expired") {
+      setError("Doğrulama linkinin süresi dolmuş. Girişte maili yeniden gönderebilirsin.");
+    } else if (searchParams.get("verify") === "invalid") {
+      setError("Doğrulama linki geçersiz. Girişte maili yeniden gönderebilirsin.");
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     const ac = new AbortController();
@@ -44,6 +57,8 @@ export function LoginForm() {
     event.preventDefault();
     setLoading(true);
     setError("");
+    setNotice("");
+    setNeedsVerification(false);
 
     try {
       const response = await fetch("/api/auth/login", {
@@ -55,10 +70,16 @@ export function LoginForm() {
       });
       const data = (await response.json().catch(() => null)) as {
         error?: string;
+        needsVerification?: boolean;
+        email?: string;
         user?: { role: PanelRole };
       } | null;
 
       if (!response.ok || !data?.user) {
+        if (data?.needsVerification) {
+          setNeedsVerification(true);
+          if (data.email) setEmail(data.email);
+        }
         setError(data?.error || "Giriş yapılamadı.");
         setLoading(false);
         return;
@@ -69,6 +90,34 @@ export function LoginForm() {
     } catch {
       setError("Sunucuya ulaşılamadı. Birkaç saniye sonra tekrar dene.");
       setLoading(false);
+    }
+  }
+
+  async function resendVerification() {
+    if (!email.trim()) {
+      setError("Önce e-posta adresini yaz.");
+      return;
+    }
+    setResending(true);
+    setError("");
+    setNotice("");
+    try {
+      const response = await fetch("/api/auth/resend-verification", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+        signal: AbortSignal.timeout(20000),
+      });
+      const data = (await response.json().catch(() => null)) as { error?: string; message?: string } | null;
+      if (!response.ok) {
+        setError(data?.error || "Doğrulama maili gönderilemedi.");
+      } else {
+        setNotice(data?.message || "Doğrulama maili gönderildi.");
+      }
+    } catch {
+      setError("Sunucuya ulaşılamadı. Birkaç saniye sonra tekrar dene.");
+    } finally {
+      setResending(false);
     }
   }
 
@@ -142,7 +191,19 @@ export function LoginForm() {
           <span className="text-body-sm text-on-surface-variant">Bu cihazda beni hatırla</span>
         </label>
 
+        {notice ? <p className="text-body-sm text-primary">{notice}</p> : null}
         {error ? <p className="text-body-sm text-error">{error}</p> : null}
+        {needsVerification ? (
+          <button
+            type="button"
+            className="btn-secondary h-11 w-full"
+            disabled={resending}
+            onClick={() => void resendVerification()}
+          >
+            <Icon name="forward_to_inbox" className="text-[18px]" />
+            {resending ? "Gönderiliyor…" : "Doğrulama mailini yeniden gönder"}
+          </button>
+        ) : null}
 
         <button type="submit" disabled={loading} className="btn-primary h-12 w-full disabled:opacity-70">
           <Icon name="login" className="text-[20px]" />
