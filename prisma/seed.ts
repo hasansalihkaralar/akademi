@@ -6,22 +6,12 @@ const prisma = new PrismaClient();
 async function main() {
   const passwordHash = await bcrypt.hash("demo123", 10);
 
-  await prisma.user.upsert({
-    where: { email: "admin@demo.com" },
-    update: { role: "admin", name: "Amfi Yönetim", title: "Yönetici", emailVerifiedAt: new Date() },
-    create: {
-      email: "admin@demo.com",
-      passwordHash,
-      name: "Amfi Yönetim",
-      role: "admin",
-      title: "Yönetici",
-      emailVerifiedAt: new Date(),
-    },
-  });
+  // Canlı admin: node scripts/create-admin.mjs admin@amfikocluk.com 'SIFRE'
+  await prisma.user.deleteMany({ where: { email: "admin@demo.com" } });
 
   const existing = await prisma.user.findUnique({ where: { email: "ogrenci@demo.com" } });
   if (existing) {
-    console.log("Demo verisi zaten var. Yönetici: admin@demo.com / demo123");
+    console.log("Demo verisi zaten var. Öğrenci: ogrenci@demo.com / demo123");
     return;
   }
 

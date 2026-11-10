@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/db";
+import { isPanelRole } from "@/lib/panel-home";
 import { sessionCookieOptions, SESSION_COOKIE, signSession } from "@/lib/session";
 import { loginSchema } from "@/lib/validators";
 
@@ -19,6 +20,10 @@ export async function POST(request: Request) {
   const ok = await bcrypt.compare(parsed.data.password, user.passwordHash);
   if (!ok) {
     return NextResponse.json({ error: "E-posta veya şifre hatalı." }, { status: 401 });
+  }
+
+  if (!isPanelRole(user.role)) {
+    return NextResponse.json({ error: "Bu hesap giriş için aktif değil." }, { status: 403 });
   }
 
   if (user.role === "ogrenci" && !user.emailVerifiedAt) {

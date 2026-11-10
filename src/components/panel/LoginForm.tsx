@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Icon } from "@/components/Icon";
 import { demoAccounts, type PanelRole } from "@/lib/panel-data";
-import { panelHomeForRole } from "@/lib/panel-home";
+import { isPanelRole, panelHomeForRole } from "@/lib/panel-home";
 import { safeHref } from "@/lib/validators";
 
 export function LoginForm() {
@@ -36,8 +36,8 @@ export function LoginForm() {
     fetch("/api/auth/me", { credentials: "same-origin", cache: "no-store", signal: ac.signal })
       .then(async (response) => {
         if (!response.ok) return;
-        const data = (await response.json()) as { user?: { role?: PanelRole } };
-        if (!data.user?.role) return;
+        const data = (await response.json()) as { user?: { role?: string } };
+        if (!data.user?.role || !isPanelRole(data.user.role)) return;
         window.location.assign(
           nextPath && data.user.role === "ogrenci" ? nextPath : panelHomeForRole(data.user.role),
         );
@@ -219,7 +219,6 @@ export function LoginForm() {
               ["ogrenci", "Öğrenci"],
               ["danisman", "Danışman"],
               ["veli", "Veli"],
-              ["admin", "Yönetim"],
             ] as const
           ).map(([role, label]) => (
             <li key={role}>

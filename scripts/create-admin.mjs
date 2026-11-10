@@ -33,13 +33,9 @@ const user = await prisma.user.upsert({
   select: { id: true, email: true, name: true, role: true },
 });
 
-// Demo admin'i kapat (varsa)
-await prisma.user
-  .updateMany({
-    where: { email: "admin@demo.com", role: "admin" },
-    data: { role: "pasif-admin" },
-  })
-  .catch(() => undefined);
+// Eski demo admin hesabını sil (varsa)
+const removed = await prisma.user.deleteMany({ where: { email: "admin@demo.com" } });
+if (removed.count) console.log("Silindi: admin@demo.com");
 
 console.log("Admin hazır:", user);
 await prisma.$disconnect();

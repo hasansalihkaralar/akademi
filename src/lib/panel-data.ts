@@ -61,12 +61,6 @@ export const demoAccounts = {
     name: "Ayşe Yılmaz",
     child: "Arda Yılmaz",
   },
-  admin: {
-    email: "admin@demo.com",
-    password: "demo123",
-    name: "Amfi Yönetim",
-    title: "Yönetici",
-  },
 } as const;
 
 export const studentTasks: WeeklyTask[] = [
