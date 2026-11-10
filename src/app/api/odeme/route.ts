@@ -93,40 +93,48 @@ export async function POST(request: Request) {
     receiptUrl = `/uploads/dekontlar/${filename}`;
   }
 
-  const payment = await prisma.$transaction(async (tx) => {
-    const created = await tx.payment.create({
-      data: {
-        studentName: profile.user.name,
-        parentName: profile.parent?.name || "—",
-        phone: profile.user.phone || parsed.data.phone,
-        email: profile.user.email,
-        grade: parsed.data.grade || profile.grade,
-        packageId: pack.id,
-        packageName: pack.name,
-        amount: pack.price,
-        status,
-        method,
-        receiptUrl,
-        studentId: profile.id,
-      },
-    });
-
-    if (status === "odendi") {
-      await tx.studentProfile.update({
-        where: { id: profile.id },
+  try {
+    const payment = await prisma.$transaction(async (tx) => {
+      const created = await tx.payment.create({
         data: {
-          packageId: pack.id,
-          packageStartedAt: new Date(),
+          studentName: profile.user.name,
+          parentName: profile.parent?.name || "—",
+          phone: profile.user.phone || parsed.data.phone,
+          email: profile.user.email,
           grade: parsed.data.grade || profile.grade,
+          packageId: pack.id,
+          packageName: pack.name,
+          amount: pack.price,
+          status,
+          method,
+          receiptUrl,
+          studentId: profile.id,
         },
       });
-    }
 
-    return created;
-  });
+      if (status === "odendi") {
+        await tx.studentProfile.update({
+          where: { id: profile.id },
+          data: {
+            packageId: pack.id,
+            packageStartedAt: new Date(),
+            grade: parsed.data.grade || profile.grade,
+          },
+        });
+      }
 
-  return NextResponse.json(
-    { id: payment.id, status: payment.status, method: payment.method },
-    { status: 201 },
-  );
+      return created;
+    });
+
+    return NextResponse.json(
+      { id: payment.id, status: payment.status, method: payment.method },
+      { status: 201 },
+    );
+  } catch (error) {
+    console.error("[odeme]", error);
+    return NextResponse.json(
+      { error: "Ödeme kaydı oluşturulamadı. Biraz sonra tekrar dene." },
+      { status: 500 },
+    );
+  }
 }

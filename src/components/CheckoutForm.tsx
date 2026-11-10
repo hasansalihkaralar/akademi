@@ -35,6 +35,7 @@ export function CheckoutForm({ initialPackageId }: { initialPackageId?: string }
   const [method, setMethod] = useState<PayMethod>("kart");
   const [receiptName, setReceiptName] = useState("");
   const [status, setStatus] = useState<"idle" | "busy" | "error" | "save" | "auth" | "receipt">("idle");
+  const [saveError, setSaveError] = useState("");
   const [kvkk, setKvkk] = useState(false);
   const [mesafeli, setMesafeli] = useState(false);
   const [riza, setRiza] = useState(false);
@@ -103,6 +104,7 @@ export function CheckoutForm({ initialPackageId }: { initialPackageId?: string }
     const formEl = event.currentTarget;
     const form = new FormData(formEl);
 
+    setSaveError("");
     if (method === "havale") {
       const receipt = form.get("receipt");
       if (!(receipt instanceof File) || receipt.size <= 0) {
@@ -125,12 +127,14 @@ export function CheckoutForm({ initialPackageId }: { initialPackageId?: string }
         credentials: "same-origin",
         body,
       });
+      const payload = (await response.json().catch(() => null)) as { error?: string } | null;
       if (response.status === 401) {
         setStatus("auth");
         setAuth("guest");
         return;
       }
       if (!response.ok) {
+        setSaveError(payload?.error || "Ödeme kaydedilemedi. Bilgileri kontrol edip yeniden dene.");
         setStatus("save");
         return;
       }
@@ -156,12 +160,14 @@ export function CheckoutForm({ initialPackageId }: { initialPackageId?: string }
         status: card.endsWith("0000") ? "basarisiz" : "odendi",
       }),
     });
+    const payload = (await response.json().catch(() => null)) as { error?: string } | null;
     if (response.status === 401) {
       setStatus("auth");
       setAuth("guest");
       return;
     }
     if (!response.ok) {
+      setSaveError(payload?.error || "Ödeme kaydedilemedi. Bilgileri kontrol edip yeniden dene.");
       setStatus("save");
       return;
     }
@@ -409,7 +415,9 @@ export function CheckoutForm({ initialPackageId }: { initialPackageId?: string }
           <p className="text-body-sm text-error">Havale/EFT için dekont dosyası yüklemen gerekir.</p>
         ) : null}
         {status === "save" ? (
-          <p className="text-body-sm text-error">Ödeme kaydedilemedi. Bilgileri kontrol edip yeniden dene.</p>
+          <p className="text-body-sm text-error">
+            {saveError || "Ödeme kaydedilemedi. Bilgileri kontrol edip yeniden dene."}
+          </p>
         ) : null}
         {status === "auth" ? (
           <p className="text-body-sm text-error">Oturum gerekli. Öğrenci hesabınla giriş yapıp tekrar dene.</p>
