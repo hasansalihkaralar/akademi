@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Icon } from "@/components/Icon";
-import { demoAccounts, type PanelRole } from "@/lib/panel-data";
+import { demoAccounts } from "@/lib/panel-data";
 import { isPanelRole, panelHomeForRole } from "@/lib/panel-home";
 import { safeHref } from "@/lib/validators";
 
@@ -46,7 +46,7 @@ export function LoginForm() {
     return () => ac.abort();
   }, [nextPath]);
 
-  function fillDemo(role: PanelRole) {
+  function fillDemo(role: keyof typeof demoAccounts) {
     const account = demoAccounts[role];
     setEmail(account.email);
     setPassword(account.password);
