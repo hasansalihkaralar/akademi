@@ -4,16 +4,29 @@ import { meetingLabelToIso } from "@/lib/meeting-date";
 
 const GOOGLE_CONNECTION_ID = "default";
 
+function env(name: string) {
+  // Dinamik erişim: Next build sırasında localhost'a sabitlemesin.
+  return process.env[name] || "";
+}
+
 function clientId() {
-  return process.env.GOOGLE_CLIENT_ID || "";
+  return env("GOOGLE_CLIENT_ID");
 }
 
 function clientSecret() {
-  return process.env.GOOGLE_CLIENT_SECRET || "";
+  return env("GOOGLE_CLIENT_SECRET");
+}
+
+export function appBaseUrl() {
+  const fromEnv = env("APP_URL").replace(/\/$/, "");
+  if (fromEnv) return fromEnv;
+  return "http://localhost:3000";
 }
 
 function redirectUri() {
-  return process.env.GOOGLE_REDIRECT_URI || "http://localhost:3000/api/google/callback";
+  const configured = env("GOOGLE_REDIRECT_URI").replace(/\/$/, "");
+  if (configured) return configured;
+  return `${appBaseUrl()}/api/google/callback`;
 }
 
 function authSecret() {
