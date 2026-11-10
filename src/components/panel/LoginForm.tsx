@@ -72,7 +72,7 @@ export function LoginForm() {
         error?: string;
         needsVerification?: boolean;
         email?: string;
-        user?: { role: PanelRole };
+        user?: { role: string };
       } | null;
 
       if (!response.ok || !data?.user) {
