@@ -6,14 +6,24 @@ export async function GET() {
   const admin = await requireAdmin();
   if (!admin) return NextResponse.json({ error: "Yönetici girişi gerekli." }, { status: 403 });
 
-  const [students, unassigned, advisors, requests, messages, payments] = await Promise.all([
-    prisma.studentProfile.count(),
-    prisma.studentProfile.count({ where: { advisorId: null } }),
-    prisma.user.count({ where: { role: "danisman" } }),
-    prisma.consultationRequest.count({ where: { status: "yeni" } }),
-    prisma.contactMessage.count({ where: { read: false } }),
-    prisma.payment.count({ where: { status: "odendi" } }),
-  ]);
+  const [students, unassigned, advisors, requests, messages, payments, pendingTransfers] =
+    await Promise.all([
+      prisma.studentProfile.count(),
+      prisma.studentProfile.count({ where: { advisorId: null } }),
+      prisma.user.count({ where: { role: "danisman" } }),
+      prisma.consultationRequest.count({ where: { status: "yeni" } }),
+      prisma.contactMessage.count({ where: { read: false } }),
+      prisma.payment.count({ where: { status: "odendi" } }),
+      prisma.payment.count({ where: { status: "havale_bekliyor" } }),
+    ]);
 
-  return NextResponse.json({ students, unassigned, advisors, requests, messages, payments });
+  return NextResponse.json({
+    students,
+    unassigned,
+    advisors,
+    requests,
+    messages,
+    payments,
+    pendingTransfers,
+  });
 }

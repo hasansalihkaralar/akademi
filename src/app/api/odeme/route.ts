@@ -70,7 +70,8 @@ export async function POST(request: Request) {
   }
 
   const method = parsed.data.method || "kart";
-  let status = parsed.data.status;
+  let status: "odendi" | "basarisiz" | "havale_bekliyor" =
+    method === "havale" ? "havale_bekliyor" : parsed.data.demoFail ? "basarisiz" : "odendi";
   let receiptUrl: string | null = null;
 
   if (method === "havale") {

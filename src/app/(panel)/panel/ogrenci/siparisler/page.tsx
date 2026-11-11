@@ -36,24 +36,31 @@ export default function StudentOrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [current, setCurrent] = useState<Order | null>(null);
   const [canRepurchase, setCanRepurchase] = useState(false);
+  const [pendingTransfer, setPendingTransfer] = useState(false);
+  const [viewer, setViewer] = useState("ogrenci");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch("/api/panel/ogrenci/siparisler", { credentials: "same-origin", cache: "no-store" })
       .then(async (response) => {
+        const data = (await response.json().catch(() => null)) as {
+          orders?: Order[];
+          current?: Order | null;
+          canRepurchase?: boolean;
+          pendingTransfer?: boolean;
+          viewer?: string;
+          error?: string;
+        } | null;
         if (!response.ok) {
-          setError("Siparişler yüklenemedi.");
+          setError(data?.error || "Siparişler yüklenemedi.");
           return;
         }
-        const data = (await response.json()) as {
-          orders: Order[];
-          current: Order | null;
-          canRepurchase: boolean;
-        };
-        setOrders(data.orders);
-        setCurrent(data.current);
-        setCanRepurchase(data.canRepurchase);
+        setOrders(data?.orders || []);
+        setCurrent(data?.current || null);
+        setCanRepurchase(Boolean(data?.canRepurchase));
+        setPendingTransfer(Boolean(data?.pendingTransfer));
+        setViewer(data?.viewer || "ogrenci");
       })
       .catch(() => setError("Siparişler yüklenemedi."))
       .finally(() => setLoading(false));
@@ -77,10 +84,12 @@ export default function StudentOrdersPage() {
               Satın aldığın paketleri, başlangıç ve bitiş tarihlerini buradan takip et.
             </p>
           </div>
-          <Link href={current ? `/odeme?paket=${current.packageId}` : "/paketler"} className="btn-primary">
-            <Icon name="shopping_bag" className="text-[18px]" />
-            {canRepurchase ? "Yeniden paket al" : "Paketleri gör"}
-          </Link>
+          {viewer === "ogrenci" && canRepurchase ? (
+            <Link href={current ? `/odeme?paket=${current.packageId}` : "/paketler"} className="btn-primary">
+              <Icon name="shopping_bag" className="text-[18px]" />
+              Yeniden paket al
+            </Link>
+          ) : null}
         </div>
 
         {current ? (
@@ -107,17 +116,28 @@ export default function StudentOrdersPage() {
               </div>
             </div>
           </div>
+        ) : pendingTransfer ? (
+          <div className="mt-space-lg rounded-xl bg-secondary-fixed p-space-lg text-on-secondary-fixed">
+            <p className="text-title-md font-semibold">Havale onay bekleniyor</p>
+            <p className="mt-1 text-body-sm">
+              Dekontun alındı. Yönetim onayladığında paket otomatik açılır; yeniden satın almana gerek yok.
+            </p>
+          </div>
         ) : (
           <div className="mt-space-lg rounded-xl bg-surface-container-low p-space-lg">
             <p className="text-title-md font-semibold text-on-surface">Aktif paket yok</p>
             <p className="mt-1 text-body-sm text-on-surface-variant">
-              {orders.some((order) => order.status === "odendi")
-                ? "Önceki paketinin süresi dolmuş. Yeniden satın alarak devam edebilirsin."
-                : "Henüz paket satın almadın. Paketler sayfasından seçim yapabilirsin."}
+              {viewer === "veli"
+                ? "Öğrencinin aktif paketi yok. Paket satın alma yalnızca öğrenci hesabından yapılır."
+                : orders.some((order) => order.status === "odendi")
+                  ? "Önceki paketinin süresi dolmuş. Yeniden satın alarak devam edebilirsin."
+                  : "Henüz paket satın almadın. Paketler sayfasından seçim yapabilirsin."}
             </p>
-            <Link href="/paketler" className="btn-secondary mt-space-md inline-flex">
-              Paketleri incele
-            </Link>
+            {viewer === "ogrenci" ? (
+              <Link href="/paketler" className="btn-secondary mt-space-md inline-flex">
+                Paketleri incele
+              </Link>
+            ) : null}
           </div>
         )}
       </section>

@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 import { getPackage } from "@/lib/content";
 import { prisma } from "@/lib/db";
-import { getSessionUser } from "@/lib/session";
 import { weekStartIso } from "@/lib/meeting-date";
+import { hasPendingTransfer } from "@/lib/payment-pending";
+import { getSessionUser } from "@/lib/session";
 
 async function profileFor(user: { id: string; role: string }) {
   if (user.role === "ogrenci") {
@@ -38,6 +39,7 @@ export async function GET() {
   }
 
   const hasPackage = Boolean(profile.packageId);
+  const pendingTransfer = hasPackage ? false : await hasPendingTransfer(profile.id);
   const pack = profile.packageId ? getPackage(profile.packageId) : null;
   const week = weekStartIso();
   const weekTasks = hasPackage
@@ -50,6 +52,7 @@ export async function GET() {
   return NextResponse.json({
     viewer: user.role,
     hasPackage,
+    pendingTransfer,
     packageId: profile.packageId,
     packageName: pack?.name ?? null,
     completion,

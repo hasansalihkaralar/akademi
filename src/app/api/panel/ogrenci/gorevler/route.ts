@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { hasPendingTransfer } from "@/lib/payment-pending";
 import { getSessionUser } from "@/lib/session";
 import { taskToggleSchema } from "@/lib/validators";
 
@@ -31,10 +32,12 @@ export async function GET() {
   }
 
   const hasPackage = Boolean(profile.packageId);
+  const pendingTransfer = hasPackage ? false : await hasPendingTransfer(profile.id);
 
   return NextResponse.json({
     viewer: user.role,
     hasPackage,
+    pendingTransfer,
     packageId: profile.packageId,
     tasks: hasPackage
       ? profile.tasks.map((task) => ({

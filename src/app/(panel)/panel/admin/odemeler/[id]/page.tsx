@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { formatPrice } from "@/lib/content";
+import { paymentStatusClass, paymentStatusLabel } from "@/lib/payment-status";
 
 type Advisor = { id: string; name: string; title: string | null };
 type Enrolled = {
@@ -24,6 +25,9 @@ type Payment = {
   packageName: string;
   amount: number;
   status: string;
+  method?: string;
+  receiptUrl?: string | null;
+  studentId?: string | null;
   createdAt: string;
   student: Enrolled | null;
 };
@@ -92,6 +96,33 @@ export default function AdminPaymentDetailPage() {
       .catch(() => setError("Ödeme yüklenemedi."));
   }, [params.id]);
 
+  async function approveHavale() {
+    if (!payment) return;
+    setSaving(true);
+    setError("");
+    setNotice("");
+    const response = await fetch(`/api/panel/admin/odemeler/${payment.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "approve_havale" }),
+    });
+    const data = (await response.json().catch(() => null)) as {
+      status?: string;
+      error?: string;
+    } | null;
+    setSaving(false);
+    if (!response.ok) {
+      setError(data?.error || "Havale onaylanamadı.");
+      return;
+    }
+    setPayment({ ...payment, status: data?.status || "odendi" });
+    setNotice(
+      payment.studentId
+        ? "Havale onaylandı. Öğrencinin paketi aktifleştirildi."
+        : "Havale onaylandı. İstersen aşağıdan öğrenci hesabı açabilirsin.",
+    );
+  }
+
   async function enroll(event: React.FormEvent) {
     event.preventDefault();
     if (!payment) return;
@@ -143,6 +174,7 @@ export default function AdminPaymentDetailPage() {
   }
 
   const paid = payment.status === "odendi";
+  const pendingTransfer = payment.status === "havale_bekliyor";
 
   return (
     <div className="space-y-space-lg">
@@ -158,12 +190,8 @@ export default function AdminPaymentDetailPage() {
       <section className="rounded-xl bg-surface-container-lowest p-space-lg shadow-sm">
         <div className="flex flex-wrap items-center gap-space-sm">
           <h3 className="text-title-lg font-bold text-on-surface">Ödeme bilgisi</h3>
-          <span
-            className={`rounded-full px-2 py-0.5 text-label-md font-semibold ${
-              paid ? "bg-[#DCFCE7] text-[#15803D]" : "bg-error/10 text-error"
-            }`}
-          >
-            {paid ? "Ödendi" : "Başarısız"}
+          <span className={`rounded-full px-2 py-0.5 text-label-md font-semibold ${paymentStatusClass(payment.status)}`}>
+            {paymentStatusLabel(payment.status)}
           </span>
         </div>
         <dl className="mt-space-md grid gap-space-sm text-body-sm sm:grid-cols-2">
@@ -171,6 +199,12 @@ export default function AdminPaymentDetailPage() {
             <dt className="text-on-surface-variant">Paket</dt>
             <dd className="font-semibold text-on-surface">
               {payment.packageName} · {formatPrice(payment.amount)}
+            </dd>
+          </div>
+          <div>
+            <dt className="text-on-surface-variant">Yöntem</dt>
+            <dd className="font-semibold text-on-surface">
+              {payment.method === "havale" ? "Havale / EFT" : "Kart"}
             </dd>
           </div>
           <div>
@@ -189,7 +223,22 @@ export default function AdminPaymentDetailPage() {
             <dt className="text-on-surface-variant">Veli adı</dt>
             <dd className="font-semibold text-on-surface">{payment.parentName || "—"}</dd>
           </div>
+          {payment.receiptUrl ? (
+            <div className="sm:col-span-2">
+              <dt className="text-on-surface-variant">Dekont</dt>
+              <dd className="font-semibold text-on-surface">
+                <a href={payment.receiptUrl} target="_blank" rel="noreferrer" className="text-primary underline">
+                  Dekontu aç
+                </a>
+              </dd>
+            </div>
+          ) : null}
         </dl>
+        {pendingTransfer ? (
+          <button type="button" className="btn-primary mt-space-md" disabled={saving} onClick={() => void approveHavale()}>
+            {saving ? "Onaylanıyor…" : "Havaleyi onayla ve paketi aç"}
+          </button>
+        ) : null}
       </section>
       {payment.student ? (
         <section className="rounded-xl bg-surface-container-lowest p-space-lg shadow-sm">

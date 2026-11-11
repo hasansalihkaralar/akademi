@@ -3,7 +3,7 @@ import type { PanelRole } from "@/lib/panel-data";
 export function panelHomeForRole(role: string): string {
   if (role === "admin") return "/panel/admin";
   if (role === "danisman") return "/panel/danisman";
-  if (role === "veli") return "/panel/ogrenci?veli=1";
+  if (role === "veli") return "/panel/ogrenci";
   return "/panel/ogrenci";
 }
 

@@ -1,8 +1,16 @@
 import nodemailer from "nodemailer";
+import { safeHref } from "@/lib/validators";
 
 function appUrl() {
   const raw = (process.env.APP_URL || process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000").trim();
   return raw.replace(/\/$/, "");
+}
+
+function safeNextPath(next?: string | null) {
+  if (!next) return null;
+  const href = safeHref(next);
+  if (!href?.startsWith("/") || href.startsWith("//")) return null;
+  return href.slice(0, 500);
 }
 
 function smtpConfigured() {
@@ -26,12 +34,16 @@ function transporter() {
   });
 }
 
-export function verificationUrl(token: string) {
-  return `${appUrl()}/api/auth/verify?token=${encodeURIComponent(token)}`;
+export function verificationUrl(token: string, next?: string | null) {
+  const url = new URL(`${appUrl()}/api/auth/verify`);
+  url.searchParams.set("token", token);
+  const nextPath = safeNextPath(next);
+  if (nextPath) url.searchParams.set("next", nextPath);
+  return url.toString();
 }
 
-export async function sendVerificationEmail(to: string, token: string) {
-  const url = verificationUrl(token);
+export async function sendVerificationEmail(to: string, token: string, next?: string | null) {
+  const url = verificationUrl(token, next);
   const from = process.env.MAIL_FROM || process.env.SMTP_USER || "noreply@amfikocluk.com";
 
   if (process.env.NODE_ENV !== "production") {

@@ -11,6 +11,7 @@ type Summary = {
   requests: number;
   messages: number;
   payments: number;
+  pendingTransfers?: number;
 };
 
 export default function AdminHomePage() {
@@ -63,7 +64,13 @@ export default function AdminHomePage() {
         ["Danışman", String(summary.advisors), "psychology", "/panel/admin/danismanlar"],
         ["Yeni talep", String(summary.requests), "inbox", "/panel/admin/talepler"],
         ["Okunmamış mesaj", String(summary.messages), "mail", "/panel/admin/mesajlar"],
-        ["Gelen ödeme", String(summary.payments), "payments", "/panel/admin/odemeler"],
+        ["Ödenen", String(summary.payments), "payments", "/panel/admin/odemeler"],
+        [
+          "Havale bekleyen",
+          String(summary.pendingTransfers ?? 0),
+          "hourglass_top",
+          "/panel/admin/odemeler",
+        ],
       ]
     : [];
 

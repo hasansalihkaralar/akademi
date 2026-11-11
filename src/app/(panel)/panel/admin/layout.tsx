@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { PanelShell } from "@/components/panel/PanelShell";
+import { isPanelRole, panelHomeForRole } from "@/lib/panel-home";
 
 const groups = [
   {
@@ -49,7 +50,7 @@ export default function AdminPanelLayout({ children }: { children: React.ReactNo
           subtitle: string;
         };
         if (data.user.role !== "admin") {
-          router.replace("/giris");
+          router.replace(isPanelRole(data.user.role) ? panelHomeForRole(data.user.role) : "/giris");
           return;
         }
         setProfile({ name: data.user.name, subtitle: data.subtitle });

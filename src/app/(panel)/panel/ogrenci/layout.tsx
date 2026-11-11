@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { PanelShell } from "@/components/panel/PanelShell";
+import { isPanelRole, panelHomeForRole } from "@/lib/panel-home";
 
 const nav = [
   { href: "/panel/ogrenci", label: "Özet", icon: "dashboard" },
@@ -38,7 +39,7 @@ export default function StudentPanelLayout({ children }: { children: React.React
           subtitle: string;
         };
         if (data.user.role !== "ogrenci" && data.user.role !== "veli") {
-          router.replace("/giris");
+          router.replace(isPanelRole(data.user.role) ? panelHomeForRole(data.user.role) : "/giris");
           return;
         }
         setProfile({
@@ -55,7 +56,15 @@ export default function StudentPanelLayout({ children }: { children: React.React
   }, [router]);
 
   const items =
-    profile.role === "ogrenci" ? nav : nav.filter((item) => item.href !== "/panel/ogrenci/gorusmeler");
+    profile.role === "ogrenci"
+      ? nav
+      : [
+          ...nav.filter((item) => item.href !== "/panel/ogrenci/gorusmeler"),
+        ].map((item) =>
+          item.href === "/panel/ogrenci"
+            ? { ...item, label: "Özet & talepler" }
+            : item,
+        );
 
   return (
     <PanelShell

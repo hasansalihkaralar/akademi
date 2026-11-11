@@ -3,9 +3,11 @@ import { z } from "zod";
 import { createVerifyToken, resendTooSoon } from "@/lib/email-verification";
 import { prisma } from "@/lib/db";
 import { sendVerificationEmail } from "@/lib/mail";
+import { safeHref } from "@/lib/validators";
 
 const schema = z.object({
   email: z.string().trim().email(),
+  next: z.string().trim().max(500).optional(),
 });
 
 export async function POST(request: Request) {
@@ -50,8 +52,13 @@ export async function POST(request: Request) {
     },
   });
 
+  const nextPath =
+    parsed.data.next && safeHref(parsed.data.next)?.startsWith("/")
+      ? safeHref(parsed.data.next)
+      : null;
+
   try {
-    await sendVerificationEmail(email, token);
+    await sendVerificationEmail(email, token, nextPath);
   } catch (error) {
     console.error("[resend-verification] mail failed", error);
     return NextResponse.json(

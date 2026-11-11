@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import { createVerifyToken } from "@/lib/email-verification";
 import { prisma } from "@/lib/db";
 import { sendVerificationEmail } from "@/lib/mail";
-import { publicStudentRegisterSchema } from "@/lib/validators";
+import { publicStudentRegisterSchema, safeHref } from "@/lib/validators";
 
 export async function POST(request: Request) {
   const body = await request.json().catch(() => null);
@@ -51,9 +51,12 @@ export async function POST(request: Request) {
     return user;
   });
 
+  const nextRaw = typeof body?.next === "string" ? body.next : null;
+  const nextPath = nextRaw && safeHref(nextRaw)?.startsWith("/") ? safeHref(nextRaw) : null;
+
   let mailWarning: string | null = null;
   try {
-    await sendVerificationEmail(email, token);
+    await sendVerificationEmail(email, token, nextPath);
   } catch (error) {
     console.error("[register] verification mail failed", error);
     mailWarning =

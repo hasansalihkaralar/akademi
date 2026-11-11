@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { formatPrice } from "@/lib/content";
+import { paymentStatusClass, paymentStatusLabel } from "@/lib/payment-status";
 
 type Payment = {
   id: string;
@@ -14,6 +15,7 @@ type Payment = {
   packageName: string;
   amount: number;
   status: string;
+  method?: string;
   studentId: string | null;
   createdAt: string;
 };
@@ -45,13 +47,15 @@ export default function AdminPaymentsPage() {
   }, []);
 
   const paid = items.filter((item) => item.status === "odendi").length;
+  const pending = items.filter((item) => item.status === "havale_bekliyor").length;
 
   return (
     <div className="space-y-space-lg">
       <div>
         <h2 className="text-headline-sm text-on-surface">Ödemeler</h2>
         <p className="mt-1 text-body-sm text-on-surface-variant">
-          Siteden gelen paket ödemeleri burada durur. {paid} ödeme alınmış.
+          Siteden gelen paket ödemeleri burada durur. {paid} ödendi
+          {pending ? ` · ${pending} havale bekliyor` : ""}.
         </p>
       </div>
       {error ? <p className="text-body-sm text-error">{error}</p> : null}
@@ -70,11 +74,9 @@ export default function AdminPaymentsPage() {
                 <p className="font-semibold text-on-surface">
                   {item.studentName}
                   <span
-                    className={`ml-2 rounded-full px-2 py-0.5 text-label-md font-semibold ${
-                      item.status === "odendi" ? "bg-[#DCFCE7] text-[#15803D]" : "bg-error/10 text-error"
-                    }`}
+                    className={`ml-2 rounded-full px-2 py-0.5 text-label-md font-semibold ${paymentStatusClass(item.status)}`}
                   >
-                    {item.status === "odendi" ? "Ödendi" : "Başarısız"}
+                    {paymentStatusLabel(item.status)}
                   </span>
                   {item.studentId ? (
                     <span className="ml-2 rounded-full bg-primary/10 px-2 py-0.5 text-label-md font-semibold text-primary">

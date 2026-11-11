@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { brand } from "@/lib/content";
 import { panelHomeForRole } from "@/lib/panel-home";
 import { defaultBrand, defaultMenu, type SiteBrand, type SiteMenuItem } from "@/lib/site-defaults";
 import { Icon } from "./Icon";
@@ -153,6 +154,24 @@ export function SiteHeader({
                 >
                   {accountHref === "/giris" ? "Giriş Yap" : "Panele Dön"}
                 </Link>
+                <a
+                  href={brand.phoneHref}
+                  onClick={() => setOpen(false)}
+                  className="inline-flex items-center justify-center gap-2 rounded-lg px-space-md py-3 text-title-md text-on-surface hover:bg-surface-container-low"
+                >
+                  <Icon name="call" className="text-[20px] text-primary" />
+                  {brand.phone}
+                </a>
+                <a
+                  href={brand.whatsappHref}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => setOpen(false)}
+                  className="inline-flex items-center justify-center gap-2 rounded-lg px-space-md py-3 text-title-md text-on-surface hover:bg-surface-container-low"
+                >
+                  <Icon name="chat" className="text-[20px] text-primary" />
+                  WhatsApp
+                </a>
               </div>
             </nav>
           </div>

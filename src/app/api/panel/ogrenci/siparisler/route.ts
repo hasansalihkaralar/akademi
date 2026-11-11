@@ -84,12 +84,15 @@ export async function GET() {
         })()
       : null);
 
+  const pendingTransfer = orders.some((order) => order.status === "havale_bekliyor");
+
   return NextResponse.json(
     {
       viewer: user.role,
       current: currentPack?.active ? currentPack : null,
       orders,
-      canRepurchase: !currentPack?.active,
+      pendingTransfer,
+      canRepurchase: !currentPack?.active && !pendingTransfer && user.role === "ogrenci",
     },
     { headers: { "Cache-Control": "no-store" } },
   );

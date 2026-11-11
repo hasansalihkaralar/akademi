@@ -105,7 +105,10 @@ export function LoginForm() {
       const response = await fetch("/api/auth/resend-verification", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({
+          email,
+          ...(nextPath ? { next: nextPath } : {}),
+        }),
         signal: AbortSignal.timeout(20000),
       });
       const data = (await response.json().catch(() => null)) as { error?: string; message?: string } | null;
@@ -153,16 +156,9 @@ export function LoginForm() {
           </div>
         </label>
 
-        <div>
-          <div className="mb-1.5 flex items-center justify-between">
-            <label className="text-label-lg text-on-surface">
-              Şifre <span className="text-secondary">*</span>
-            </label>
-            <button type="button" className="text-label-md text-secondary hover:text-secondary-container">
-              Şifremi Unuttum?
-            </button>
-          </div>
-          <div className="relative flex items-center">
+        <label className="block text-label-lg text-on-surface">
+          Şifre <span className="text-secondary">*</span>
+          <div className="relative mt-1.5 flex items-center">
             <Icon
               name="lock"
               className="pointer-events-none absolute left-3.5 text-[20px] text-on-surface-variant"
@@ -184,11 +180,6 @@ export function LoginForm() {
               <Icon name={showPassword ? "visibility_off" : "visibility"} className="text-[20px]" />
             </button>
           </div>
-        </div>
-
-        <label className="flex cursor-pointer items-center gap-space-xs select-none py-space-xs">
-          <input type="checkbox" className="h-4 w-4 accent-primary" />
-          <span className="text-body-sm text-on-surface-variant">Bu cihazda beni hatırla</span>
         </label>
 
         {notice ? <p className="text-body-sm text-primary">{notice}</p> : null}
@@ -211,28 +202,30 @@ export function LoginForm() {
         </button>
       </form>
 
-      <div className="mt-space-lg rounded-xl bg-surface-container-low p-space-md text-body-sm text-on-surface-variant">
-        <p className="font-semibold text-on-surface">Demo hesaplar</p>
-        <ul className="mt-space-xs space-y-1">
-          {(
-            [
-              ["ogrenci", "Öğrenci"],
-              ["danisman", "Danışman"],
-              ["veli", "Veli"],
-            ] as const
-          ).map(([role, label]) => (
-            <li key={role}>
-              <button
-                type="button"
-                onClick={() => fillDemo(role)}
-                className="text-left hover:text-primary hover:underline"
-              >
-                {label}: {demoAccounts[role].email} / {demoAccounts[role].password}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
+      {process.env.NODE_ENV !== "production" ? (
+        <div className="mt-space-lg rounded-xl bg-surface-container-low p-space-md text-body-sm text-on-surface-variant">
+          <p className="font-semibold text-on-surface">Demo hesaplar</p>
+          <ul className="mt-space-xs space-y-1">
+            {(
+              [
+                ["ogrenci", "Öğrenci"],
+                ["danisman", "Danışman"],
+                ["veli", "Veli"],
+              ] as const
+            ).map(([role, label]) => (
+              <li key={role}>
+                <button
+                  type="button"
+                  onClick={() => fillDemo(role)}
+                  className="text-left hover:text-primary hover:underline"
+                >
+                  {label}: {demoAccounts[role].email} / {demoAccounts[role].password}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
 
       <p className="mt-space-md text-center text-body-sm text-on-surface-variant">
         Öğrenci hesabın yok mu?{" "}

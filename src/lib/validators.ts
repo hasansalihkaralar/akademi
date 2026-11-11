@@ -223,8 +223,13 @@ export const paymentSchema = z.object({
   grade: z.string().trim().min(2).max(40),
   packageId: z.string().trim().min(2).max(40),
   method: z.enum(["kart", "havale"]).default("kart"),
-  status: z.enum(["odendi", "basarisiz", "havale_bekliyor"]),
+  /** Kart demo: kart 0000 ile bitiyorsa true. Sunucu status'u kendisi belirler. */
+  demoFail: z.boolean().optional(),
   receiptUrl: z.string().trim().max(500).optional().or(z.literal("")),
+});
+
+export const approvePaymentSchema = z.object({
+  action: z.literal("approve_havale"),
 });
 
 export const requestStatusSchema = z.object({

@@ -158,9 +158,9 @@ export function NextMeetingCard() {
 
       {parent ? (
         <div className="rounded-xl bg-surface-container-lowest p-space-lg shadow-sm">
-          <h3 className="text-title-lg font-bold text-on-surface">Görüşme talebi</h3>
+          <h3 className="text-title-lg font-bold text-on-surface">Görüşme talepleri</h3>
           <p className="mt-1 text-body-sm text-on-surface-variant">
-            Danışman {coach || "…"} talebini görür ve randevu oluşturur.
+            Veli talepleri buradan iletilir. Danışman {coach || "…"} talebi görür ve randevu oluşturur.
           </p>
           {error ? <p className="mt-space-sm text-body-sm text-error">{error}</p> : null}
           {notice ? <p className="mt-space-sm text-body-sm text-primary">{notice}</p> : null}

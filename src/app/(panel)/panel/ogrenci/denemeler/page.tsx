@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Icon } from "@/components/Icon";
+import { PackageAccessGate } from "@/components/panel/PackageAccessGate";
 
 type Trial = {
   id: string;
@@ -16,18 +16,28 @@ type Trial = {
 export default function StudentTrialsPage() {
   const [trials, setTrials] = useState<Trial[]>([]);
   const [hasPackage, setHasPackage] = useState<boolean | null>(null);
+  const [pendingTransfer, setPendingTransfer] = useState(false);
+  const [viewer, setViewer] = useState("ogrenci");
   const [error, setError] = useState("");
 
   useEffect(() => {
     fetch("/api/panel/ogrenci/denemeler")
       .then(async (response) => {
+        const data = (await response.json().catch(() => null)) as {
+          hasPackage?: boolean;
+          pendingTransfer?: boolean;
+          viewer?: string;
+          trials?: Trial[];
+          error?: string;
+        } | null;
         if (!response.ok) {
-          setError("Denemeleri görmek için öğrenci hesabıyla giriş yap.");
+          setError(data?.error || "Denemeler yüklenemedi.");
           return;
         }
-        const data = (await response.json()) as { hasPackage: boolean; trials: Trial[] };
-        setHasPackage(data.hasPackage);
-        setTrials(data.trials);
+        setHasPackage(Boolean(data?.hasPackage));
+        setPendingTransfer(Boolean(data?.pendingTransfer));
+        setViewer(data?.viewer || "ogrenci");
+        setTrials(data?.trials || []);
       })
       .catch(() => setError("Denemeler yüklenemedi."));
   }, []);
@@ -42,20 +52,11 @@ export default function StudentTrialsPage() {
 
   if (!hasPackage) {
     return (
-      <section className="rounded-xl bg-surface-container-lowest p-space-xl shadow-sm">
-        <h2 className="text-headline-sm text-on-surface">Deneme takibi paketle açılır</h2>
-        <p className="mt-space-sm text-body-md text-on-surface-variant">
-          Paket satın aldıktan sonra koçunun girdiği deneme netleri burada görünür.
-        </p>
-        <div className="mt-space-lg flex flex-wrap gap-space-sm">
-          <Link href="/paketler" className="btn-primary">
-            Paketleri gör
-          </Link>
-          <Link href="/odeme" className="btn-secondary">
-            Satın almaya git
-          </Link>
-        </div>
-      </section>
+      <PackageAccessGate
+        viewer={viewer}
+        pendingTransfer={pendingTransfer}
+        title="Deneme takibi paketle açılır"
+      />
     );
   }
 

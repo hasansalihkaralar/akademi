@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { requireAdmin } from "@/lib/admin";
 import { prisma } from "@/lib/db";
-import { enrollPaymentSchema } from "@/lib/validators";
+import { approvePaymentSchema, enrollPaymentSchema } from "@/lib/validators";
 
 type RouteContext = { params: Promise<{ id: string }> };
 
@@ -41,6 +41,9 @@ export async function GET(_request: Request, context: RouteContext) {
       packageName: payment.packageName,
       amount: payment.amount,
       status: payment.status,
+      method: payment.method,
+      receiptUrl: payment.receiptUrl,
+      studentId: payment.studentId,
       createdAt: payment.createdAt,
       student: payment.student
         ? {
@@ -52,6 +55,49 @@ export async function GET(_request: Request, context: RouteContext) {
           }
         : null,
     },
+  });
+}
+
+export async function PATCH(request: Request, context: RouteContext) {
+  const admin = await requireAdmin();
+  if (!admin) return NextResponse.json({ error: "Yönetici girişi gerekli." }, { status: 403 });
+
+  const { id } = await context.params;
+  const body = await request.json().catch(() => null);
+  const parsed = approvePaymentSchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json({ error: "Geçersiz işlem." }, { status: 400 });
+  }
+
+  const payment = await prisma.payment.findUnique({ where: { id } });
+  if (!payment) return NextResponse.json({ error: "Ödeme bulunamadı." }, { status: 404 });
+  if (payment.status !== "havale_bekliyor") {
+    return NextResponse.json({ error: "Yalnızca bekleyen havale onaylanabilir." }, { status: 400 });
+  }
+
+  const updated = await prisma.$transaction(async (tx) => {
+    const next = await tx.payment.update({
+      where: { id: payment.id },
+      data: { status: "odendi" },
+    });
+    if (payment.studentId) {
+      await tx.studentProfile.update({
+        where: { id: payment.studentId },
+        data: {
+          packageId: payment.packageId,
+          packageStartedAt: new Date(),
+          grade: payment.grade || undefined,
+        },
+      });
+    }
+    return next;
+  });
+
+  return NextResponse.json({
+    id: updated.id,
+    status: updated.status,
+    method: updated.method,
+    studentId: updated.studentId,
   });
 }
 

@@ -18,7 +18,7 @@ function clientSecret() {
 }
 
 export function appBaseUrl() {
-  const fromEnv = env("APP_URL").replace(/\/$/, "");
+  const fromEnv = (env("APP_URL") || env("NEXT_PUBLIC_APP_URL")).replace(/\/$/, "");
   if (fromEnv) return fromEnv;
   return "http://localhost:3000";
 }

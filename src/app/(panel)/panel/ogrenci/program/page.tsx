@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Icon } from "@/components/Icon";
+import { PackageAccessGate } from "@/components/panel/PackageAccessGate";
 import { groupWeekTasks, WeekNav } from "@/components/panel/WeekNav";
 import { PROGRAM_DAYS, weekStartIso } from "@/lib/meeting-date";
 
@@ -24,6 +24,8 @@ export default function StudentProgramPage() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [dayNotes, setDayNotes] = useState<DayNote[]>([]);
   const [hasPackage, setHasPackage] = useState<boolean | null>(null);
+  const [pendingTransfer, setPendingTransfer] = useState(false);
+  const [viewer, setViewer] = useState("ogrenci");
   const [canToggle, setCanToggle] = useState(true);
   const [error, setError] = useState("");
   const [week, setWeek] = useState(() => weekStartIso());
@@ -31,26 +33,31 @@ export default function StudentProgramPage() {
   useEffect(() => {
     fetch("/api/panel/ogrenci/gorevler")
       .then(async (response) => {
-        if (!response.ok) {
-          setError("Programı görmek için öğrenci hesabıyla giriş yap.");
-          return;
-        }
-        const data = (await response.json()) as {
-          tasks: Task[];
+        const data = (await response.json().catch(() => null)) as {
+          tasks?: Task[];
           dayNotes?: DayNote[];
           viewer?: string;
           hasPackage?: boolean;
-        };
-        setHasPackage(Boolean(data.hasPackage));
-        setTasks(data.tasks);
-        setDayNotes(data.dayNotes ?? []);
-        setCanToggle(data.viewer !== "veli");
+          pendingTransfer?: boolean;
+          error?: string;
+        } | null;
+        if (!response.ok) {
+          setError(data?.error || "Program yüklenemedi.");
+          return;
+        }
+        setHasPackage(Boolean(data?.hasPackage));
+        setPendingTransfer(Boolean(data?.pendingTransfer));
+        setViewer(data?.viewer || "ogrenci");
+        setTasks(data?.tasks || []);
+        setDayNotes(data?.dayNotes ?? []);
+        setCanToggle(data?.viewer !== "veli");
       })
       .catch(() => setError("Program yüklenemedi."));
   }, []);
 
   async function toggle(task: Task) {
     const next = !task.done;
+    setError("");
     setTasks((prev) => prev.map((item) => (item.id === task.id ? { ...item, done: next } : item)));
     const response = await fetch("/api/panel/ogrenci/gorevler", {
       method: "PATCH",
@@ -58,7 +65,9 @@ export default function StudentProgramPage() {
       body: JSON.stringify({ id: task.id, done: next }),
     });
     if (!response.ok) {
+      const data = (await response.json().catch(() => null)) as { error?: string } | null;
       setTasks((prev) => prev.map((item) => (item.id === task.id ? { ...item, done: task.done } : item)));
+      setError(data?.error || "Görev kaydedilemedi.");
     }
   }
 
@@ -74,20 +83,11 @@ export default function StudentProgramPage() {
 
   if (hasPackage === false) {
     return (
-      <section className="rounded-xl bg-surface-container-lowest p-space-xl shadow-sm">
-        <h2 className="text-headline-sm text-on-surface">Program paketle açılır</h2>
-        <p className="mt-space-sm text-body-md text-on-surface-variant">
-          Haftalık görevler, paket satın alıp danışman atandıktan sonra burada görünür.
-        </p>
-        <div className="mt-space-lg flex flex-wrap gap-space-sm">
-          <Link href="/paketler" className="btn-primary">
-            Paketleri gör
-          </Link>
-          <Link href="/odeme" className="btn-secondary">
-            Satın almaya git
-          </Link>
-        </div>
-      </section>
+      <PackageAccessGate
+        viewer={viewer}
+        pendingTransfer={pendingTransfer}
+        title="Program paketle açılır"
+      />
     );
   }
 

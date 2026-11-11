@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Icon } from "@/components/Icon";
+import { PackageAccessGate } from "@/components/panel/PackageAccessGate";
 import { NextMeetingCard, NextMeetingStat } from "./next-meeting";
 
 type Task = {
@@ -15,39 +16,15 @@ type Task = {
 };
 
 type Summary = {
+  viewer?: string;
   hasPackage: boolean;
+  pendingTransfer?: boolean;
   packageName: string | null;
   completion: number;
   remainingTasks: number;
   lastNet: number | null;
   tasks: Task[];
 };
-
-function PackageGate() {
-  return (
-    <section className="rounded-xl bg-surface-container-lowest p-space-xl shadow-sm">
-      <div className="mx-auto max-w-xl text-center">
-        <div className="mx-auto mb-space-md grid h-14 w-14 place-items-center rounded-full bg-primary-fixed text-primary">
-          <Icon name="inventory_2" className="text-[28px]" />
-        </div>
-        <h2 className="text-headline-sm text-on-surface">Önce paket satın al</h2>
-        <p className="mt-space-sm text-body-md text-on-surface-variant">
-          Üyeliğin hazır. Haftalık program, deneme takibi ve görüşme hakları paket satın
-          aldıktan sonra hesabına tanımlanır.
-        </p>
-        <div className="mt-space-lg flex flex-wrap justify-center gap-space-sm">
-          <Link href="/paketler" className="btn-primary">
-            <Icon name="shopping_bag" className="text-[18px]" />
-            Paketleri gör
-          </Link>
-          <Link href="/odeme" className="btn-secondary">
-            Satın almaya git
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
-}
 
 export default function StudentDashboardPage() {
   const [summary, setSummary] = useState<Summary | null>(null);
@@ -56,11 +33,12 @@ export default function StudentDashboardPage() {
   useEffect(() => {
     fetch("/api/panel/ogrenci/ozet")
       .then(async (response) => {
+        const data = (await response.json().catch(() => null)) as (Summary & { error?: string }) | null;
         if (!response.ok) {
-          setError("Özet yüklenemedi.");
+          setError(data?.error || "Özet yüklenemedi.");
           return;
         }
-        setSummary((await response.json()) as Summary);
+        setSummary(data);
       })
       .catch(() => setError("Özet yüklenemedi."));
   }, []);
@@ -74,7 +52,12 @@ export default function StudentDashboardPage() {
   }
 
   if (!summary.hasPackage) {
-    return <PackageGate />;
+    return (
+      <PackageAccessGate
+        viewer={summary.viewer}
+        pendingTransfer={Boolean(summary.pendingTransfer)}
+      />
+    );
   }
 
   return (

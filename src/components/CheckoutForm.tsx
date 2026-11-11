@@ -119,7 +119,6 @@ export function CheckoutForm({ initialPackageId }: { initialPackageId?: string }
       body.set("grade", grade || student.grade);
       body.set("packageId", selected.id);
       body.set("method", "havale");
-      body.set("status", "havale_bekliyor");
       body.set("receipt", receipt);
 
       const response = await fetch("/api/odeme", {
@@ -157,10 +156,13 @@ export function CheckoutForm({ initialPackageId }: { initialPackageId?: string }
         grade: grade || student.grade,
         packageId: selected.id,
         method: "kart",
-        status: card.endsWith("0000") ? "basarisiz" : "odendi",
+        demoFail: card.endsWith("0000"),
       }),
     });
-    const payload = (await response.json().catch(() => null)) as { error?: string } | null;
+    const payload = (await response.json().catch(() => null)) as {
+      error?: string;
+      status?: string;
+    } | null;
     if (response.status === 401) {
       setStatus("auth");
       setAuth("guest");
@@ -171,7 +173,7 @@ export function CheckoutForm({ initialPackageId }: { initialPackageId?: string }
       setStatus("save");
       return;
     }
-    if (card.endsWith("0000")) {
+    if (payload?.status === "basarisiz" || card.endsWith("0000")) {
       router.push("/odeme/basarisiz");
       return;
     }

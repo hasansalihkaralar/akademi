@@ -49,6 +49,7 @@ export function RegisterForm() {
           password,
           passwordConfirm,
           phone,
+          ...(nextPath ? { next: nextPath } : {}),
         }),
         signal: AbortSignal.timeout(20000),
       });
@@ -82,7 +83,10 @@ export function RegisterForm() {
       const response = await fetch("/api/auth/resend-verification", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: pendingEmail }),
+        body: JSON.stringify({
+          email: pendingEmail,
+          ...(nextPath ? { next: nextPath } : {}),
+        }),
         signal: AbortSignal.timeout(20000),
       });
       const data = (await response.json().catch(() => null)) as { error?: string; message?: string } | null;

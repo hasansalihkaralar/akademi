@@ -36,6 +36,14 @@ export function PanelShell({
         ? "/panel/danisman"
         : "/panel/ogrenci");
 
+  function isActive(href: string) {
+    if (pathname === href) return true;
+    if (href === "/panel/admin" || href === "/panel/danisman" || href === "/panel/ogrenci") {
+      return false;
+    }
+    return pathname.startsWith(`${href}/`);
+  }
+
   function itemClass(active: boolean) {
     return `flex items-center gap-space-sm rounded-lg px-space-md py-2.5 text-label-lg transition ${
       active ? "bg-primary font-bold text-on-primary" : "text-on-surface-variant hover:bg-surface-container hover:text-on-surface"
@@ -64,7 +72,7 @@ export function PanelShell({
                 </p>
               ) : null}
               {group.items.map((item) => {
-                const active = pathname === item.href;
+                const active = isActive(item.href);
                 return (
                   <Link key={item.href} href={item.href} className={itemClass(active)}>
                     <Icon name={item.icon} className="text-[20px]" />
@@ -118,13 +126,6 @@ export function PanelShell({
               >
                 <Icon name="logout" className="text-[20px]" />
               </button>
-              <button
-                type="button"
-                className="grid h-10 w-10 place-items-center rounded-full bg-surface-container text-primary"
-                aria-label="Bildirimler"
-              >
-                <Icon name="notifications" className="text-[20px]" />
-              </button>
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-label-md font-bold text-on-primary">
                 {name
                   .split(" ")
@@ -139,7 +140,7 @@ export function PanelShell({
         <div className="scrollbar-none flex gap-1 overflow-x-auto border-b border-outline-variant/30 bg-surface-container-lowest px-space-md [-ms-overflow-style:none] [scrollbar-width:none] lg:hidden [&::-webkit-scrollbar]:hidden">
           {sections.flatMap((group) =>
             group.items.map((item) => {
-              const active = pathname === item.href;
+              const active = isActive(item.href);
               return (
                 <Link
                   key={item.href}
