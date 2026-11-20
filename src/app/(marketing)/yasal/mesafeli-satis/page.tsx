@@ -17,8 +17,13 @@ export default function DistanceSalesPage() {
       </p>
       <h2 className="mt-space-xl text-title-lg font-bold text-on-surface">2. Bedel ve ödeme</h2>
       <p>
-        Bedel paket sayfasında ilan edilen fiyattır. Tahsilat kredi/banka kartı ile 3D Secure
-        üzerinden yapılır.
+        Bedel paket sayfasında ilan edilen fiyattır. Kart tahsilatı iyzico altyapısı ile 3D
+        Secure üzerinden yapılır; havale / EFT seçeneğinde dekont onayı sonrası hizmet
+        başlar. İade ve teslimat için{" "}
+        <a href="/yasal/teslimat-iade" className="text-primary underline">
+          Teslimat ve İade
+        </a>{" "}
+        sayfasına bakınız.
       </p>
       <h2 className="mt-space-xl text-title-lg font-bold text-on-surface">3. Cayma ve iade</h2>
       <p>

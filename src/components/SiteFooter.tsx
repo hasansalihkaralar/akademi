@@ -3,6 +3,7 @@ import { brand } from "@/lib/content";
 import { defaultBrand, type SiteBrand } from "@/lib/site-defaults";
 import { Icon } from "./Icon";
 import { Logo } from "./Logo";
+import { PaymentLogos } from "./PaymentLogos";
 
 export function SiteFooter({ siteBrand = defaultBrand }: { siteBrand?: SiteBrand }) {
   return (
@@ -84,6 +85,21 @@ export function SiteFooter({ siteBrand = defaultBrand }: { siteBrand?: SiteBrand
                 </Link>
               </li>
               <li>
+                <Link href="/yasal/gizlilik" className="transition-colors hover:text-primary">
+                  Gizlilik Politikası
+                </Link>
+              </li>
+              <li>
+                <Link href="/yasal/hizmet-sartlari" className="transition-colors hover:text-primary">
+                  Hizmet Şartları
+                </Link>
+              </li>
+              <li>
+                <Link href="/yasal/teslimat-iade" className="transition-colors hover:text-primary">
+                  Teslimat ve İade
+                </Link>
+              </li>
+              <li>
                 <Link href="/yasal/mesafeli-satis" className="transition-colors hover:text-primary">
                   Mesafeli Satış Sözleşmesi
                 </Link>
@@ -149,9 +165,12 @@ export function SiteFooter({ siteBrand = defaultBrand }: { siteBrand?: SiteBrand
           </div>
         </div>
 
-        <div className="flex flex-col items-center justify-between gap-space-sm border-t border-outline-variant/40 pt-space-lg text-center text-body-sm text-on-surface-variant md:flex-row md:text-left">
-          <p>© {new Date().getFullYear()} Amfi Koçluk. Tüm hakları saklıdır.</p>
-          <p>YKS & LGS derece koçluğu · Online takip paneli</p>
+        <div className="flex flex-col items-center justify-between gap-space-md border-t border-outline-variant/40 pt-space-lg md:flex-row">
+          <div className="text-center text-body-sm text-on-surface-variant md:text-left">
+            <p>© {new Date().getFullYear()} Amfi Koçluk. Tüm hakları saklıdır.</p>
+            <p className="mt-1">YKS & LGS derece koçluğu · Online takip paneli</p>
+          </div>
+          <PaymentLogos className="rounded-lg bg-on-surface px-space-md py-space-sm" />
         </div>
       </div>
     </footer>

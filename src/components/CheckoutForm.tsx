@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { bankTransfer, getPackage, packages, formatPrice, type PackageId } from "@/lib/content";
 import { Icon } from "./Icon";
+import { PaymentLogos } from "./PaymentLogos";
 
 const classesByProgram = {
   yks: ["11. sınıf", "12. sınıf", "Mezun"],
@@ -387,8 +388,16 @@ export function CheckoutForm({ initialPackageId }: { initialPackageId?: string }
             <span>
               <a className="text-primary underline" href="/yasal/mesafeli-satis" target="_blank">
                 Mesafeli satış sözleşmesini
+              </a>
+              ,{" "}
+              <a className="text-primary underline" href="/yasal/hizmet-sartlari" target="_blank">
+                hizmet şartlarını
               </a>{" "}
-              okudum, onaylıyorum.
+              ve{" "}
+              <a className="text-primary underline" href="/yasal/teslimat-iade" target="_blank">
+                teslimat ve iade
+              </a>{" "}
+              koşullarını okudum, onaylıyorum.
             </span>
           </label>
           <label className="flex gap-2">
@@ -396,6 +405,10 @@ export function CheckoutForm({ initialPackageId }: { initialPackageId?: string }
             <span>
               <a className="text-primary underline" href="/yasal/kvkk" target="_blank">
                 KVKK aydınlatma metnini
+              </a>{" "}
+              ve{" "}
+              <a className="text-primary underline" href="/yasal/gizlilik" target="_blank">
+                gizlilik politikasını
               </a>{" "}
               okudum.
             </span>
@@ -410,6 +423,15 @@ export function CheckoutForm({ initialPackageId }: { initialPackageId?: string }
             </span>
           </label>
         </div>
+
+        {method === "kart" ? (
+          <div className="rounded-xl bg-on-surface px-space-md py-space-sm">
+            <PaymentLogos />
+            <p className="mt-2 text-center text-label-md text-on-surface-variant/80">
+              Kart ödemeleri iyzico altyapısı ile güvenli şekilde alınır.
+            </p>
+          </div>
+        ) : null}
         {status === "error" ? (
           <p className="text-body-sm text-error">Satın alma için yasal onay kutularını işaretleyin.</p>
         ) : null}
