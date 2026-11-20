@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { brand } from "@/lib/content";
 
 export const metadata: Metadata = { title: "KVKK Aydınlatma Metni" };
 
@@ -21,8 +22,8 @@ export default function KvkkPage() {
       </p>
       <h2 className="mt-space-xl text-title-lg font-bold text-on-surface">Haklar</h2>
       <p>
-        Veri sahibinin erişim, düzeltme, silme ve itiraz hakları merhaba@amfikocluk.com
-        üzerinden kullanılır.
+        Veri sahibinin erişim, düzeltme, silme ve itiraz hakları {brand.email} üzerinden
+        kullanılır.
       </p>
     </article>
   );

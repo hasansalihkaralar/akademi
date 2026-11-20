@@ -20,7 +20,7 @@ export default function ContactPage() {
           İletişim
         </h1>
         <p className="mt-space-md max-w-2xl text-body-lg text-on-surface-variant">
-          Adresi olan yer güven verir. Ofisimiz İstanbul&apos;da; görüşmeler online yürür.
+          Adresi olan yer güven verir. Görüşmeler online yürür; ofis ziyareti randevu ile.
           Form, telefon veya WhatsApp — hangisi hızlıysa onu kullan.
         </p>
 
@@ -29,7 +29,7 @@ export default function ContactPage() {
             ["call", "Çağrı Merkezi", brand.phone, brand.phoneHref, "Hafta içi 09:00–20:00"],
             ["chat", "WhatsApp", "Anında Destek", brand.whatsappHref, "7 gün hızlı yanıt"],
             ["mail", "E-posta", brand.email, `mailto:${brand.email}`, "24 saat içinde dönüş"],
-            ["location_on", "Ofis", "Maslak / İstanbul", "/iletisim", "Randevu ile ziyaret"],
+            ["location_on", "Ofis", "İstasyon Mahallesi", "/iletisim", "Randevu ile ziyaret"],
           ].map(([icon, title, value, href, note]) => (
             <a
               key={title}
@@ -54,7 +54,7 @@ export default function ContactPage() {
           </div>
           <div className="space-y-space-md lg:col-span-5">
             <div className="rounded-2xl bg-surface-container-lowest p-space-xl shadow-md">
-              <h3 className="text-headline-sm font-bold text-primary">Maslak Kampüs</h3>
+              <h3 className="text-headline-sm font-bold text-primary">Ofis adresimiz</h3>
               <p className="mt-space-sm text-body-sm text-on-surface-variant">{brand.address}</p>
               <div className="mt-space-md flex flex-wrap gap-space-sm">
                 <a href={brand.instagram} className="text-label-md font-semibold text-primary underline">
