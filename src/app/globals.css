@@ -71,7 +71,7 @@
   --color-inverse-surface: var(--inverse-surface);
   --color-inverse-on-surface: var(--inverse-on-surface);
 
-  --font-sans: var(--font-sans);
+  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
 
   --spacing-space-xs: 0.25rem;
   --spacing-space-sm: 0.5rem;
@@ -144,7 +144,7 @@ html {
 body {
   background: var(--surface);
   color: var(--on-surface);
-  font-family: var(--font-sans), system-ui, sans-serif;
+  font-family: var(--font-sans);
   overflow-x: hidden;
 }
 
