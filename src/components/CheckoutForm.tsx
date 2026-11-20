@@ -30,7 +30,7 @@ export function CheckoutForm({ initialPackageId }: { initialPackageId?: string }
     initialPackageId?.startsWith("lgs") ? "lgs" : "yks",
   );
   const [packageId, setPackageId] = useState<PackageId>(
-    (getPackage(initialPackageId)?.id as PackageId) || "yks-6ay",
+    (getPackage(initialPackageId)?.id as PackageId) || "yks-aylik",
   );
   const [grade, setGrade] = useState("");
   const [method, setMethod] = useState<PayMethod>("kart");

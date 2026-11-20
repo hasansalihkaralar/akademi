@@ -26,12 +26,8 @@ export type Program = "yks" | "lgs";
 
 export type PackageId =
   | "yks-aylik"
-  | "yks-3ay"
-  | "yks-6ay"
   | "yks-yillik"
   | "lgs-aylik"
-  | "lgs-3ay"
-  | "lgs-6ay"
   | "lgs-yillik";
 
 export type CoachingPackage = {
@@ -67,45 +63,13 @@ export const packages: CoachingPackage[] = [
     extras: ["Sınav kaygısı seminer kaydı"],
   },
   {
-    id: "yks-3ay",
-    program: "yks",
-    name: "3 Aylık Paket",
-    duration: "3 ay",
-    months: 3,
-    price: 7990,
-    meetings: "Haftada 1 birebir görüşme",
-    programPrep: "Dönemsel plan + haftalık revizyon",
-    trialAnalysis: "Her deneme sonrası analiz",
-    tracking: "Günlük mesaj takibi",
-    parentMeeting: "Ayda 1 veli görüşmesi",
-    extras: ["Öğrenme stratejileri atölyesi", "Veli semineri"],
-  },
-  {
-    id: "yks-6ay",
-    program: "yks",
-    name: "6 Aylık Paket",
-    duration: "6 ay",
-    months: 6,
-    price: 14990,
-    popular: true,
-    meetings: "Haftada 1 görüşme + ara check-in",
-    programPrep: "TYT–AYT dengeli uzun plan",
-    trialAnalysis: "Konu bazlı net raporu",
-    tracking: "Günlük ve haftalık panel takibi",
-    parentMeeting: "Ayda 1 veli + panel erişimi",
-    extras: [
-      "PDR uzmanı sınav seminerleri",
-      "Öğrenme stratejileri programı",
-      "Eksik konu haritası",
-    ],
-  },
-  {
     id: "yks-yillik",
     program: "yks",
     name: "Sınava Kadar Paket",
     duration: "Sınava kadar",
     months: 12,
-    price: 22500,
+    price: 29990,
+    popular: true,
     meetings: "Haftalık görüşme + yoğun dönem ekstra seans",
     programPrep: "Sınava kadar tam yol haritası",
     trialAnalysis: "Tüm denemelerde detaylı analiz",
@@ -133,45 +97,13 @@ export const packages: CoachingPackage[] = [
     extras: ["Sınav kaygısı seminer kaydı"],
   },
   {
-    id: "lgs-3ay",
-    program: "lgs",
-    name: "3 Aylık Paket",
-    duration: "3 ay",
-    months: 3,
-    price: 7990,
-    meetings: "Haftada 1 birebir görüşme",
-    programPrep: "Dönemsel plan + haftalık revizyon",
-    trialAnalysis: "Her deneme sonrası analiz",
-    tracking: "Günlük mesaj takibi",
-    parentMeeting: "Ayda 1 veli görüşmesi",
-    extras: ["Öğrenme stratejileri atölyesi", "Veli semineri"],
-  },
-  {
-    id: "lgs-6ay",
-    program: "lgs",
-    name: "6 Aylık Paket",
-    duration: "6 ay",
-    months: 6,
-    price: 14990,
-    popular: true,
-    meetings: "Haftada 1 görüşme + ara check-in",
-    programPrep: "Okul + LGS dengeli plan",
-    trialAnalysis: "Konu bazlı net raporu",
-    tracking: "Günlük ve haftalık panel takibi",
-    parentMeeting: "Ayda 1 veli + panel erişimi",
-    extras: [
-      "PDR uzmanı sınav seminerleri",
-      "Öğrenme stratejileri programı",
-      "Eksik konu haritası",
-    ],
-  },
-  {
     id: "lgs-yillik",
     program: "lgs",
     name: "Sınava Kadar Paket",
     duration: "Sınava kadar",
     months: 12,
-    price: 22500,
+    price: 29990,
+    popular: true,
     meetings: "Haftalık görüşme + yoğun dönem ekstra seans",
     programPrep: "Sınava kadar tam yol haritası",
     trialAnalysis: "Tüm denemelerde detaylı analiz",
@@ -205,7 +137,7 @@ export const faqs = [
   },
   {
     q: "Haftada kaç görüşme yapılıyor?",
-    a: "Standart paketlerde haftada bir birebir görüşme vardır. 6 aylık ve yıllık paketlerde ara check-in ve sınav dönemi ekstra seanslar bulunur.",
+    a: "Standart aylık pakette haftada bir birebir görüşme vardır. Sınava kadar pakette ara check-in ve sınav dönemi ekstra seanslar bulunur.",
   },
   {
     q: "Çalışma programı nasıl hazırlanıyor?",
