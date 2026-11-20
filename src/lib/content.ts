@@ -15,10 +15,10 @@ export const brand = {
 };
 
 export const bankTransfer = {
-  bankName: "Türkiye İş Bankası",
-  accountName: "Amfi Koçluk Eğitim ve Danışmanlık",
-  iban: "TR00 0006 4000 0011 2345 6789 01",
-  branch: "Maslak Şubesi",
+  bankName: "Kuveyt Türk",
+  accountName: "Elvan Baran Karalar",
+  iban: "TR70 0020 5000 0949 0435 1000 02",
+  branch: "Zeytinburnu Şubesi",
   descriptionHint: "Açıklamaya öğrenci adını ve e-postasını yazın.",
 };
 
@@ -58,7 +58,7 @@ export const packages: CoachingPackage[] = [
     name: "Aylık Paket",
     duration: "1 ay",
     months: 1,
-    price: 2990,
+    price: 3990,
     meetings: "Haftada 1 birebir görüşme",
     programPrep: "Kişiye özel haftalık program",
     trialAnalysis: "Ayda 2 deneme analizi",
@@ -124,7 +124,7 @@ export const packages: CoachingPackage[] = [
     name: "Aylık Paket",
     duration: "1 ay",
     months: 1,
-    price: 2990,
+    price: 3990,
     meetings: "Haftada 1 birebir görüşme",
     programPrep: "Kişiye özel haftalık program",
     trialAnalysis: "Ayda 2 deneme analizi",
