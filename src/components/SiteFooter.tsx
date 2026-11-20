@@ -170,7 +170,7 @@ export function SiteFooter({ siteBrand = defaultBrand }: { siteBrand?: SiteBrand
             <p>© {new Date().getFullYear()} Amfi Koçluk. Tüm hakları saklıdır.</p>
             <p className="mt-1">YKS & LGS derece koçluğu · Online takip paneli</p>
           </div>
-          <PaymentLogos className="rounded-lg bg-on-surface px-space-md py-space-sm" />
+          <PaymentLogos />
         </div>
       </div>
     </footer>

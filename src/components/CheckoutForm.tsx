@@ -425,9 +425,9 @@ export function CheckoutForm({ initialPackageId }: { initialPackageId?: string }
         </div>
 
         {method === "kart" ? (
-          <div className="rounded-xl bg-on-surface px-space-md py-space-sm">
+          <div className="space-y-space-sm">
             <PaymentLogos />
-            <p className="mt-2 text-center text-label-md text-on-surface-variant/80">
+            <p className="text-center text-label-md text-on-surface-variant">
               Kart ödemeleri iyzico altyapısı ile güvenli şekilde alınır.
             </p>
           </div>
