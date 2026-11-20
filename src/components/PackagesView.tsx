@@ -73,7 +73,7 @@ export function PackagesView() {
           </button>
         </div>
 
-        <div className="grid gap-space-lg md:grid-cols-2 lg:grid-cols-4">
+        <div className="mx-auto grid max-w-4xl gap-space-lg md:grid-cols-2">
           {list.map((pack) => (
             <PackageCard key={pack.id} pack={pack} />
           ))}
