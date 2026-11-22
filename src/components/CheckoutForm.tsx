@@ -262,91 +262,97 @@ export function CheckoutForm({ initialPackageId }: { initialPackageId?: string }
           <h2 className="text-headline-sm text-on-surface">Ödeme yöntemi</h2>
         </div>
 
-        <div className="grid grid-cols-2 gap-space-sm rounded-xl bg-surface-container-low p-1.5">
-          {(
-            [
-              ["kart", "Kart ile ödeme", "credit_card"],
-              ["havale", "Havale / EFT", "account_balance"],
-            ] as const
-          ).map(([id, label, icon]) => (
-            <button
-              key={id}
-              type="button"
-              onClick={() => {
-                setMethod(id);
-                setStatus("idle");
-              }}
-              className={`flex items-center justify-center gap-2 rounded-lg px-3 py-3 text-label-md font-semibold transition ${
-                method === id
-                  ? "bg-surface-container-lowest text-primary shadow-sm"
-                  : "text-on-surface-variant hover:text-on-surface"
-              }`}
-            >
-              <Icon name={icon} className="text-[18px]" />
-              {label}
-            </button>
-          ))}
-        </div>
-
-        {method === "kart" ? (
-          <div className="space-y-space-sm rounded-xl bg-surface-container-low p-space-md">
-            <div className="flex items-center gap-space-sm text-body-sm text-on-surface-variant">
-              <Icon name="lock" className="text-[18px] text-primary" />
-              Kart bilgilerini iyzico güvenli ödeme sayfasında gireceksin. 3D Secure ile tahsilat
-              yapılır; kart numarası sitemizde saklanmaz.
-            </div>
-            <PaymentLogos />
+        <div className="rounded-xl bg-surface-container-low p-1.5">
+          <div className="grid grid-cols-2 gap-space-sm">
+            {(
+              [
+                ["kart", "Kart ile ödeme", "credit_card"],
+                ["havale", "Havale / EFT", "account_balance"],
+              ] as const
+            ).map(([id, label, icon]) => (
+              <button
+                key={id}
+                type="button"
+                onClick={() => {
+                  setMethod(id);
+                  setStatus("idle");
+                }}
+                className={`flex items-center justify-center gap-2 rounded-lg px-3 py-3 text-label-md font-semibold transition ${
+                  method === id
+                    ? "bg-surface-container-lowest text-primary shadow-sm"
+                    : "text-on-surface-variant hover:text-on-surface"
+                }`}
+              >
+                <Icon name={icon} className="text-[18px]" />
+                {label}
+              </button>
+            ))}
           </div>
-        ) : (
-          <>
-            <div className="rounded-xl bg-surface-container-low p-space-md text-body-sm text-on-surface">
-              <p className="text-label-md font-bold uppercase tracking-wider text-secondary">
-                Banka bilgileri
-              </p>
-              <dl className="mt-space-md space-y-space-sm">
-                <div className="flex flex-wrap justify-between gap-2">
-                  <dt className="text-on-surface-variant">Banka</dt>
-                  <dd className="font-semibold">{bankTransfer.bankName}</dd>
-                </div>
-                <div className="flex flex-wrap justify-between gap-2">
-                  <dt className="text-on-surface-variant">Hesap sahibi</dt>
-                  <dd className="font-semibold text-right">{bankTransfer.accountName}</dd>
-                </div>
-                <div className="flex flex-wrap justify-between gap-2">
-                  <dt className="text-on-surface-variant">Şube</dt>
-                  <dd className="font-semibold">{bankTransfer.branch}</dd>
-                </div>
-                <div className="flex flex-wrap justify-between gap-2 border-t border-outline-variant/40 pt-space-sm">
-                  <dt className="text-on-surface-variant">IBAN</dt>
-                  <dd className="font-mono text-[13px] font-semibold tracking-wide">{bankTransfer.iban}</dd>
-                </div>
-                <div className="flex flex-wrap justify-between gap-2">
-                  <dt className="text-on-surface-variant">Tutar</dt>
-                  <dd className="font-semibold text-primary">{formatPrice(selected.price)}</dd>
-                </div>
-              </dl>
-              <p className="mt-space-md text-body-sm text-on-surface-variant">
-                {bankTransfer.descriptionHint}
-              </p>
-            </div>
 
-            <label className="block text-label-md font-semibold text-on-surface">
-              Dekont yükle
-              <input
-                required={method === "havale"}
-                type="file"
-                name="receipt"
-                accept=".pdf,image/jpeg,image/png,image/webp"
-                className="mt-2 block w-full text-body-sm text-on-surface-variant file:mr-3 file:rounded-lg file:border-0 file:bg-primary file:px-4 file:py-2 file:text-label-md file:font-semibold file:text-on-primary"
-                onChange={(e) => setReceiptName(e.target.files?.[0]?.name || "")}
-              />
-              <span className="mt-1 block text-body-sm font-normal text-on-surface-variant">
-                PDF, JPG veya PNG · en fazla 5 MB
-                {receiptName ? ` · Seçilen: ${receiptName}` : ""}
-              </span>
-            </label>
-          </>
-        )}
+          {method === "kart" ? (
+            <div className="mt-1.5 space-y-space-sm rounded-lg bg-surface-container-lowest p-space-md">
+              <div className="flex items-start gap-space-sm text-body-sm text-on-surface-variant">
+                <Icon name="lock" className="mt-0.5 text-[18px] text-primary" />
+                <span>
+                  Kart bilgilerini iyzico güvenli ödeme sayfasında gireceksin. 3D Secure ile tahsilat
+                  yapılır; kart numarası sitemizde saklanmaz.
+                </span>
+              </div>
+              <PaymentLogos />
+            </div>
+          ) : (
+            <div className="mt-1.5 space-y-space-md rounded-lg bg-surface-container-lowest p-space-md text-body-sm text-on-surface">
+              <div>
+                <p className="text-label-md font-bold uppercase tracking-wider text-secondary">
+                  Banka bilgileri
+                </p>
+                <dl className="mt-space-md space-y-space-sm">
+                  <div className="flex flex-wrap justify-between gap-2">
+                    <dt className="text-on-surface-variant">Banka</dt>
+                    <dd className="font-semibold">{bankTransfer.bankName}</dd>
+                  </div>
+                  <div className="flex flex-wrap justify-between gap-2">
+                    <dt className="text-on-surface-variant">Hesap sahibi</dt>
+                    <dd className="font-semibold text-right">{bankTransfer.accountName}</dd>
+                  </div>
+                  <div className="flex flex-wrap justify-between gap-2">
+                    <dt className="text-on-surface-variant">Şube</dt>
+                    <dd className="font-semibold">{bankTransfer.branch}</dd>
+                  </div>
+                  <div className="flex flex-wrap justify-between gap-2 border-t border-outline-variant/40 pt-space-sm">
+                    <dt className="text-on-surface-variant">IBAN</dt>
+                    <dd className="font-mono text-[13px] font-semibold tracking-wide">
+                      {bankTransfer.iban}
+                    </dd>
+                  </div>
+                  <div className="flex flex-wrap justify-between gap-2">
+                    <dt className="text-on-surface-variant">Tutar</dt>
+                    <dd className="font-semibold text-primary">{formatPrice(selected.price)}</dd>
+                  </div>
+                </dl>
+                <p className="mt-space-md text-body-sm text-on-surface-variant">
+                  {bankTransfer.descriptionHint}
+                </p>
+              </div>
+
+              <label className="block text-label-md font-semibold text-on-surface">
+                Dekont yükle
+                <input
+                  required={method === "havale"}
+                  type="file"
+                  name="receipt"
+                  accept=".pdf,image/jpeg,image/png,image/webp"
+                  className="mt-2 block w-full text-body-sm text-on-surface-variant file:mr-3 file:rounded-lg file:border-0 file:bg-primary file:px-4 file:py-2 file:text-label-md file:font-semibold file:text-on-primary"
+                  onChange={(e) => setReceiptName(e.target.files?.[0]?.name || "")}
+                />
+                <span className="mt-1 block text-body-sm font-normal text-on-surface-variant">
+                  PDF, JPG veya PNG · en fazla 5 MB
+                  {receiptName ? ` · Seçilen: ${receiptName}` : ""}
+                </span>
+              </label>
+            </div>
+          )}
+        </div>
 
         <div className="space-y-space-sm rounded-xl bg-surface-container-low p-space-md text-body-sm">
           <label className="flex gap-2">
