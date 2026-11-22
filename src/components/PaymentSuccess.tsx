@@ -16,8 +16,16 @@ export function PaymentSuccess({
 }) {
   const router = useRouter();
   const [seconds, setSeconds] = useState(20);
+  const [loggedIn, setLoggedIn] = useState<boolean | null>(null);
   const isTransfer = method === "havale";
   const destination = isTransfer ? "/panel/ogrenci/siparisler" : "/panel/ogrenci";
+  const loginHref = `/giris?next=${encodeURIComponent(destination)}`;
+
+  useEffect(() => {
+    fetch("/api/auth/me", { credentials: "same-origin", cache: "no-store" })
+      .then((response) => setLoggedIn(response.ok))
+      .catch(() => setLoggedIn(false));
+  }, []);
 
   useEffect(() => {
     const timer = window.setInterval(() => {
@@ -33,9 +41,9 @@ export function PaymentSuccess({
   }, []);
 
   useEffect(() => {
-    if (seconds > 0) return;
-    router.replace(destination);
-  }, [seconds, router, destination]);
+    if (seconds > 0 || loggedIn === null) return;
+    router.replace(loggedIn ? destination : loginHref);
+  }, [seconds, router, destination, loggedIn, loginHref]);
 
   return (
     <div className="shell max-w-xl py-space-2xl text-center">
@@ -57,7 +65,12 @@ export function PaymentSuccess({
           : "Yönlendiriliyorsun…"}
       </p>
       <div className="mt-space-xl flex flex-wrap justify-center gap-space-sm">
-        {isTransfer ? (
+        {loggedIn === false ? (
+          <Link href={loginHref} className="btn-primary">
+            <Icon name="login" className="text-[18px]" />
+            Giriş yap ve panele git
+          </Link>
+        ) : isTransfer ? (
           <Link href="/panel/ogrenci/siparisler" className="btn-primary">
             <Icon name="receipt_long" className="text-[18px]" />
             Siparişlerim

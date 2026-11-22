@@ -1,8 +1,17 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { appPublicUrl, retrieveCheckoutForm } from "@/lib/iyzico";
+import { SESSION_COOKIE, sessionCookieOptions, signSession } from "@/lib/session";
 
 export const dynamic = "force-dynamic";
+
+function redirectBase(request: Request) {
+  try {
+    return new URL(request.url).origin;
+  } catch {
+    return appPublicUrl();
+  }
+}
 
 async function readToken(request: Request) {
   const url = new URL(request.url);
@@ -20,10 +29,32 @@ async function readToken(request: Request) {
   return String(form.get("token") || "").trim();
 }
 
-async function finalize(token: string) {
-  const app = appPublicUrl();
+function redirectWithSession(
+  request: Request,
+  path: string,
+  session?: { userId: string; role: string } | null,
+) {
+  const url = new URL(path, redirectBase(request));
+  const response = NextResponse.redirect(url, 303);
+  if (session) {
+    response.cookies.set(SESSION_COOKIE, signSession(session.userId, session.role), sessionCookieOptions);
+  }
+  return response;
+}
+
+async function sessionForPayment(studentId: string | null) {
+  if (!studentId) return null;
+  const profile = await prisma.studentProfile.findUnique({
+    where: { id: studentId },
+    select: { user: { select: { id: true, role: true } } },
+  });
+  if (!profile?.user) return null;
+  return { userId: profile.user.id, role: profile.user.role };
+}
+
+async function finalize(request: Request, token: string) {
   if (!token) {
-    return NextResponse.redirect(`${app}/odeme/basarisiz`);
+    return redirectWithSession(request, "/odeme/basarisiz");
   }
 
   const result = await retrieveCheckoutForm(token);
@@ -35,8 +66,10 @@ async function finalize(token: string) {
 
   if (!payment) {
     console.error("[iyzico/callback] payment not found", { token, conversationId: result.conversationId });
-    return NextResponse.redirect(`${app}/odeme/basarisiz`);
+    return redirectWithSession(request, "/odeme/basarisiz");
   }
+
+  const session = await sessionForPayment(payment.studentId);
 
   const paid =
     result.status === "success" &&
@@ -65,11 +98,8 @@ async function finalize(token: string) {
       }
     });
 
-    const success = new URL(`${app}/odeme/basarili`);
-    success.searchParams.set("paket", payment.packageId);
-    success.searchParams.set("ad", payment.studentName);
-    success.searchParams.set("yontem", "kart");
-    return NextResponse.redirect(success);
+    const success = `/odeme/basarili?paket=${encodeURIComponent(payment.packageId)}&ad=${encodeURIComponent(payment.studentName)}&yontem=kart`;
+    return redirectWithSession(request, success, session);
   }
 
   await prisma.payment.update({
@@ -80,25 +110,25 @@ async function finalize(token: string) {
       iyzicoPaymentId: result.paymentId || payment.iyzicoPaymentId,
     },
   });
-  return NextResponse.redirect(`${app}/odeme/basarisiz`);
+  return redirectWithSession(request, "/odeme/basarisiz", session);
 }
 
 export async function GET(request: Request) {
   try {
     const token = await readToken(request);
-    return await finalize(token);
+    return await finalize(request, token);
   } catch (error) {
     console.error("[iyzico/callback] GET", error);
-    return NextResponse.redirect(`${appPublicUrl()}/odeme/basarisiz`);
+    return redirectWithSession(request, "/odeme/basarisiz");
   }
 }
 
 export async function POST(request: Request) {
   try {
     const token = await readToken(request);
-    return await finalize(token);
+    return await finalize(request, token);
   } catch (error) {
     console.error("[iyzico/callback] POST", error);
-    return NextResponse.redirect(`${appPublicUrl()}/odeme/basarisiz`);
+    return redirectWithSession(request, "/odeme/basarisiz");
   }
 }
