@@ -2,8 +2,15 @@ import { randomUUID } from "node:crypto";
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { NextResponse } from "next/server";
-import { getPackage } from "@/lib/content";
+import { brand, getPackage } from "@/lib/content";
 import { prisma } from "@/lib/db";
+import {
+  appPublicUrl,
+  initializeCheckoutForm,
+  iyzicoConfigured,
+  normalizeGsm,
+  splitName,
+} from "@/lib/iyzico";
 import { getSessionUser } from "@/lib/session";
 import { paymentSchema } from "@/lib/validators";
 
@@ -16,6 +23,12 @@ function receiptExtension(file: File, buffer: Buffer) {
   if (buffer[0] === 0x89 && buffer[1] === 0x50) return "png";
   if (buffer[0] === 0x52 && buffer[1] === 0x49) return "webp";
   return null;
+}
+
+function clientIp(request: Request) {
+  const forwarded = request.headers.get("x-forwarded-for");
+  if (forwarded) return forwarded.split(",")[0]?.trim() || "127.0.0.1";
+  return request.headers.get("x-real-ip") || "127.0.0.1";
 }
 
 async function parseBody(request: Request) {
@@ -31,7 +44,6 @@ async function parseBody(request: Request) {
         grade: String(form.get("grade") || ""),
         packageId: String(form.get("packageId") || ""),
         method: String(form.get("method") || "havale"),
-        status: String(form.get("status") || "havale_bekliyor"),
       },
       file: form.get("receipt"),
     };
@@ -70,12 +82,9 @@ export async function POST(request: Request) {
   }
 
   const method = parsed.data.method || "kart";
-  let status: "odendi" | "basarisiz" | "havale_bekliyor" =
-    method === "havale" ? "havale_bekliyor" : parsed.data.demoFail ? "basarisiz" : "odendi";
   let receiptUrl: string | null = null;
 
   if (method === "havale") {
-    status = "havale_bekliyor";
     if (!(file instanceof File) || file.size <= 0) {
       return NextResponse.json({ error: "Havale/EFT için dekont yüklemen gerekir." }, { status: 400 });
     }
@@ -92,11 +101,9 @@ export async function POST(request: Request) {
     await mkdir(directory, { recursive: true });
     await writeFile(path.join(directory, filename), buffer);
     receiptUrl = `/uploads/dekontlar/${filename}`;
-  }
 
-  try {
-    const payment = await prisma.$transaction(async (tx) => {
-      const created = await tx.payment.create({
+    try {
+      const payment = await prisma.payment.create({
         data: {
           studentName: profile.user.name,
           parentName: profile.parent?.name || "—",
@@ -106,35 +113,111 @@ export async function POST(request: Request) {
           packageId: pack.id,
           packageName: pack.name,
           amount: pack.price,
-          status,
-          method,
+          status: "havale_bekliyor",
+          method: "havale",
           receiptUrl,
           studentId: profile.id,
         },
       });
 
-      if (status === "odendi") {
-        await tx.studentProfile.update({
-          where: { id: profile.id },
-          data: {
-            packageId: pack.id,
-            packageStartedAt: new Date(),
-            grade: parsed.data.grade || profile.grade,
-          },
-        });
-      }
+      return NextResponse.json(
+        { id: payment.id, status: payment.status, method: payment.method },
+        { status: 201 },
+      );
+    } catch (error) {
+      console.error("[odeme] havale", error);
+      return NextResponse.json(
+        { error: "Ödeme kaydı oluşturulamadı. Biraz sonra tekrar dene." },
+        { status: 500 },
+      );
+    }
+  }
 
-      return created;
+  if (!iyzicoConfigured()) {
+    return NextResponse.json(
+      { error: "Kart ödemesi şu an yapılandırılmamış. Havale/EFT kullan veya yöneticiye bildir." },
+      { status: 503 },
+    );
+  }
+
+  try {
+    const payment = await prisma.payment.create({
+      data: {
+        studentName: profile.user.name,
+        parentName: profile.parent?.name || "—",
+        phone: profile.user.phone || parsed.data.phone,
+        email: profile.user.email,
+        grade: parsed.data.grade || profile.grade,
+        packageId: pack.id,
+        packageName: pack.name,
+        amount: pack.price,
+        status: "odeme_bekliyor",
+        method: "kart",
+        studentId: profile.id,
+      },
+    });
+
+    const { name, surname } = splitName(profile.user.name);
+    const address = brand.address;
+    const init = await initializeCheckoutForm({
+      conversationId: payment.id,
+      basketId: payment.id,
+      price: pack.price,
+      callbackUrl: `${appPublicUrl()}/api/odeme/iyzico/callback`,
+      buyer: {
+        id: profile.id,
+        name,
+        surname,
+        email: profile.user.email,
+        gsmNumber: normalizeGsm(profile.user.phone || parsed.data.phone),
+        registrationAddress: address,
+        ip: clientIp(request),
+        city: "Istanbul",
+        country: "Turkey",
+      },
+      billingAddress: {
+        contactName: profile.user.name,
+        city: "Istanbul",
+        country: "Turkey",
+        address,
+      },
+      basketItem: {
+        id: pack.id,
+        name: pack.name,
+        category1: pack.program.toUpperCase(),
+      },
+    });
+
+    if (init.status !== "success" || !init.token || !init.paymentPageUrl) {
+      await prisma.payment.update({
+        where: { id: payment.id },
+        data: { status: "basarisiz" },
+      });
+      return NextResponse.json(
+        { error: init.errorMessage || "iyzico ödeme formu başlatılamadı." },
+        { status: 502 },
+      );
+    }
+
+    await prisma.payment.update({
+      where: { id: payment.id },
+      data: { iyzicoToken: init.token },
     });
 
     return NextResponse.json(
-      { id: payment.id, status: payment.status, method: payment.method },
+      {
+        id: payment.id,
+        status: "odeme_bekliyor",
+        method: "kart",
+        paymentPageUrl: init.paymentPageUrl,
+        token: init.token,
+      },
       { status: 201 },
     );
   } catch (error) {
-    console.error("[odeme]", error);
+    console.error("[odeme] iyzico", error);
     return NextResponse.json(
-      { error: "Ödeme kaydı oluşturulamadı. Biraz sonra tekrar dene." },
+      { error: "Kart ödemesi başlatılamadı. Biraz sonra tekrar dene." },
       { status: 500 },
     );
   }

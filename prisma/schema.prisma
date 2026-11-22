@@ -194,19 +194,21 @@ model MediaAsset {
 }
 
 model Payment {
-  id          String          @id @default(cuid())
-  studentName String          @db.VarChar(191)
-  parentName  String          @db.VarChar(191)
-  phone       String          @db.VarChar(40)
-  email       String          @db.VarChar(191)
-  grade       String          @db.VarChar(40)
-  packageId   String          @db.VarChar(40)
-  packageName String          @db.VarChar(191)
-  amount      Int
-  status      String          @db.VarChar(40)
-  method      String          @default("kart") @db.VarChar(20)
-  receiptUrl  String?         @db.VarChar(500)
-  studentId   String?
-  student     StudentProfile? @relation(fields: [studentId], references: [id])
-  createdAt   DateTime        @default(now())
+  id               String          @id @default(cuid())
+  studentName      String          @db.VarChar(191)
+  parentName       String          @db.VarChar(191)
+  phone            String          @db.VarChar(40)
+  email            String          @db.VarChar(191)
+  grade            String          @db.VarChar(40)
+  packageId        String          @db.VarChar(40)
+  packageName      String          @db.VarChar(191)
+  amount           Int
+  status           String          @db.VarChar(40)
+  method           String          @default("kart") @db.VarChar(20)
+  receiptUrl       String?         @db.VarChar(500)
+  iyzicoToken      String?         @unique @db.VarChar(191)
+  iyzicoPaymentId  String?         @db.VarChar(191)
+  studentId        String?
+  student          StudentProfile? @relation(fields: [studentId], references: [id])
+  createdAt        DateTime        @default(now())
 }

@@ -144,7 +144,6 @@ export function CheckoutForm({ initialPackageId }: { initialPackageId?: string }
       return;
     }
 
-    const card = String(form.get("card") || "").replace(/\s/g, "");
     setStatus("busy");
     const response = await fetch("/api/odeme", {
       method: "POST",
@@ -157,28 +156,24 @@ export function CheckoutForm({ initialPackageId }: { initialPackageId?: string }
         grade: grade || student.grade,
         packageId: selected.id,
         method: "kart",
-        demoFail: card.endsWith("0000"),
       }),
     });
     const payload = (await response.json().catch(() => null)) as {
       error?: string;
       status?: string;
+      paymentPageUrl?: string;
     } | null;
     if (response.status === 401) {
       setStatus("auth");
       setAuth("guest");
       return;
     }
-    if (!response.ok) {
-      setSaveError(payload?.error || "Ödeme kaydedilemedi. Bilgileri kontrol edip yeniden dene.");
+    if (!response.ok || !payload?.paymentPageUrl) {
+      setSaveError(payload?.error || "Ödeme başlatılamadı. Bilgileri kontrol edip yeniden dene.");
       setStatus("save");
       return;
     }
-    if (payload?.status === "basarisiz" || card.endsWith("0000")) {
-      router.push("/odeme/basarisiz");
-      return;
-    }
-    router.push(`/odeme/basarili?paket=${selected.id}&ad=${encodeURIComponent(student.name)}`);
+    window.location.assign(payload.paymentPageUrl);
   }
 
   if (auth === "loading") {
@@ -294,43 +289,14 @@ export function CheckoutForm({ initialPackageId }: { initialPackageId?: string }
         </div>
 
         {method === "kart" ? (
-          <>
-            <div className="flex items-center gap-space-sm rounded-lg bg-surface-container-low px-space-md py-space-sm text-body-sm text-on-surface-variant">
+          <div className="space-y-space-sm rounded-xl bg-surface-container-low p-space-md">
+            <div className="flex items-center gap-space-sm text-body-sm text-on-surface-variant">
               <Icon name="lock" className="text-[18px] text-primary" />
-              Ödeme 3D Secure ile alınır. Demo ortamında gerçek tahsilat yapılmaz. Başarısız senaryo
-              için kartı 0000 ile bitirin.
+              Kart bilgilerini iyzico güvenli ödeme sayfasında gireceksin. 3D Secure ile tahsilat
+              yapılır; kart numarası sitemizde saklanmaz.
             </div>
-            <div className="grid gap-space-md md:grid-cols-2">
-              <label className="text-label-md font-semibold text-on-surface md:col-span-2">
-                Kart üzerindeki isim
-                <input required={method === "kart"} name="cardName" className="input-field mt-1" />
-              </label>
-              <label className="text-label-md font-semibold text-on-surface md:col-span-2">
-                Kart numarası
-                <input
-                  required={method === "kart"}
-                  name="card"
-                  inputMode="numeric"
-                  placeholder="**** **** **** ****"
-                  minLength={16}
-                  className="input-field mt-1"
-                />
-              </label>
-              <label className="text-label-md font-semibold text-on-surface">
-                Son kullanma
-                <input
-                  required={method === "kart"}
-                  name="expiry"
-                  placeholder="AA/YY"
-                  className="input-field mt-1"
-                />
-              </label>
-              <label className="text-label-md font-semibold text-on-surface">
-                CVC
-                <input required={method === "kart"} name="cvc" minLength={3} className="input-field mt-1" />
-              </label>
-            </div>
-          </>
+            <PaymentLogos />
+          </div>
         ) : (
           <>
             <div className="rounded-xl bg-surface-container-low p-space-md text-body-sm text-on-surface">
@@ -424,14 +390,6 @@ export function CheckoutForm({ initialPackageId }: { initialPackageId?: string }
           </label>
         </div>
 
-        {method === "kart" ? (
-          <div className="space-y-space-sm">
-            <PaymentLogos />
-            <p className="text-center text-label-md text-on-surface-variant">
-              Kart ödemeleri iyzico altyapısı ile güvenli şekilde alınır.
-            </p>
-          </div>
-        ) : null}
         {status === "error" ? (
           <p className="text-body-sm text-error">Satın alma için yasal onay kutularını işaretleyin.</p>
         ) : null}
@@ -450,10 +408,10 @@ export function CheckoutForm({ initialPackageId }: { initialPackageId?: string }
           {status === "busy"
             ? method === "havale"
               ? "Dekont gönderiliyor..."
-              : "3D Secure doğrulaması..."
+              : "iyzico’ya yönlendiriliyor..."
             : method === "havale"
               ? "Dekontu Gönder"
-              : "Ödemeyi Tamamla"}
+              : "iyzico ile Güvenli Öde"}
         </button>
       </div>
 

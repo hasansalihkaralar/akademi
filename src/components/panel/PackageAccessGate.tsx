@@ -17,10 +17,10 @@ export function PackageAccessGate({
           <div className="mx-auto mb-space-md grid h-14 w-14 place-items-center rounded-full bg-secondary-fixed text-on-secondary-fixed">
             <Icon name="hourglass_top" className="text-[28px]" />
           </div>
-          <h2 className="text-headline-sm text-on-surface">Havale onay bekleniyor</h2>
+          <h2 className="text-headline-sm text-on-surface">Ödeme onay bekleniyor</h2>
           <p className="mt-space-sm text-body-md text-on-surface-variant">
-            Dekontun alındı. Yönetim ödemeyi onayladığında paket otomatik açılır; yeniden satın almana
-            gerek yok.
+            Ödemen işleniyor veya havale onayı bekleniyor. Paket açılınca panel hakların gelir;
+            yeniden satın almana gerek yok.
           </p>
           <div className="mt-space-lg flex flex-wrap justify-center gap-space-sm">
             <Link href="/panel/ogrenci/siparisler" className="btn-primary">

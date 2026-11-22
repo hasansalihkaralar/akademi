@@ -20,6 +20,7 @@ type Order = {
 function statusLabel(status: string, active: boolean) {
   if (status === "basarisiz") return "Başarısız";
   if (status === "havale_bekliyor") return "Havale onay bekliyor";
+  if (status === "odeme_bekliyor") return "Kart ödeme bekliyor";
   if (active) return "Aktif";
   if (status === "odendi") return "Süre doldu";
   return status;
@@ -27,7 +28,9 @@ function statusLabel(status: string, active: boolean) {
 
 function statusClass(status: string, active: boolean) {
   if (status === "basarisiz") return "bg-error/10 text-error";
-  if (status === "havale_bekliyor") return "bg-[#FEF3C7] text-[#B45309]";
+  if (status === "havale_bekliyor" || status === "odeme_bekliyor") {
+    return "bg-[#FEF3C7] text-[#B45309]";
+  }
   if (active) return "bg-[#DCFCE7] text-[#15803D]";
   return "bg-surface-container text-on-surface-variant";
 }

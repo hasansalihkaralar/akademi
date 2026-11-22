@@ -84,7 +84,9 @@ export async function GET() {
         })()
       : null);
 
-  const pendingTransfer = orders.some((order) => order.status === "havale_bekliyor");
+  const pendingTransfer = orders.some(
+    (order) => order.status === "havale_bekliyor" || order.status === "odeme_bekliyor",
+  );
 
   return NextResponse.json(
     {
