@@ -84,9 +84,8 @@ export async function GET() {
         })()
       : null);
 
-  const pendingTransfer = orders.some(
-    (order) => order.status === "havale_bekliyor" || order.status === "odeme_bekliyor",
-  );
+  const pendingTransfer = orders.some((order) => order.status === "havale_bekliyor");
+  const pendingCard = orders.some((order) => order.status === "odeme_bekliyor");
 
   return NextResponse.json(
     {
@@ -94,6 +93,8 @@ export async function GET() {
       current: currentPack?.active ? currentPack : null,
       orders,
       pendingTransfer,
+      pendingCard,
+      // Yarım kalan kart denemesi yeniden satın almayı engellemesin.
       canRepurchase: !currentPack?.active && !pendingTransfer && user.role === "ogrenci",
     },
     { headers: { "Cache-Control": "no-store" } },

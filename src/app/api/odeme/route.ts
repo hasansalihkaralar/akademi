@@ -140,7 +140,14 @@ export async function POST(request: Request) {
     );
   }
 
+  let paymentId: string | null = null;
   try {
+    // Yarım kalan kart ödemelerini temizle; kullanıcı yeniden deneyebilsin.
+    await prisma.payment.updateMany({
+      where: { studentId: profile.id, status: "odeme_bekliyor", method: "kart" },
+      data: { status: "basarisiz" },
+    });
+
     const payment = await prisma.payment.create({
       data: {
         studentName: profile.user.name,
@@ -156,6 +163,7 @@ export async function POST(request: Request) {
         studentId: profile.id,
       },
     });
+    paymentId = payment.id;
 
     const { name, surname } = splitName(profile.user.name);
     const address = brand.address;
@@ -188,13 +196,19 @@ export async function POST(request: Request) {
       },
     });
 
-    if (init.status !== "success" || !init.token || !init.paymentPageUrl) {
+    const paymentPageUrl = init.paymentPageUrl || "";
+    if (init.status !== "success" || !init.token || !paymentPageUrl) {
+      console.error("[odeme] iyzico init failed", init);
       await prisma.payment.update({
         where: { id: payment.id },
         data: { status: "basarisiz" },
       });
       return NextResponse.json(
-        { error: init.errorMessage || "iyzico ödeme formu başlatılamadı." },
+        {
+          error:
+            init.errorMessage ||
+            "iyzico ödeme formu başlatılamadı. Sandbox’ta callback için HTTPS veya canlı/ngrok gerekir.",
+        },
         { status: 502 },
       );
     }
@@ -209,13 +223,18 @@ export async function POST(request: Request) {
         id: payment.id,
         status: "odeme_bekliyor",
         method: "kart",
-        paymentPageUrl: init.paymentPageUrl,
+        paymentPageUrl,
         token: init.token,
       },
       { status: 201 },
     );
   } catch (error) {
     console.error("[odeme] iyzico", error);
+    if (paymentId) {
+      await prisma.payment
+        .update({ where: { id: paymentId }, data: { status: "basarisiz" } })
+        .catch(() => undefined);
+    }
     return NextResponse.json(
       { error: "Kart ödemesi başlatılamadı. Biraz sonra tekrar dene." },
       { status: 500 },

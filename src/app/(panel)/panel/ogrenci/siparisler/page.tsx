@@ -40,6 +40,7 @@ export default function StudentOrdersPage() {
   const [current, setCurrent] = useState<Order | null>(null);
   const [canRepurchase, setCanRepurchase] = useState(false);
   const [pendingTransfer, setPendingTransfer] = useState(false);
+  const [pendingCard, setPendingCard] = useState(false);
   const [viewer, setViewer] = useState("ogrenci");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
@@ -52,6 +53,7 @@ export default function StudentOrdersPage() {
           current?: Order | null;
           canRepurchase?: boolean;
           pendingTransfer?: boolean;
+          pendingCard?: boolean;
           viewer?: string;
           error?: string;
         } | null;
@@ -63,6 +65,7 @@ export default function StudentOrdersPage() {
         setCurrent(data?.current || null);
         setCanRepurchase(Boolean(data?.canRepurchase));
         setPendingTransfer(Boolean(data?.pendingTransfer));
+        setPendingCard(Boolean(data?.pendingCard));
         setViewer(data?.viewer || "ogrenci");
       })
       .catch(() => setError("Siparişler yüklenemedi."))
@@ -125,6 +128,18 @@ export default function StudentOrdersPage() {
             <p className="mt-1 text-body-sm">
               Dekontun alındı. Yönetim onayladığında paket otomatik açılır; yeniden satın almana gerek yok.
             </p>
+          </div>
+        ) : pendingCard ? (
+          <div className="mt-space-lg rounded-xl bg-secondary-fixed p-space-lg text-on-secondary-fixed">
+            <p className="text-title-md font-semibold">Kart ödemesi tamamlanmadı</p>
+            <p className="mt-1 text-body-sm">
+              iyzico sayfasında ödeme bitmedi. Tekrar deneyebilirsin; yarım kalan deneme engel olmaz.
+            </p>
+            {viewer === "ogrenci" ? (
+              <Link href="/odeme" className="btn-primary mt-space-md inline-flex">
+                Ödemeyi tekrar dene
+              </Link>
+            ) : null}
           </div>
         ) : (
           <div className="mt-space-lg rounded-xl bg-surface-container-low p-space-lg">
